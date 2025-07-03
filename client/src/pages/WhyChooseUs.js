@@ -1,0 +1,111 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { Award, ShieldCheck, Truck, Smile, Leaf, Check } from 'lucide-react';
+
+const WhyChooseUs = () => {
+  const stats = [
+    { value: "10+ Years", description: "Industry experience", icon: <Award className="w-6 h-6" />, highlight: false },
+    { value: "800+", description: "5 Star Rating On Amazon", icon: <Smile className="w-6 h-6" />, highlight: true },
+    { value: "500,000+", description: "Satisfied Consumers", icon: <Leaf className="w-6 h-6" />, highlight: false },
+    { value: "100+", description: "Associates", icon: <ShieldCheck className="w-6 h-6" />, highlight: false },
+    // { value: "Free", description: "Shipping nationwide", icon: <Truck className="w-6 h-6" />, highlight: false },
+  ];
+
+  const features = [
+    "Scientifically formulated",
+    "Third-party tested",
+    "FDA-approved facilities",
+    "Athlete-endorsed",
+    "Sustainable packaging",
+    "24/7 support"
+  ];
+
+  return (
+    <section className="bg-black text-white py-12 md:py-16 px-6 md:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-10"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">
+            Why <span className="text-primary">Choose Us</span>
+          </h2>
+          <p className="text-gray-300 max-w-xl mx-auto">
+            Trusted by athletes and fitness enthusiasts worldwide
+          </p>
+        </motion.div>
+
+        <div className="flex flex-col lg:flex-row gap-8 items-center">
+          {/* Image Section */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="w-full lg:w-2/5"
+          >
+            <img
+              src="/choose.png"
+              alt="Our products"
+              className="rounded-lg object-cover w-full h-auto max-h-[300px] md:max-h-[350px]"
+            />
+          </motion.div>
+
+          {/* Content Section */}
+          <div className="w-full lg:w-3/5">
+            {/* Stats Grid - More Compact */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-8"
+            >
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className={`p-3 rounded-lg ${stat.highlight ? 'bg-red-600' : 'bg-gray-800'} flex flex-col items-center`}
+                >
+                  <div className="mb-1 text-red-400">{stat.icon}</div>
+                  <p className="font-bold text-sm md:text-base">{stat.value}</p>
+                  <p className="text-xs text-gray-300 text-center">{stat.description}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Features List - More Compact */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mb-8"
+            >
+              <h3 className="text-xl font-semibold mb-4">Our Advantages</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex items-start">
+                    <Check className="text-primary w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+                    <span className="text-sm md:text-base text-gray-300">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <button className="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-md text-sm md:text-base transition-colors">
+                Discover Our Products
+              </button>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default WhyChooseUs;
