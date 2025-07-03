@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const imageAssetSchema = new mongoose.Schema(
   {
+    sno: {
+      type: Number,
+      // required: true,
+    },
     url: {
       type: String,
       required: true,

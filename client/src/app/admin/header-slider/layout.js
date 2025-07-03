@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Pencil, Trash, Loader2 } from "lucide-react";
-import YourForm from "./page"; // 👈 tumhara form
+import YourForm from "./page";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllImages,
@@ -19,12 +19,75 @@ import {
   createImage,
 } from "@/redux/slices/header-slice/imageSlice";
 
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  KeyboardSensor,
+  defaultKeyboardCoordinateGetter,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+//  Sortable Table Row
+function SortableRow({ img, index, handleEdit, handleDelete }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: img._id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className='border-t bg-white'
+    >
+      <td className='p-2 cursor-move'>{index + 1}</td>
+      <td className='p-2'>
+        <Image
+          src={img.url}
+          alt={img._id}
+          width={60}
+          height={60}
+          className='rounded-md object-cover'
+        />
+      </td>
+      <td className='p-2'>{img.type || "Untitled"}</td>
+      <td className='p-2 space-x-2'>
+        <Button variant='outline' size='icon' onClick={() => handleEdit(img)}>
+          <Pencil className='h-4 w-4' />
+        </Button>
+        <Button
+          variant='destructive'
+          size='icon'
+          onClick={() => handleDelete(img._id)}
+        >
+          <Trash className='h-4 w-4' />
+        </Button>
+      </td>
+    </tr>
+  );
+}
+
 export default function ImageTable() {
   const dispatch = useDispatch();
   const { images, loading } = useSelector((state) => state?.headerSlider);
 
   const [open, setOpen] = useState(false);
-  const [editImage, setEditImage] = useState(null); // 🖊️ edit image state
+  const [editImage, setEditImage] = useState(null);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const handleFetch = async () => {
@@ -34,9 +97,15 @@ export default function ImageTable() {
         console.log(error.message);
       }
     };
-
     handleFetch();
   }, [dispatch]);
+
+  useEffect(() => {
+    if (images?.length) {
+      const sorted = [...images].sort((a, b) => a.sno - b.sno);
+      setItems(sorted);
+    }
+  }, [images]);
 
   const handleDelete = async (id) => {
     try {
@@ -63,7 +132,7 @@ export default function ImageTable() {
         ).unwrap();
       } else {
         const newFormData = new FormData();
-        newFormData.append("images", formData.images[0]); // assuming single image
+        newFormData.append("images", formData.images[0]);
         await dispatch(createImage(newFormData)).unwrap();
       }
 
@@ -72,6 +141,42 @@ export default function ImageTable() {
       setEditImage(null);
     } catch (error) {
       console.error("Submit failed:", error);
+    }
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: defaultKeyboardCoordinateGetter,
+    })
+  );
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = items.findIndex((item) => item._id === active.id);
+    const newIndex = items.findIndex((item) => item._id === over.id);
+
+    const newItems = arrayMove(items, oldIndex, newIndex);
+    setItems(newItems);
+
+    //  Update sno in DB
+    try {
+      for (let i = 0; i < newItems.length; i++) {
+        const image = newItems[i];
+        if (image.sno !== i + 1) {
+          await dispatch(
+            updateImage({
+              id: image._id,
+              sno: i + 1,
+            })
+          ).unwrap();
+        }
+      }
+    } catch (error) {
+      console.error("Reordering failed:", error);
     }
   };
 
@@ -90,13 +195,7 @@ export default function ImageTable() {
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button
-              onClick={() => {
-                setEditImage(null); // 🆕 reset edit mode when adding new
-              }}
-            >
-              Add Image
-            </Button>
+            <Button onClick={() => setEditImage(null)}>Add Image</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>{editImage ? "Edit Image" : "Add Image"}</DialogTitle>
@@ -106,47 +205,38 @@ export default function ImageTable() {
       </div>
 
       <div className='border rounded-md overflow-hidden'>
-        <table className='w-full table-auto'>
-          <thead>
-            <tr>
-              <th className='p-2 text-left'>Image</th>
-              <th className='p-2 text-left'>View Type</th>
-              <th className='p-2 text-left'>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {images?.map((img) => (
-              <tr key={img._id} className='border-t'>
-                <td className='p-2'>
-                  <Image
-                    src={img.url}
-                    alt={img._id}
-                    width={60}
-                    height={60}
-                    className='rounded-md object-cover'
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={items.map((img) => img._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <table className='w-full table-auto'>
+              <thead>
+                <tr>
+                  <th className='p-2 text-left'>S.no</th>
+                  <th className='p-2 text-left'>Image</th>
+                  <th className='p-2 text-left'>View Type</th>
+                  <th className='p-2 text-left'>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((img, index) => (
+                  <SortableRow
+                    key={img._id}
+                    img={img}
+                    index={index}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
                   />
-                </td>
-                <td className='p-2'>{img.type || "Untitled"}</td>
-                <td className='p-2 space-x-2'>
-                  <Button
-                    variant='outline'
-                    size='icon'
-                    onClick={() => handleEdit(img)}
-                  >
-                    <Pencil className='h-4 w-4' />
-                  </Button>
-                  <Button
-                    variant='destructive'
-                    size='icon'
-                    onClick={() => handleDelete(img._id)}
-                  >
-                    <Trash className='h-4 w-4' />
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                ))}
+              </tbody>
+            </table>
+          </SortableContext>
+        </DndContext>
       </div>
     </div>
   );

@@ -51,9 +51,9 @@ export const fetchImageById = createAsyncThunk(
 // 4. Update (URL)
 export const updateImage = createAsyncThunk(
   "images/updateImage",
-  async ({ id, sourceUrl }, thunkAPI) => {
+  async ({ id, sourceUrl,sno }, thunkAPI) => {
     try {
-      const res = await API.put(`${BASE_URL}/${id}`, { sourceUrl });
+      const res = await API.put(`${BASE_URL}/${id}`, { sourceUrl,sno });
       return res.data.image;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

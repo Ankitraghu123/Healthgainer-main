@@ -325,6 +325,14 @@ exports.newOrderNotifications = (req, res) => {
     res.setHeader("Connection", "keep-alive");
 
     console.log("✅ [SSE] Client connected successfully.");
+    const connectionType = mongoose.connection?.db?.topology?.s?.descriptionType;
+
+    if (connectionType !== "ReplicaSetWithPrimary") {
+      console.warn("⚠️ [SSE] Change streams require a replica set. Skipping stream.");
+      res.write(`data: ${JSON.stringify({ error: "Change stream not supported on this DB." })}\n\n`);
+      return;
+    }
+
 
     const changeStream = Order.watch();
 
