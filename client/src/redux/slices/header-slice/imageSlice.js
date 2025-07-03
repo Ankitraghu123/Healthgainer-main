@@ -15,7 +15,10 @@ export const createImage = createAsyncThunk(
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      return res.data.images;
+      return {
+        message: res.data.message || "Image uploaded successfully",
+        images: res.data.images,
+      };
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }

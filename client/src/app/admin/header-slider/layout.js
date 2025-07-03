@@ -36,7 +36,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-//  Sortable Table Row
+// Sortable Row (Fixed: only drag handle has listeners)
 function SortableRow({ img, index, handleEdit, handleDelete }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: img._id });
@@ -47,34 +47,37 @@ function SortableRow({ img, index, handleEdit, handleDelete }) {
   };
 
   return (
-    <tr
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className='border-t bg-white'
-    >
-      <td className='p-2 cursor-move'>{index + 1}</td>
-      <td className='p-2'>
+    <tr ref={setNodeRef} style={style} className="border-t bg-white">
+      {/* Drag Handle only here */}
+      <td
+        className="p-2 pl-6 cursor-grab select-none relative group text-gray-500"
+        {...attributes}
+        {...listeners}
+        title="Drag to reorder"
+      >
+        ☰
+      </td>
+
+      <td className="p-2">
         <Image
           src={img.url}
           alt={img._id}
           width={60}
           height={60}
-          className='rounded-md object-cover'
+          className="rounded-md object-cover"
         />
       </td>
-      <td className='p-2'>{img.type || "Untitled"}</td>
-      <td className='p-2 space-x-2'>
-        <Button variant='outline' size='icon' onClick={() => handleEdit(img)}>
-          <Pencil className='h-4 w-4' />
+      <td className="p-2">{img.type || "Untitled"}</td>
+      <td className="p-2 space-x-2">
+        <Button variant="outline" size="icon" onClick={() => handleEdit(img)}>
+          <Pencil className="h-4 w-4" />
         </Button>
         <Button
-          variant='destructive'
-          size='icon'
+          variant="destructive"
+          size="icon"
           onClick={() => handleDelete(img._id)}
         >
-          <Trash className='h-4 w-4' />
+          <Trash className="h-4 w-4" />
         </Button>
       </td>
     </tr>
@@ -90,27 +93,17 @@ export default function ImageTable() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const handleFetch = async () => {
-      try {
-        await dispatch(fetchAllImages()).unwrap();
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    handleFetch();
+    dispatch(fetchAllImages());
   }, [dispatch]);
 
   useEffect(() => {
-    if (images?.length) {
-      const sorted = [...images].sort((a, b) => a.sno - b.sno);
-      setItems(sorted);
-    }
+    const sorted = [...(images || [])].sort((a, b) => a.sno - b.sno);
+    setItems(sorted);
   }, [images]);
 
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteImage(id)).unwrap();
-      await dispatch(fetchAllImages()).unwrap();
     } catch (error) {
       console.error("Delete failed:", error);
     }
@@ -136,7 +129,6 @@ export default function ImageTable() {
         await dispatch(createImage(newFormData)).unwrap();
       }
 
-      await dispatch(fetchAllImages()).unwrap();
       setOpen(false);
       setEditImage(null);
     } catch (error) {
@@ -153,16 +145,13 @@ export default function ImageTable() {
 
   const handleDragEnd = async (event) => {
     const { active, over } = event;
-
     if (!over || active.id === over.id) return;
 
     const oldIndex = items.findIndex((item) => item._id === active.id);
     const newIndex = items.findIndex((item) => item._id === over.id);
-
     const newItems = arrayMove(items, oldIndex, newIndex);
     setItems(newItems);
 
-    //  Update sno in DB
     try {
       for (let i = 0; i < newItems.length; i++) {
         const image = newItems[i];
@@ -182,18 +171,24 @@ export default function ImageTable() {
 
   if (loading) {
     return (
-      <div className='flex justify-center items-center p-6'>
-        <Loader2 className='h-6 w-6 animate-spin' />
+      <div className="flex justify-center items-center p-6">
+        <Loader2 className="h-6 w-6 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className='space-y-4'>
-      <div className='flex justify-between items-center'>
-        <h2 className='text-xl font-semibold'>Image Gallery</h2>
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold">Image Gallery</h2>
 
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog
+          open={open}
+          onOpenChange={(val) => {
+            setOpen(val);
+            if (!val) setEditImage(null);
+          }}
+        >
           <DialogTrigger asChild>
             <Button onClick={() => setEditImage(null)}>Add Image</Button>
           </DialogTrigger>
@@ -204,7 +199,7 @@ export default function ImageTable() {
         </Dialog>
       </div>
 
-      <div className='border rounded-md overflow-hidden'>
+      <div className="border rounded-md overflow-hidden">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -214,13 +209,13 @@ export default function ImageTable() {
             items={items.map((img) => img._id)}
             strategy={verticalListSortingStrategy}
           >
-            <table className='w-full table-auto'>
+            <table className="w-full table-auto">
               <thead>
                 <tr>
-                  <th className='p-2 text-left'>S.no</th>
-                  <th className='p-2 text-left'>Image</th>
-                  <th className='p-2 text-left'>View Type</th>
-                  <th className='p-2 text-left'>Actions</th>
+                  <th className="p-2 text-left">Re-Oder</th>
+                  <th className="p-2 text-left">Image</th>
+                  <th className="p-2 text-left">View Type</th>
+                  <th className="p-2 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
