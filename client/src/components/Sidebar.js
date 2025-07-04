@@ -1,5 +1,5 @@
 "use client";
-import { GalleryHorizontal, SparkleIcon } from "lucide-react";
+import { GalleryHorizontal, Medal, SparkleIcon, Video } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -14,6 +14,7 @@ import {
   FiShoppingBag,
   FiSettings,
 } from "react-icons/fi";
+import { MdNoDrinks } from "react-icons/md";
 
 const Sidebar = ({ isOpen, onClose }) => {
   const pathname = usePathname();
@@ -44,7 +45,9 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: <GalleryHorizontal  size={16} />,
     },
     { name: "Benefits", path: "/admin/benefits", icon: <SparkleIcon size={18} /> },
-    { name: "Supplements", path: "/admin/supplements", icon: <SparkleIcon size={18} /> },
+    { name: "Supplements", path: "/admin/supplements", icon: <MdNoDrinks size={18} /> },
+    { name: "Video-carousel", path: "/admin/video-carousel", icon: <Video size={18} /> },
+    // { name: "Testimonials", path: "/admin/testimonials", icon: <Medal size={18} /> },
   ];
 
   const productMenu = [

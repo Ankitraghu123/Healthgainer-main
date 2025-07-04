@@ -13,6 +13,7 @@ import healthGainerReducer from "./slices/healthGainerSlice";
 import imageReducer from "./slices/header-slice/imageSlice";
 import benefitsReducer from "./slices/benefit-slice/index";
 import supplementsReducer from "./slices/supplement-slice/index";
+import videosReducer from "./slices/video-carousel-slice/index"
 
 
 const persistConfig = {
@@ -38,6 +39,7 @@ const store = configureStore({
     headerSlider: imageReducer,
     benefits:benefitsReducer,
     supplements:supplementsReducer,
+    videos:videosReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
