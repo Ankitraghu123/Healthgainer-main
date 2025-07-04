@@ -77,6 +77,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const healthGainerRoutes = require("./routes/healthGainerRoutes");
 const headerSliderImagesRoutes = require("./routes/header-slider/imageAssetRoutes");
 const benefitRoutes = require("./routes/benefit/benefitRoutes");
+const supplementRoutes = require("./routes/supplement/supplementRoutes.js");
 
 app.use("/api/v1/images", headerSliderImagesRoutes);
 
@@ -92,6 +93,7 @@ app.use("/api/v1/healthgainer", healthGainerRoutes);
 
 // admin apis
 app.use("/api/v1/benefits", benefitRoutes);
+app.use("/api/v1/supplements", supplementRoutes);
 
 // Error handling
 app.use(generatedError);
