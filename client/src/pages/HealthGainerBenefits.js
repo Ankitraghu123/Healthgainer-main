@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllBenefits, fetchBenefits } from "@/redux/slices/benefit-slice/index"
+import {  fetchBenefits } from "@/redux/slices/benefit-slice/index"
 
 export default function HealthGainerBenefits() {
   const dispatch = useDispatch();

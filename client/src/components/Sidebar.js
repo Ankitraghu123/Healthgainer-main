@@ -44,6 +44,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: <GalleryHorizontal  size={16} />,
     },
     { name: "Benefits", path: "/admin/benefits", icon: <SparkleIcon size={18} /> },
+    { name: "Supplements", path: "/admin/supplements", icon: <SparkleIcon size={18} /> },
   ];
 
   const productMenu = [
