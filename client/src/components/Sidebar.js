@@ -1,5 +1,5 @@
 "use client";
-import { GalleryHorizontal } from "lucide-react";
+import { GalleryHorizontal, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -43,6 +43,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       path: "/admin/header-slider",
       icon: <GalleryHorizontal  size={16} />,
     },
+    { name: "Benefits", path: "/admin/benefits", icon: <SparkleIcon size={18} /> },
   ];
 
   const productMenu = [
