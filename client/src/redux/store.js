@@ -14,6 +14,10 @@ import imageReducer from "./slices/header-slice/imageSlice";
 import benefitsReducer from "./slices/benefit-slice/index";
 import supplementsReducer from "./slices/supplement-slice/index";
 import videosReducer from "./slices/video-carousel-slice/index"
+import dealsReducer from "./slices/deal-slice/index"
+import newsReducer from "./slices/news-slice/index"
+import advantageReducer from "./slices/why-choose/advantage-slice/index"
+import featureReducer from "./slices/why-choose/feature-slice/index"
 
 
 const persistConfig = {
@@ -39,7 +43,11 @@ const store = configureStore({
     headerSlider: imageReducer,
     benefits:benefitsReducer,
     supplements:supplementsReducer,
-    videos:videosReducer
+    videos:videosReducer,
+    deals:dealsReducer,
+    news:newsReducer,
+    advantages:advantageReducer,
+    features:featureReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

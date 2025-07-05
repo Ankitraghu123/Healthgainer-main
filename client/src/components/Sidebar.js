@@ -21,6 +21,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const [expandedMenus, setExpandedMenus] = useState({
     products: false,
     settings: false,
+    whyChoose: false, // NEW
   });
 
   const toggleMenu = (menu) => {
@@ -47,6 +48,8 @@ const Sidebar = ({ isOpen, onClose }) => {
     { name: "Benefits", path: "/admin/benefits", icon: <SparkleIcon size={18} /> },
     { name: "Supplements", path: "/admin/supplements", icon: <MdNoDrinks size={18} /> },
     { name: "Video-carousel", path: "/admin/video-carousel", icon: <Video size={18} /> },
+    { name: "Deals", path: "/admin/deals", icon: <Video size={18} /> },
+    { name: "News", path: "/admin/news", icon: <Video size={18} /> },
     // { name: "Testimonials", path: "/admin/testimonials", icon: <Medal size={18} /> },
   ];
 
@@ -74,6 +77,20 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: <FiShoppingBag size={16} />,
     },
   ];
+
+  const whyChooseMenu = [
+    {
+      name: "Features",
+      path: "/admin/why-choose/feature",
+      icon: <FiPlusCircle size={16} />,
+    },
+    {
+      name: "Advantages",
+      path: "/admin/why-choose/advantage",
+      icon: <FiShoppingBag size={16} />,
+    },
+  ];
+  
 
   // const settingsMenu = [
   //   { name: "General Settings", path: "/admin/settings/general", icon: <FiSettings size={16} /> },
@@ -118,6 +135,49 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <span>{item.name}</span>
               </Link>
             ))}
+
+            {/* Why Choose Us Dropdown */}
+<div className='mt-2'>
+  <button
+    onClick={() => toggleMenu("whyChoose")}
+    className={`flex items-center justify-between w-full p-3 rounded-lg transition-colors ${
+      whyChooseMenu.some((item) => pathname === item.path)
+        ? "bg-blue-100 text-blue-600 dark:bg-gray-700 dark:text-white"
+        : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+    }`}
+  >
+    <div className='flex items-center'>
+      <Medal size={18} className='mr-3' />
+      <span>Why Choose Us</span>
+    </div>
+    {expandedMenus.whyChoose ? (
+      <FiChevronUp size={18} />
+    ) : (
+      <FiChevronDown size={18} />
+    )}
+  </button>
+
+  {expandedMenus.whyChoose && (
+    <div className='ml-8 mt-1 space-y-1'>
+      {whyChooseMenu.map((item) => (
+        <Link
+          href={item.path}
+          key={item.path}
+          className={`flex items-center p-2 rounded-lg transition-colors ${
+            pathname === item.path
+              ? "bg-blue-50 text-blue-600 dark:bg-gray-600 dark:text-white"
+              : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+          }`}
+          onClick={onClose}
+        >
+          <span className='mr-2'>{item.icon}</span>
+          <span className='text-sm'>{item.name}</span>
+        </Link>
+      ))}
+    </div>
+  )}
+</div>
+
 
             {/* Products Dropdown */}
             <div className='mt-2'>

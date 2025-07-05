@@ -15,7 +15,6 @@ export default function ProductSlider() {
   const dispatch = useDispatch();
   const { supplements, loading } = useSelector((state) => state.supplements);
   const [activeIndex,setActiveIndex]= useState(0)
-  console.log(activeIndex)
 
   const swiperRef = useRef(null);
 
