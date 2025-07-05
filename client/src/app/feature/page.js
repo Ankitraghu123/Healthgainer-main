@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import SupplementFeature from '@/pages/SupplementFeature';
+import SupplementFeature from '@/pagesName/SupplementFeature';
 
 const SupplementFeaturee = () => {
   return (

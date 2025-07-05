@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import NewsSlider from '@/pages/NewsSlider'
+import NewsSlider from '@/pagesName/NewsSlider'
 import CertificationSection from '@/components/CertificationSection'
 
 
