@@ -26,6 +26,8 @@ export default function ProductDetailPage() {
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+    console.log(product)
+
     useEffect(() => {
         if (id) {
             dispatch(fetchProductById(id));
@@ -223,7 +225,7 @@ export default function ProductDetailPage() {
                                 <p className="text-gray-700 mb-6">{product.description}</p>
 
                                 {/* Variants */}
-                                {product.variants?.length > 1 && (
+                                {product.variants?.length > 0 && (
                                     <div className="mb-6">
                                         <h3 className="text-lg font-medium text-gray-900 mb-3">Available Sizes</h3>
                                         <div className="flex flex-wrap gap-2">
@@ -236,7 +238,7 @@ export default function ProductDetailPage() {
                                                         setSelectedVariant(variant);
                                                         setSelectedImage(variant.images?.[0] || product.images?.[0]);
                                                     }}
-                                                    className={`px-4 py-2 rounded-lg border transition ${selectedVariant?._id === variant._id ? ' border-primary text-secondary' : 'bg-white border-gray-300 text-gray-700 hover:border-blue-300'}`}
+                                                    className={`px-4 py-2 rounded-lg border transition ${selectedVariant?._id === variant._id ? ' border-primary text-secondar' : 'bg-white border-gray-300 text-gray-700 hover:border-blue-300'}`}
                                                 >
                                                     {variant.weight}
                                                 </motion.button>
@@ -289,7 +291,7 @@ export default function ProductDetailPage() {
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
                                             onClick={handleAddToCart}
-                                            className="flex-1 bg-primary hover:bg-secondary text-white py-2 md:py-3 md:px-6 rounded-lg font-sm md:font-medium flex items-center justify-center gap-2 transition"
+                                            className="flex-1 bg-primary hover:bg-secondary hover:text-black text-white py-2 md:py-3 md:px-6 rounded-lg font-sm md:font-medium flex items-center justify-center gap-2 transition"
                                         >
                                             <FaShoppingCart />
                                             Add to Cart
