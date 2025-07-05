@@ -1,15 +1,14 @@
-import React from 'react'
-import ReviewCarousel from '@/pages/ReviewCarousel'
-import VideoSlider from '@/pages/VideoSlider'
+import React from "react";
+import ReviewCarousel from "@/pagesid/ReviewCarousel";
+import VideoSlider from "@/pagesid/VideoSlider";
 
 const page = () => {
   return (
     <div>
-        
-        <ReviewCarousel/>
-        <VideoSlider/>
+      <ReviewCarousel />
+      <VideoSlider />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
