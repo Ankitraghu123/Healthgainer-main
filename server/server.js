@@ -23,11 +23,10 @@ app.use(logger("tiny"));
 
 // CORS
 const allowedOrigins = [
-  // 'https://health-gainer-frontend.vercel.app',
-  // 'https://health-gainer-frontend-5dltwckec-sky-info-groups-projects.vercel.app'
-  "https://health-gainer-frontend.vercel.app",
-  "https://health-gainer-frontend-nm0w488og-sky-info-groups-projects.vercel.app",
-  "http://localhost:3000",
+ 
+   "health-gainer-frontend.vercel.app",
+  "https://health-gainer-frontend-8urhg4ebp-sky-info-groups-projects.vercel.app",
+  
 ];
 
 app.use((req, res, next) => {
