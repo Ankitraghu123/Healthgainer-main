@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   FaFacebookF,
@@ -13,9 +13,20 @@ import {
   FaTimes,
   FaUser,
 } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCart } from '@/redux/slices/cartSlice';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const {items} = useSelector((state) => state.cart);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (user?._id) {
+      dispatch(fetchCart(user._id));
+    }
+  }, [dispatch, user?._id]);
+
 
   const navLinks = [
     { label: 'Home', href: '/', icon: <FaHome className="text-green-500" /> },
@@ -74,7 +85,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Cart and Login Icons */}
+        {/* Cart and Login/User Info */}
         <div className="ml-6 flex items-center space-x-4">
           <div className="relative me-5 ms-5 bg-primary px-4 py-2 border-0 rounded-lg">
             <Link href="/cart">
@@ -83,16 +94,23 @@ const Navbar = () => {
                 className="text-white hover:text-green-500 cursor-pointer"
               />
               <span className="absolute -top-2 -right-2 bg-red-600 text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
+  {items.length}
+</span>
+
             </Link>
           </div>
-          <Link
-            href="/login"
-            className="text-white bg-primary px-4 py-2 border-0 rounded-lg ms-6 hover:text-green-500 transition-colors duration-200"
-          >
-            <FaUser size={22} />
-          </Link>
+          {user ? (
+            <div className="text-white ms-6 font-semibold capitalize">
+              Hi, {user.firstName|| "User"}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="text-white bg-primary px-4 py-2 border-0 rounded-lg ms-6 hover:text-green-500 transition-colors duration-200"
+            >
+              <FaUser size={22} />
+            </Link>
+          )}
         </div>
       </div>
 
@@ -112,7 +130,7 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {/* Cart and Login Icons (Mobile) */}
+            {/* Cart and Login/User Info (Mobile) */}
             <div className="flex items-center space-x-4 pt-2">
               <Link href="/cart" onClick={() => setIsOpen(false)}>
                 <div className="relative bg-primary px-4 py-2 border-0 rounded-lg">
@@ -125,13 +143,19 @@ const Navbar = () => {
                   </span>
                 </div>
               </Link>
-              <Link
-                href="/login"
-                onClick={() => setIsOpen(false)}
-                className="text-white bg-primary hover:text-green-500 transition-colors duration-200 p-2 rounded-lg"
-              >
-                <FaUser size={22} />
-              </Link>
+              {user ? (
+                <div className="text-white font-semibold ms-2">
+                  Hi, {user.name?.split(" ")[0] || "User"}
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="text-white bg-primary hover:text-green-500 transition-colors duration-200 p-2 rounded-lg"
+                >
+                  <FaUser size={22} />
+                </Link>
+              )}
             </div>
           </div>
         </div>
