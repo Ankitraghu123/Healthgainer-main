@@ -1,6 +1,6 @@
 import React from 'react'
-import ReviewCarousel from '@/pages/ReviewCarousel'
-import VideoSlider from '@/pages/VideoSlider'
+import ReviewCarousel from '@/pagesName/ReviewCarousel'
+import VideoSlider from '@/pagesName/VideoSlider'
 
 const page = () => {
   return (
