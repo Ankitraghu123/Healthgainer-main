@@ -1,56 +1,25 @@
 "use client";
-import React, { useState, useRef } from "react";
+
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDeals } from "@/redux/slices/deal-slice";
+
 import "swiper/css";
 import "swiper/css/pagination";
 
-const deals = [
-  {
-    title: "STANDARD",
-    subtitle: "BUY 1",
-    price: "₹1999/-",
-    quantity: 1,
-    image: "/2.png",
-  },
-
-  //   {
-  //   title: "STANDARD",
-  //   subtitle: "BUY 1",
-  //   price: "₹1999/-",
-  //   quantity: 1,
-  //   image: "/2.png",
-  // },
-
-  {
-    title: "RECOMMEND",
-    subtitle: "BUY 2",
-    price: "₹3999/-",
-    quantity: 2,
-    image: "/deal/two.png",
-    tag: "HOT DEAL",
-  },
-  {
-    title: "BEST SELLER",
-    subtitle: "BUY 3",
-    price: "₹5999/-",
-    quantity: 3,
-    image: "/deal/three.png",
-  },
-
-   {
-    title: "STANDARD",
-    subtitle: "BUY 1",
-    price: "₹1999/-",
-    quantity: 1,
-    image: "/deal/few.png",
-  },
-];
-
 export default function DealsOfTheDay() {
+  const dispatch = useDispatch();
+  const { deals, loading } = useSelector((state) => state.deals);
+
   const [activeIndex, setActiveIndex] = useState(null);
   const swiperRef = useRef(null);
+
+  useEffect(() => {
+    dispatch(fetchDeals());
+  }, [dispatch]);
 
   const handleCardClick = (index) => {
     swiperRef.current?.slideTo(index);
@@ -58,6 +27,10 @@ export default function DealsOfTheDay() {
   };
 
   const hotDealIndex = deals.findIndex((deal) => deal.tag === "HOT DEAL");
+
+  if (loading || !deals.length) {
+    return <div className="text-center text-white py-10">Loading deals...</div>;
+  }
 
   return (
     <div className="bg-[#060606] py-10 px-4 md:px-20 overflow-hidden font-sans">
@@ -92,10 +65,10 @@ export default function DealsOfTheDay() {
         {deals.map((deal, index) => {
           const isActive = activeIndex === index;
           const showHotDealTag = isActive && deal.tag === "HOT DEAL";
-          const showX5 = index === 3;
+          const showX5 = index === 3; // This logic can be adjusted
 
           return (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={deal._id || index}>
               <div
                 onClick={() => handleCardClick(index)}
                 className={`mx-auto max-w-sm rounded-2xl p-3 sm:p-6 text-center shadow-xl transition-all duration-300 transform flex flex-col justify-between
@@ -108,6 +81,7 @@ export default function DealsOfTheDay() {
                 {showHotDealTag && (
                   <div className="bg-lime-500 text-black text-xs font-bold px-3 py-1 rounded-full inline-block shadow-md sm:mb-3">
                     {deal.tag}
+                    {deal.quantity}
                   </div>
                 )}
 
@@ -123,14 +97,14 @@ export default function DealsOfTheDay() {
                 <div className="flex justify-center items-center mb-3 sm:mb-4 gap-2">
                   <div className="relative w-60 h-28 sm:w-32 sm:h-32 overflow-hidden">
                     <Image
-                      src={deal.image}
-                      alt="Product"
+                      src={deal.image || "/fallback.png"}
+                      alt="Deal"
                       fill
                       className="object-contain"
                     />
                   </div>
-                  {showX5 && (
-                    <div className="text-4xl whitespace-nowrap">X 5</div>
+                  {deal.quantity > 3 && (
+                    <div className="text-4xl whitespace-nowrap">X {deal.quantity}</div>
                   )}
                 </div>
                 <button className="bg-lime-600 hover:bg-lime-700 text-black font-bold py-1.5 px-4 sm:py-2 sm:px-5 rounded-full transition text-sm sm:text-base">
