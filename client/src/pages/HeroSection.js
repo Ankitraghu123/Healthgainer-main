@@ -117,6 +117,7 @@ export default function HeroSection() {
   const desktopSlides =
     images
       ?.filter((img) => img.type === "desktop")
+      ?.sort((a, b) => a.sno - b.sno)
       ?.map((img) => ({
         image: img.url,
       })) || [];
@@ -124,6 +125,7 @@ export default function HeroSection() {
   const mobileSlides =
     images
       ?.filter((img) => img.type === "mobile")
+      ?.sort((a, b) => a.sno - b.sno)
       ?.map((img) => ({
         image: img.url,
       })) || [];

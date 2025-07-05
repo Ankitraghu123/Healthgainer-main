@@ -95,12 +95,12 @@ exports.getImageById = async (req, res) => {
 // UPDATE image URL only (for this case)
 exports.updateImage = async (req, res) => {
   try {
-    const { sourceUrl } = req.body;
+    const { sourceUrl,sno } = req.body;
     const updated = await ImageAsset.findByIdAndUpdate(
       req.params.id,
-      { sourceUrl },
-      { new: true }
-    );
+      { sourceUrl,sno },
+        { new: true }
+      );
 
     if (!updated)
       return res

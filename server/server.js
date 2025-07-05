@@ -75,6 +75,13 @@ const contactRoutes = require("./routes/contactRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const healthGainerRoutes = require("./routes/healthGainerRoutes");
 const headerSliderImagesRoutes = require("./routes/header-slider/imageAssetRoutes");
+const benefitRoutes = require("./routes/benefit/benefitRoutes");
+const supplementRoutes = require("./routes/supplement/supplementRoutes.js");
+const videoRoutes = require("./routes/video-carousel/videoRoutes");
+const dealRoutes = require("./routes/deal/dealRoutes.js");
+const newsRoutes = require("./routes/news/newsRoutes.js");
+const featureRoutes = require("./routes/why-choose/feature.js");
+const advantagesRoutes = require("./routes/why-choose/advantage.js");
 
 app.use("/api/v1/images", headerSliderImagesRoutes);
 
@@ -87,6 +94,16 @@ app.use("/api/v1/addresses", addressRoutes);
 app.use("/api/v1/contacts", contactRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/healthgainer", healthGainerRoutes);
+
+// admin apis
+app.use("/api/v1/benefits", benefitRoutes);
+app.use("/api/v1/supplements", supplementRoutes);
+app.use("/api/v1/videos", videoRoutes);
+app.use("/api/v1/deals", dealRoutes);
+app.use("/api/v1/news", newsRoutes);
+app.use("/api/v1/why/features", featureRoutes);
+app.use("/api/v1/why/advantages", advantagesRoutes);
+
 
 // Error handling
 app.use(generatedError);

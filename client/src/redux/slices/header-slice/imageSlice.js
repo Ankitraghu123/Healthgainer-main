@@ -15,7 +15,10 @@ export const createImage = createAsyncThunk(
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      return res.data.images;
+      return {
+        message: res.data.message || "Image uploaded successfully",
+        images: res.data.images,
+      };
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }
@@ -51,9 +54,9 @@ export const fetchImageById = createAsyncThunk(
 // 4. Update (URL)
 export const updateImage = createAsyncThunk(
   "images/updateImage",
-  async ({ id, sourceUrl }, thunkAPI) => {
+  async ({ id, sourceUrl,sno }, thunkAPI) => {
     try {
-      const res = await API.put(`${BASE_URL}/${id}`, { sourceUrl });
+      const res = await API.put(`${BASE_URL}/${id}`, { sourceUrl,sno });
       return res.data.image;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

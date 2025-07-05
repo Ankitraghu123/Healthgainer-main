@@ -11,6 +11,14 @@ import cartReducer from "./slices/cartSlice";
 import reviewReducer from "./slices/reviewSlice";
 import healthGainerReducer from "./slices/healthGainerSlice";
 import imageReducer from "./slices/header-slice/imageSlice";
+import benefitsReducer from "./slices/benefit-slice/index";
+import supplementsReducer from "./slices/supplement-slice/index";
+import videosReducer from "./slices/video-carousel-slice/index"
+import dealsReducer from "./slices/deal-slice/index"
+import newsReducer from "./slices/news-slice/index"
+import advantageReducer from "./slices/why-choose/advantage-slice/index"
+import featureReducer from "./slices/why-choose/feature-slice/index"
+
 
 const persistConfig = {
   key: "root",
@@ -33,6 +41,13 @@ const store = configureStore({
     healthGainer: healthGainerReducer,
 
     headerSlider: imageReducer,
+    benefits:benefitsReducer,
+    supplements:supplementsReducer,
+    videos:videosReducer,
+    deals:dealsReducer,
+    news:newsReducer,
+    advantages:advantageReducer,
+    features:featureReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

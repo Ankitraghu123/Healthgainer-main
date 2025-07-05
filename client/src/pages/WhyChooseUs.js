@@ -1,25 +1,22 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Award, ShieldCheck, Truck, Smile, Leaf, Check } from 'lucide-react';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFeatures } from "@/redux/slices/why-choose/feature-slice";
+import { fetchAdvantages } from "@/redux/slices/why-choose/advantage-slice";
+import { motion } from "framer-motion";
+import { Check } from "lucide-react";
 
 const WhyChooseUs = () => {
-  const stats = [
-    { value: "10+ Years", description: "Industry experience", icon: <Award className="w-6 h-6" />, highlight: false },
-    { value: "800+", description: "5 Star Rating On Amazon", icon: <Smile className="w-6 h-6" />, highlight: true },
-    { value: "500,000+", description: "Satisfied Consumers", icon: <Leaf className="w-6 h-6" />, highlight: false },
-    { value: "100+", description: "Associates", icon: <ShieldCheck className="w-6 h-6" />, highlight: false },
-    // { value: "Free", description: "Shipping nationwide", icon: <Truck className="w-6 h-6" />, highlight: false },
-  ];
+  const dispatch = useDispatch();
+  const { features } = useSelector((state) => state.features);
+  const { advantages } = useSelector((state) => state.advantages);
+  console.log(advantages)
 
-  const features = [
-    "Scientifically formulated",
-    "Third-party tested",
-    "FDA-approved facilities",
-    "Athlete-endorsed",
-    "Sustainable packaging",
-    "24/7 support"
-  ];
+  useEffect(() => {
+    dispatch(fetchFeatures());
+    dispatch(fetchAdvantages());
+  }, [dispatch]);
 
   return (
     <section className="bg-black text-white py-12 md:py-16 px-6 md:px-8">
@@ -54,26 +51,30 @@ const WhyChooseUs = () => {
 
           {/* Content Section */}
           <div className="w-full lg:w-3/5">
-            {/* Stats Grid - More Compact */}
+            {/* Stats Grid */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
               className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-8"
             >
-              {stats.map((stat, index) => (
+              {features.map((stat, index) => (
                 <div
                   key={index}
-                  className={`p-3 rounded-lg ${stat.highlight ? 'bg-red-600' : 'bg-gray-800'} flex flex-col items-center`}
+                  className={`p-3 rounded-lg flex flex-col items-center ${
+                    stat.highlight ? "bg-red-600" : "bg-gray-800"
+                  }`}
                 >
-                  <div className="mb-1 text-red-400">{stat.icon}</div>
-                  <p className="font-bold text-sm md:text-base">{stat.value}</p>
-                  <p className="text-xs text-gray-300 text-center">{stat.description}</p>
+                  <img src={stat.imageUrl} alt="icon" className="w-6 h-6 mb-1" />
+                  <p className="font-bold text-sm md:text-base">{stat.title}</p>
+                  <p className="text-xs text-gray-300 text-center">
+                    {stat.description}
+                  </p>
                 </div>
               ))}
             </motion.div>
 
-            {/* Features List - More Compact */}
+            {/* Features List */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -82,10 +83,10 @@ const WhyChooseUs = () => {
             >
               <h3 className="text-xl font-semibold mb-4">Our Advantages</h3>
               <div className="grid grid-cols-2 gap-3">
-                {features.map((feature, index) => (
+                {advantages.map((adv, index) => (
                   <div key={index} className="flex items-start">
                     <Check className="text-primary w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-                    <span className="text-sm md:text-base text-gray-300">{feature}</span>
+                    <span className="text-sm md:text-base text-gray-300">{adv.text}</span>
                   </div>
                 ))}
               </div>
