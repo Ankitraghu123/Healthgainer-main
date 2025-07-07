@@ -1,4 +1,3 @@
-// app/(admin)/deals/layout.js
 "use client";
 
 import { useEffect, useState } from "react";
@@ -13,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil, Trash, Loader2 } from "lucide-react";
 import Image from "next/image";
 import DealForm from "./page";
+import { toast } from "react-toastify";
 
 export default function DealsLayout() {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ export default function DealsLayout() {
 
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [deleteDialog, setDeleteDialog] = useState({ open: false, id: null });
 
   useEffect(() => {
     dispatch(fetchDeals());
@@ -33,8 +34,12 @@ export default function DealsLayout() {
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteDeal(id)).unwrap();
+      toast.success("Deal deleted successfully");
     } catch (err) {
       console.error("Delete failed", err);
+      toast.error("Failed to delete deal");
+    } finally {
+      setDeleteDialog({ open: false, id: null });
     }
   };
 
@@ -91,13 +96,28 @@ export default function DealsLayout() {
               <Button variant="outline" size="icon" onClick={() => handleEdit(deal)}>
                 <Pencil className="w-4 h-4" />
               </Button>
-              <Button variant="destructive" size="icon" onClick={() => handleDelete(deal._id)}>
+              <Button
+                variant="destructive"
+                size="icon"
+                onClick={() => setDeleteDialog({ open: true, id: deal._id })}
+              >
                 <Trash className="w-4 h-4" />
               </Button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialog.open} onOpenChange={(val) => setDeleteDialog({ ...deleteDialog, open: val })}>
+        <DialogContent>
+          <DialogTitle>Are you sure you want to delete this deal?</DialogTitle>
+          <div className="flex justify-end gap-3 pt-4">
+            <Button variant="outline" onClick={() => setDeleteDialog({ open: false, id: null })}>Cancel</Button>
+            <Button variant="destructive" onClick={() => handleDelete(deleteDialog.id)}>Delete</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

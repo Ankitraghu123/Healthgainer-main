@@ -1,16 +1,12 @@
-// app/(admin)/deals/page.js
 "use client";
 
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  createDeal,
-  updateDeal,
-} from "@/redux/slices/deal-slice";
-
+import { useDispatch } from "react-redux";
+import { createDeal, updateDeal } from "@/redux/slices/deal-slice";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 const DealForm = ({ initialData = null, onSubmit }) => {
   const dispatch = useDispatch();
@@ -20,7 +16,7 @@ const DealForm = ({ initialData = null, onSubmit }) => {
   const [quantity, setQuantity] = useState("");
   const [tag, setTag] = useState("");
   const [image, setImage] = useState(null);
-  const { loading } = useSelector((state) => state.deals);
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -34,6 +30,7 @@ const DealForm = ({ initialData = null, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormSubmitting(true);
 
     const formData = new FormData();
     formData.append("title", title);
@@ -43,20 +40,29 @@ const DealForm = ({ initialData = null, onSubmit }) => {
     formData.append("tag", tag);
     if (image) formData.append("image", image);
 
-    if (initialData) {
-      await dispatch(updateDeal({ id: initialData._id, formData })).unwrap();
-    } else {
-      await dispatch(createDeal(formData)).unwrap();
+    try {
+      if (initialData) {
+        await dispatch(updateDeal({ id: initialData._id, formData })).unwrap();
+        toast.success("Deal updated successfully!");
+      } else {
+        await dispatch(createDeal(formData)).unwrap();
+        toast.success("Deal created successfully!");
+      }
+
+      onSubmit?.();
+
+      setTitle("");
+      setSubtitle("");
+      setPrice("");
+      setQuantity("");
+      setTag("");
+      setImage(null);
+    } catch (error) {
+      console.error("Submit failed", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setFormSubmitting(false);
     }
-
-    if (onSubmit) onSubmit();
-
-    setTitle("");
-    setSubtitle("");
-    setPrice("");
-    setQuantity("");
-    setTag("");
-    setImage(null);
   };
 
   return (
@@ -79,19 +85,19 @@ const DealForm = ({ initialData = null, onSubmit }) => {
       </div>
 
       <div className="flex gap-4">
-      <div className="space-y-2">
-        <Label>Price</Label>
-        <Input value={price} onChange={(e) => setPrice(e.target.value)} />
-      </div>
+        <div className="space-y-2">
+          <Label>Price</Label>
+          <Input value={price} onChange={(e) => setPrice(e.target.value)} />
+        </div>
 
-      <div className="space-y-2">
-        <Label>Quantity</Label>
-        <Input
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-        />
-      </div>
+        <div className="space-y-2">
+          <Label>Quantity</Label>
+          <Input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="space-y-2">
@@ -112,8 +118,12 @@ const DealForm = ({ initialData = null, onSubmit }) => {
         />
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Saving..." : initialData ? "Update" : "Create"}
+      <Button type="submit" disabled={formSubmitting} className="w-full">
+        {formSubmitting
+          ? "Saving..."
+          : initialData
+          ? "Update"
+          : "Create"}
       </Button>
     </form>
   );
