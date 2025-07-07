@@ -19,6 +19,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "react-toastify";
 
 const HeaderImageSlider = ({ initialData = null, onSubmit }) => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const HeaderImageSlider = ({ initialData = null, onSubmit }) => {
   useEffect(() => {
     if (initialData) {
       setSourceUrl(initialData.sourceUrl || initialData.url || "");
+      setViewType(initialData.viewType || "desktop");
     }
   }, [initialData]);
 
@@ -45,40 +47,35 @@ const HeaderImageSlider = ({ initialData = null, onSubmit }) => {
 
     try {
       if (initialData) {
-        // Edit mode (just updating URL)
         await dispatch(
           updateImage({ id: initialData._id, sourceUrl, viewType })
         ).unwrap();
+        toast.success("Image updated successfully");
       } else {
-        // Add mode (uploading new image)
         const formData = new FormData();
         if (images && images.length > 0) {
           for (let i = 0; i < images.length; i++) {
             formData.append("images", images[i]);
           }
-          formData.append("viewType", viewType); // 👈 ADD THIS LINE
+          formData.append("viewType", viewType);
           await dispatch(createImage(formData)).unwrap();
+          toast.success("Image uploaded successfully");
         } else {
-          alert("Please select image(s).");
+          toast.error("Please select image(s).");
           return;
         }
       }
 
-      if (onSubmit) onSubmit(); // notify parent
+      if (onSubmit) onSubmit();
     } catch (err) {
-      console.error("Submit failed:", err);
+      toast.error("Operation failed");
     }
   };
 
   useEffect(() => {
-    if (success) {
+    if (success || error) {
       setImages([]);
       setSourceUrl("");
-      dispatch(clearImageState());
-    }
-
-    if (error) {
-      alert("Upload failed: " + error);
       dispatch(clearImageState());
     }
   }, [success, error, dispatch]);
@@ -86,53 +83,52 @@ const HeaderImageSlider = ({ initialData = null, onSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='max-w-xl mx-auto p-6 border rounded-md shadow space-y-4'
+      className="max-w-xl mx-auto p-6 border rounded-md shadow space-y-4"
     >
-      <h2 className='text-lg font-bold'>
+      <h2 className="text-lg font-bold">
         {initialData ? "Edit Header Image" : "Upload Header Slider Images"}
       </h2>
 
-      {/* Type Selector */}
-      <div className='space-y-2'>
+      <div className="space-y-2">
         <Label>View Type</Label>
         <Select value={viewType} onValueChange={setViewType}>
-          <SelectTrigger className='w-full'>
-            <SelectValue placeholder='Select view type' />
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select view type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value='desktop'>Desktop</SelectItem>
-            <SelectItem value='mobile'>Mobile</SelectItem>
+            <SelectItem value="desktop">Desktop</SelectItem>
+            <SelectItem value="mobile">Mobile</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {initialData && (
-        <div className='space-y-2'>
-          <Label htmlFor='source-url'>Image URL (optional)</Label>
+      {/* {initialData && (
+        <div className="space-y-2">
+          <Label htmlFor="source-url">Image URL (optional)</Label>
           <Input
-            id='source-url'
-            type='text'
+            id="source-url"
+            type="text"
             value={sourceUrl}
             onChange={(e) => setSourceUrl(e.target.value)}
-            placeholder='https://example.com/image.jpg'
+            placeholder="https://example.com/image.jpg"
           />
         </div>
-      )}
+      )} */}
 
-      <div className='space-y-2'>
-        <Label htmlFor='image-upload'>
+      <div className="space-y-2">
+        <Label htmlFor="image-upload">
           {initialData ? "Upload new image (optional)" : "Choose Image(s)"}
         </Label>
         <Input
-          id='image-upload'
-          type='file'
-          accept='image/*'
-          multiple={!initialData} // allow multiple only during create
+          id="image-upload"
+          type="file"
+          accept="image/*"
+          multiple={!initialData}
           onChange={handleImageUpload}
         />
       </div>
 
-      <Button type='submit' disabled={loading} className='w-full'>
+      <Button type="submit" disabled={loading} className="w-full">
         {loading
           ? initialData
             ? "Updating..."

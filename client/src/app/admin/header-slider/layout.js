@@ -18,6 +18,7 @@ import {
   updateImage,
   createImage,
 } from "@/redux/slices/header-slice/imageSlice";
+import { toast } from "react-toastify";
 
 import {
   DndContext,
@@ -36,8 +37,9 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-// Sortable Row (Fixed: only drag handle has listeners)
-function SortableRow({ img, index, handleEdit, handleDelete }) {
+import ConfirmDelete from "@/components/common/ConfirmDelete";
+
+function SortableRow({ img, index, handleEdit, confirmDelete }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: img._id });
 
@@ -48,9 +50,8 @@ function SortableRow({ img, index, handleEdit, handleDelete }) {
 
   return (
     <tr ref={setNodeRef} style={style} className="border-t bg-white">
-      {/* Drag Handle only here */}
       <td
-        className="p-2 pl-6 cursor-grab select-none relative group text-gray-500"
+        className="p-2 pl-6 cursor-grab select-none text-gray-500"
         {...attributes}
         {...listeners}
         title="Drag to reorder"
@@ -75,7 +76,7 @@ function SortableRow({ img, index, handleEdit, handleDelete }) {
         <Button
           variant="destructive"
           size="icon"
-          onClick={() => handleDelete(img._id)}
+          onClick={() => confirmDelete(img._id)}
         >
           <Trash className="h-4 w-4" />
         </Button>
@@ -91,6 +92,7 @@ export default function ImageTable() {
   const [open, setOpen] = useState(false);
   const [editImage, setEditImage] = useState(null);
   const [items, setItems] = useState([]);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     dispatch(fetchAllImages());
@@ -101,11 +103,18 @@ export default function ImageTable() {
     setItems(sorted);
   }, [images]);
 
-  const handleDelete = async (id) => {
+  const confirmDelete = (id) => {
+    setDeleteId(id);
+  };
+
+  const handleDelete = async () => {
     try {
-      await dispatch(deleteImage(id)).unwrap();
+      await dispatch(deleteImage(deleteId)).unwrap();
+      toast.success("Image deleted successfully");
     } catch (error) {
-      console.error("Delete failed:", error);
+      toast.error("Failed to delete image");
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -114,26 +123,9 @@ export default function ImageTable() {
     setOpen(true);
   };
 
-  const handleFormSubmit = async (formData) => {
-    try {
-      if (editImage) {
-        await dispatch(
-          updateImage({
-            id: editImage._id,
-            sourceUrl: formData.sourceUrl,
-          })
-        ).unwrap();
-      } else {
-        const newFormData = new FormData();
-        newFormData.append("images", formData.images[0]);
-        await dispatch(createImage(newFormData)).unwrap();
-      }
-
-      setOpen(false);
-      setEditImage(null);
-    } catch (error) {
-      console.error("Submit failed:", error);
-    }
+  const handleFormSubmit = () => {
+    setOpen(false);
+    setEditImage(null);
   };
 
   const sensors = useSensors(
@@ -165,7 +157,7 @@ export default function ImageTable() {
         }
       }
     } catch (error) {
-      console.error("Reordering failed:", error);
+      toast.error("Reordering failed");
     }
   };
 
@@ -212,7 +204,7 @@ export default function ImageTable() {
             <table className="w-full table-auto">
               <thead>
                 <tr>
-                  <th className="p-2 text-left">Re-Oder</th>
+                  <th className="p-2 text-left">Re-Order</th>
                   <th className="p-2 text-left">Image</th>
                   <th className="p-2 text-left">View Type</th>
                   <th className="p-2 text-left">Actions</th>
@@ -225,7 +217,7 @@ export default function ImageTable() {
                     img={img}
                     index={index}
                     handleEdit={handleEdit}
-                    handleDelete={handleDelete}
+                    confirmDelete={confirmDelete}
                   />
                 ))}
               </tbody>
@@ -233,6 +225,12 @@ export default function ImageTable() {
           </SortableContext>
         </DndContext>
       </div>
+
+      <ConfirmDelete
+        open={!!deleteId}
+        onCancel={() => setDeleteId(null)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }
