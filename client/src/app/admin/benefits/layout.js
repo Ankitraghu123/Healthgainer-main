@@ -10,23 +10,6 @@ import {
   createBenefit,
 } from "@/redux/slices/benefit-slice/index";
 
-import {
-  DndContext,
-  closestCenter,
-  useSensor,
-  useSensors,
-  PointerSensor,
-  KeyboardSensor,
-  defaultKeyboardCoordinateGetter,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  useSortable,
-  arrayMove,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -34,33 +17,17 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import { Pencil, Trash, Loader2 } from "lucide-react";
 import BenefitForm from "./page";
+import { toast } from "react-toastify";
 
-function SortableRow({ benefit, index, onEdit, onDelete }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: benefit._id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
+function BenefitRow({ benefit, onEdit, onConfirmDelete }) {
   return (
-    <tr ref={setNodeRef} style={style} className="border-t bg-white">
-      <td
-        className="p-2 pl-6 cursor-grab select-none text-gray-500"
-        {...attributes}
-        {...listeners}
-        title="Drag to reorder"
-      >
-        ☰
-      </td>
-
+    <tr className="border-t bg-white">
       <td className="p-2">
         <Image
           src={benefit.iconUrl}
-        // src="https://ik.imagekit.io/ch0wxnp882/benefits/benefit_1751557948657_3fLt3Cdxo.jpg"
           alt="benefit icon"
           width={40}
           height={40}
@@ -69,7 +36,13 @@ function SortableRow({ benefit, index, onEdit, onDelete }) {
       </td>
 
       <td className="p-2 font-medium">{benefit.title}</td>
-      <td className="p-2 max-w-60">{benefit.description?.length > 400 ? benefit.description?.slice(0, 400) + "..." : benefit.description}</td>
+
+      <td className="p-2 max-w-60">
+        {benefit.description?.length > 400
+          ? benefit.description.slice(0, 400) + "..."
+          : benefit.description}
+      </td>
+
       <td className="p-2 space-x-2">
         <Button variant="outline" size="icon" onClick={() => onEdit(benefit)}>
           <Pencil className="h-4 w-4" />
@@ -77,7 +50,7 @@ function SortableRow({ benefit, index, onEdit, onDelete }) {
         <Button
           variant="destructive"
           size="icon"
-          onClick={() => onDelete(benefit._id)}
+          onClick={() => onConfirmDelete(benefit)}
         >
           <Trash className="h-4 w-4" />
         </Button>
@@ -90,76 +63,60 @@ export default function BenefitTable() {
   const dispatch = useDispatch();
   const { benefits, loading } = useSelector((state) => state.benefits);
 
-  const [items, setItems] = useState([]);
   const [editData, setEditData] = useState(null);
   const [open, setOpen] = useState(false);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: defaultKeyboardCoordinateGetter })
-  );
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
+  const [benefitToDelete, setBenefitToDelete] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchBenefits());
+    dispatch(fetchBenefits())
+      .unwrap()
+      .catch(() => toast.error("Failed to fetch benefits"));
   }, [dispatch]);
-
-  useEffect(() => {
-    if (benefits?.length) {
-      const sorted = [...benefits].sort((a, b) => a.sno - b.sno);
-      setItems(sorted);
-    }
-  }, [benefits]);
 
   const handleEdit = (benefit) => {
     setEditData(benefit);
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleConfirmDelete = (benefit) => {
+    setBenefitToDelete(benefit);
+    setConfirmDeleteDialog(true);
+  };
+
+  const handleDelete = async () => {
+    if (!benefitToDelete) return;
+
     try {
-      await dispatch(deleteBenefit(id)).unwrap();
+      await dispatch(deleteBenefit(benefitToDelete._id)).unwrap();
+      toast.success("Benefit deleted successfully");
     } catch (err) {
-      console.error("Delete failed", err);
+      toast.error("Failed to delete benefit");
+    } finally {
+      setConfirmDeleteDialog(false);
+      setBenefitToDelete(null);
     }
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async ({ title, description, icon }) => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    if (icon) formData.append("icon", icon);
+
     try {
       if (editData) {
-        await dispatch(
-          updateBenefit({ id: editData._id, ...formData })
-        ).unwrap();
+        await dispatch(updateBenefit({ id: editData._id, formData })).unwrap();
+        toast.success("Benefit updated successfully");
       } else {
         await dispatch(createBenefit(formData)).unwrap();
+        toast.success("Benefit created successfully");
       }
 
       setOpen(false);
       setEditData(null);
     } catch (err) {
-      console.error("Form submit failed", err);
-    }
-  };
-
-  const handleDragEnd = async (event) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const oldIndex = items.findIndex((item) => item._id === active.id);
-    const newIndex = items.findIndex((item) => item._id === over.id);
-    const reordered = arrayMove(items, oldIndex, newIndex);
-
-    setItems(reordered);
-
-    try {
-      for (let i = 0; i < reordered.length; i++) {
-        if (reordered[i].sno !== i + 1) {
-          await dispatch(
-            updateBenefit({ id: reordered[i]._id, sno: i + 1 })
-          ).unwrap();
-        }
-      }
-    } catch (err) {
-      console.error("Reordering failed", err);
+      toast.error("Failed to save benefit");
     }
   };
 
@@ -193,40 +150,55 @@ export default function BenefitTable() {
         </Dialog>
       </div>
 
+      {/* ✅ Delete Confirmation Dialog */}
+      <Dialog
+        open={confirmDeleteDialog}
+        onOpenChange={(val) => {
+          setConfirmDeleteDialog(val);
+          if (!val) setBenefitToDelete(null);
+        }}
+      >
+        <DialogContent>
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <p>Are you sure you want to delete this benefit?</p>
+          <div className="mt-4 flex justify-end space-x-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setConfirmDeleteDialog(false);
+                setBenefitToDelete(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <div className="border rounded-md overflow-hidden">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={items.map((b) => b._id)}
-            strategy={verticalListSortingStrategy}
-          >
-            <table className="w-full table-auto">
-              <thead>
-                <tr>
-                  <th className="p-2 text-left">Reorder</th>
-                  <th className="p-2 text-left">Icon</th>
-                  <th className="p-2 text-left">Title</th>
-                  <th className="p-2 text-left">Description</th>
-                  <th className="p-2 text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((benefit, index) => (
-                  <SortableRow
-                    key={benefit._id}
-                    benefit={benefit}
-                    index={index}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </SortableContext>
-        </DndContext>
+        <table className="w-full table-auto">
+          <thead>
+            <tr>
+              <th className="p-2 text-left">Icon</th>
+              <th className="p-2 text-left">Title</th>
+              <th className="p-2 text-left">Description</th>
+              <th className="p-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {benefits.map((benefit) => (
+              <BenefitRow
+                key={benefit._id}
+                benefit={benefit}
+                onEdit={handleEdit}
+                onConfirmDelete={handleConfirmDelete}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

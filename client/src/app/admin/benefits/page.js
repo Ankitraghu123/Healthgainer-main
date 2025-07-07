@@ -1,21 +1,16 @@
-// page.js - BenefitForm Component (like HeaderImageSlider)
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createBenefit, updateBenefit } from "@/redux/slices/benefit-slice/index";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 const BenefitForm = ({ initialData = null, onSubmit }) => {
-  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState(null);
-  const { loading } = useSelector((state) => state.benefits);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -26,21 +21,20 @@ const BenefitForm = ({ initialData = null, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    if (icon) formData.append("icon", icon);
+    setLoading(true);
 
-    if (initialData) {
-      await dispatch(updateBenefit({ id: initialData._id, formData })).unwrap();
-    } else {
-      await dispatch(createBenefit(formData)).unwrap();
+    try {
+      if (onSubmit) {
+        await onSubmit({ title, description, icon });
+        setTitle("");
+        setDescription("");
+        setIcon(null);
+      }
+    } catch (err) {
+      console.error("Submit failed", err);
+    } finally {
+      setLoading(false);
     }
-
-    if (onSubmit) onSubmit();
-    setTitle("");
-    setDescription("");
-    setIcon(null);
   };
 
   return (
