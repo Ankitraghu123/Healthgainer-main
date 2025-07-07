@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createMediaReport, updateMediaReport } from "@/redux/slices/mediaReport-slice/index";
+import {
+  createMediaReport,
+  updateMediaReport,
+} from "@/redux/slices/mediaReport-slice";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,17 +14,18 @@ import { Textarea } from "@/components/ui/textarea";
 
 const MediaReportForm = ({ initialData = null, onSubmit }) => {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.mediaReports);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [url, setUrl] = useState(""); // ✅ New state for URL
+  const [url, setUrl] = useState("");
   const [icon, setIcon] = useState(null);
-  const { loading } = useSelector((state) => state.mediaReports);
 
   useEffect(() => {
     if (initialData) {
       setTitle(initialData.title || "");
       setDescription(initialData.description || "");
-      setUrl(initialData.url || ""); // ✅ populate URL
+      setUrl(initialData.url || "");
     }
   }, [initialData]);
 
@@ -31,22 +35,26 @@ const MediaReportForm = ({ initialData = null, onSubmit }) => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("url", url); // ✅ include URL
-
+    formData.append("url", url);
     if (icon) formData.append("icon", icon);
 
-    if (initialData) {
-      await dispatch(updateMediaReport({ id: initialData._id, formData })).unwrap();
-    } else {
-      await dispatch(createMediaReport(formData)).unwrap();
+    try {
+      if (initialData) {
+        await dispatch(updateMediaReport({ id: initialData._id, formData })).unwrap();
+      } else {
+        await dispatch(createMediaReport(formData)).unwrap();
+      }
+
+      // Clear form only on success
+      setTitle("");
+      setDescription("");
+      setUrl("");
+      setIcon(null);
+
+      if (onSubmit) onSubmit(true); // 🔁 pass success = true
+    } catch (err) {
+      if (onSubmit) onSubmit(false); // ❌ failure
     }
-
-    if (onSubmit) onSubmit();
-
-    setTitle("");
-    setDescription("");
-    setUrl(""); // ✅ reset URL
-    setIcon(null);
   };
 
   return (
@@ -96,7 +104,13 @@ const MediaReportForm = ({ initialData = null, onSubmit }) => {
       </div>
 
       <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Saving..." : initialData ? "Update" : "Create"}
+        {loading
+          ? initialData
+            ? "Updating..."
+            : "Creating..."
+          : initialData
+          ? "Update"
+          : "Create"}
       </Button>
     </form>
   );

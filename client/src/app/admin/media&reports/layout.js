@@ -1,14 +1,11 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchMediaReports,
-  updateMediaReport,
   deleteMediaReport,
-  createMediaReport,
-} from "@/redux/slices/mediaReport-slice/index";
+} from "@/redux/slices/mediaReport-slice";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +16,8 @@ import {
 } from "@/components/ui/dialog";
 import { Pencil, Trash, Loader2 } from "lucide-react";
 import MediaReportForm from "./page";
+import ConfirmDelete from "@/components/common/ConfirmDelete";
+import { toast } from "react-toastify";
 
 function Row({ mediaReport, onEdit, onDelete }) {
   return (
@@ -32,18 +31,14 @@ function Row({ mediaReport, onEdit, onDelete }) {
           className="rounded"
         />
       </td>
-
       <td className="p-2 font-medium">{mediaReport.title}</td>
-
       <td className="p-2 max-w-60">
         {mediaReport.description?.length > 400
           ? mediaReport.description.slice(0, 400) + "..."
           : mediaReport.description}
       </td>
-
       <td className="p-2 max-w-60 break-all">
-        {mediaReport.url}
-        {" "}
+        {mediaReport.url}{" "}
         <a
           href={mediaReport.url}
           target="_blank"
@@ -53,7 +48,6 @@ function Row({ mediaReport, onEdit, onDelete }) {
           visit
         </a>
       </td>
-
       <td className="p-2 space-x-2">
         <Button variant="outline" size="icon" onClick={() => onEdit(mediaReport)}>
           <Pencil className="h-4 w-4" />
@@ -61,7 +55,7 @@ function Row({ mediaReport, onEdit, onDelete }) {
         <Button
           variant="destructive"
           size="icon"
-          onClick={() => onDelete(mediaReport._id)}
+          onClick={() => onDelete(mediaReport)}
         >
           <Trash className="h-4 w-4" />
         </Button>
@@ -76,6 +70,7 @@ export default function MediaReportTable() {
 
   const [editData, setEditData] = useState(null);
   const [open, setOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     dispatch(fetchMediaReports());
@@ -86,26 +81,25 @@ export default function MediaReportTable() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
     try {
-      await dispatch(deleteMediaReport(id)).unwrap();
+      await dispatch(deleteMediaReport(deleteTarget._id)).unwrap();
+      toast.success("Media report deleted");
     } catch (err) {
-      console.error("Delete failed", err);
+      toast.error("Failed to delete media report");
+    } finally {
+      setDeleteTarget(null);
     }
   };
 
-  const handleSubmit = async (formData) => {
-    try {
-      if (editData) {
-        await dispatch(updateMediaReport({ id: editData._id, ...formData })).unwrap();
-      } else {
-        await dispatch(createMediaReport(formData)).unwrap();
-      }
-
+  const handleFormSubmit = (success) => {
+    if (success) {
+      toast.success(editData ? "Media report updated" : "Media report created");
       setOpen(false);
       setEditData(null);
-    } catch (err) {
-      console.error("Form submit failed", err);
+    } else {
+      toast.error("Failed to save media report");
     }
   };
 
@@ -134,7 +128,7 @@ export default function MediaReportTable() {
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>{editData ? "Edit Media Report" : "Add Media Report"}</DialogTitle>
-            <MediaReportForm initialData={editData} onSubmit={handleSubmit} />
+            <MediaReportForm initialData={editData} onSubmit={handleFormSubmit} />
           </DialogContent>
         </Dialog>
       </div>
@@ -156,12 +150,18 @@ export default function MediaReportTable() {
                 key={mediaReport._id}
                 mediaReport={mediaReport}
                 onEdit={handleEdit}
-                onDelete={handleDelete}
+                onDelete={(item) => setDeleteTarget(item)}
               />
             ))}
           </tbody>
         </table>
       </div>
+
+      <ConfirmDelete
+        open={!!deleteTarget}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }
