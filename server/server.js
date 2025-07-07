@@ -26,6 +26,7 @@ const allowedOrigins = [
  
    "https://healthgainer-main.vercel.app",
   "https://healthgainer-main-mhhi8ty6v-sky-info-groups-projects.vercel.app",
+  "http://localhost:3000",
   
 ];
 
@@ -82,6 +83,7 @@ const dealRoutes = require("./routes/deal/dealRoutes.js");
 const newsRoutes = require("./routes/news/newsRoutes.js");
 const featureRoutes = require("./routes/why-choose/feature.js");
 const advantagesRoutes = require("./routes/why-choose/advantage.js");
+const mediaReportRoutes = require("./routes/mediaReport/mediaReportRoutes.js");
 
 app.use("/api/v1/images", headerSliderImagesRoutes);
 
@@ -103,6 +105,7 @@ app.use("/api/v1/deals", dealRoutes);
 app.use("/api/v1/news", newsRoutes);
 app.use("/api/v1/why/features", featureRoutes);
 app.use("/api/v1/why/advantages", advantagesRoutes);
+app.use("/api/v1/mediaReports", mediaReportRoutes);
 
 
 // Error handling
