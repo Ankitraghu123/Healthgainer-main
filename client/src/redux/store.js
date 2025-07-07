@@ -18,7 +18,7 @@ import dealsReducer from "./slices/deal-slice/index"
 import newsReducer from "./slices/news-slice/index"
 import advantageReducer from "./slices/why-choose/advantage-slice/index"
 import featureReducer from "./slices/why-choose/feature-slice/index"
-
+import mediaReportsReducer from "./slices/mediaReport-slice/index";
 
 const persistConfig = {
   key: "root",
@@ -47,7 +47,8 @@ const store = configureStore({
     deals:dealsReducer,
     news:newsReducer,
     advantages:advantageReducer,
-    features:featureReducer
+    features:featureReducer,
+    mediaReports:mediaReportsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
