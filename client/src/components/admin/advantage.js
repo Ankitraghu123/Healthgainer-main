@@ -19,10 +19,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Pencil, Trash, Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
 
 const AdvantageForm = ({ initialData = null, onSubmit }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const { loading } = useSelector((state) => state.advantages);
 
   useEffect(() => {
@@ -33,17 +35,27 @@ const AdvantageForm = ({ initialData = null, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     const formData = new FormData();
     formData.append("text", text);
 
-    if (initialData) {
-      await dispatch(updateAdvantage({ id: initialData._id, formData })).unwrap();
-    } else {
-      await dispatch(createAdvantage(formData)).unwrap();
-    }
+    try {
+      if (initialData) {
+        await dispatch(updateAdvantage({ id: initialData._id, formData })).unwrap();
+        toast.success("Advantage updated");
+      } else {
+        await dispatch(createAdvantage(formData)).unwrap();
+        toast.success("Advantage created");
+      }
 
-    onSubmit();
-    setText("");
+      if (onSubmit) onSubmit();
+      setText("");
+    } catch (err) {
+      toast.error("Failed to save advantage");
+      console.error(err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -64,8 +76,8 @@ const AdvantageForm = ({ initialData = null, onSubmit }) => {
         />
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Saving..." : initialData ? "Update" : "Create"}
+      <Button type="submit" disabled={loading || submitting} className="w-full">
+        {submitting ? "Saving..." : initialData ? "Update" : "Create"}
       </Button>
     </form>
   );
@@ -77,9 +89,13 @@ export default function AdvantageManager() {
 
   const [open, setOpen] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchAdvantages());
+    dispatch(fetchAdvantages()).unwrap().catch(() => {
+      toast.error("Failed to fetch advantages");
+    });
   }, [dispatch]);
 
   const handleEdit = (item) => {
@@ -87,8 +103,19 @@ export default function AdvantageManager() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    await dispatch(deleteAdvantage(id)).unwrap();
+  const handleDelete = async () => {
+    if (!itemToDelete) return;
+
+    try {
+      await dispatch(deleteAdvantage(itemToDelete._id)).unwrap();
+      toast.success("Advantage deleted");
+    } catch (err) {
+      toast.error("Failed to delete advantage");
+      console.error(err);
+    } finally {
+      setConfirmDeleteOpen(false);
+      setItemToDelete(null);
+    }
   };
 
   const handleSubmit = () => {
@@ -115,6 +142,28 @@ export default function AdvantageManager() {
         </Dialog>
       </div>
 
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={confirmDeleteOpen}
+        onOpenChange={(val) => {
+          setConfirmDeleteOpen(val);
+          if (!val) setItemToDelete(null);
+        }}
+      >
+        <DialogContent>
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <p>Are you sure you want to delete this advantage?</p>
+          <div className="mt-4 flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setConfirmDeleteOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {loading ? (
         <div className="flex justify-center items-center p-6">
           <Loader2 className="w-6 h-6 animate-spin" />
@@ -135,7 +184,10 @@ export default function AdvantageManager() {
                 <Button
                   variant="destructive"
                   size="icon"
-                  onClick={() => handleDelete(adv._id)}
+                  onClick={() => {
+                    setItemToDelete(adv);
+                    setConfirmDeleteOpen(true);
+                  }}
                 >
                   <Trash className="h-4 w-4" />
                 </Button>

@@ -15,11 +15,13 @@ exports.getAllSupplements = async (req, res) => {
 
 // 🟢 Create New supplement
 exports.createSupplement = async (req, res) => {
+  // console.log(req.files)
   try {
     const { title, description } = req.body;
     const { files } = req;
+    // console.log("body ", req.body);
 
-    if (!title || !description || !files?.icon) {
+    if (!title || !description ) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
@@ -30,7 +32,7 @@ exports.createSupplement = async (req, res) => {
       fileName: `supplement_${Date.now()}.jpg`,
       folder: "/supplements",
     });
-    console.log(uploaded)
+    // console.log(uploaded)
 
     const total = await Supplement.countDocuments();
     const newSupplement = await Supplement.create({
