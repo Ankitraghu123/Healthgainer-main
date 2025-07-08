@@ -1,46 +1,57 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createNews, updateNews } from "@/redux/slices/news-slice";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 const NewsForm = ({ initialData = null, onSubmit }) => {
   const dispatch = useDispatch();
+
   const [label, setLabel] = useState("");
   const [link, setLink] = useState("");
   const [image, setImage] = useState(null);
-  const { loading } = useSelector((state) => state.news);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      setLabel(initialData.label);
-      setLink(initialData.link);
+      setLabel(initialData.label || "");
+      setLink(initialData.link || "");
     }
   }, [initialData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
 
     const formData = new FormData();
     formData.append("label", label);
     formData.append("link", link);
     if (image) formData.append("image", image);
 
-    if (initialData) {
-      await dispatch(updateNews({ id: initialData._id, formData })).unwrap();
-    } else {
-      await dispatch(createNews(formData)).unwrap();
+    try {
+      if (initialData) {
+        await dispatch(updateNews({ id: initialData._id, formData })).unwrap();
+        toast.success("News updated");
+      } else {
+        await dispatch(createNews(formData)).unwrap();
+        toast.success("News created");
+      }
+
+      if (onSubmit) onSubmit();
+
+      setLabel("");
+      setLink("");
+      setImage(null);
+    } catch (err) {
+      toast.error("Failed to save news");
+      console.error("News form submit error:", err);
+    } finally {
+      setSubmitting(false);
     }
-
-    if (onSubmit) onSubmit();
-
-    setLabel("");
-    setLink("");
-    setImage(null);
   };
 
   return (
@@ -79,8 +90,8 @@ const NewsForm = ({ initialData = null, onSubmit }) => {
         />
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Saving..." : initialData ? "Update" : "Create"}
+      <Button type="submit" disabled={submitting} className="w-full">
+        {submitting ? "Saving..." : initialData ? "Update" : "Create"}
       </Button>
     </form>
   );

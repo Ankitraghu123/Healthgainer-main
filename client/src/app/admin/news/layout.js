@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchNews,
   deleteNews,
-  updateNews,
-  createNews,
 } from "@/redux/slices/news-slice";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +17,8 @@ import {
 } from "@/components/ui/dialog";
 import { Pencil, Trash, Loader2 } from "lucide-react";
 import NewsForm from "./page";
+import { toast } from "react-toastify";
+import ConfirmDelete from "@/components/common/ConfirmDelete"; // ✅ make sure you have this
 
 export default function NewsSection() {
   const dispatch = useDispatch();
@@ -26,6 +26,8 @@ export default function NewsSection() {
 
   const [editData, setEditData] = useState(null);
   const [open, setOpen] = useState(false);
+
+  const [deleteId, setDeleteId] = useState(null); // ✅ for confirm delete
 
   useEffect(() => {
     dispatch(fetchNews());
@@ -36,26 +38,24 @@ export default function NewsSection() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await dispatch(deleteNews(id)).unwrap();
-    } catch (err) {
-      console.error("Delete failed", err);
-    }
+  const handleSubmit = () => {
+    setOpen(false);
+    setEditData(null);
   };
 
-  const handleSubmit = async (formData) => {
-    try {
-      if (editData) {
-        await dispatch(updateNews({ id: editData._id, formData })).unwrap();
-      } else {
-        await dispatch(createNews(formData)).unwrap();
-      }
+  const confirmDelete = (id) => {
+    setDeleteId(id);
+  };
 
-      setOpen(false);
-      setEditData(null);
+  const handleConfirmDelete = async () => {
+    try {
+      await dispatch(deleteNews(deleteId)).unwrap();
+      toast.success("News item deleted successfully");
     } catch (err) {
-      console.error("Form submit failed", err);
+      toast.error("Failed to delete news item");
+      console.error("Delete failed", err);
+    } finally {
+      setDeleteId(null);
     }
   };
 
@@ -89,7 +89,6 @@ export default function NewsSection() {
         </Dialog>
       </div>
 
-      {/* Grid List */}
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {news.map((item) => (
           <div
@@ -116,7 +115,7 @@ export default function NewsSection() {
               <Button
                 variant="destructive"
                 size="icon"
-                onClick={() => handleDelete(item._id)}
+                onClick={() => confirmDelete(item._id)}
               >
                 <Trash className="w-4 h-4" />
               </Button>
@@ -124,6 +123,13 @@ export default function NewsSection() {
           </div>
         ))}
       </div>
+
+      {/* ✅ Confirm Delete Modal */}
+      <ConfirmDelete
+        open={!!deleteId}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteId(null)}
+      />
     </div>
   );
 }
