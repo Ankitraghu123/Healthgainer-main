@@ -8,7 +8,7 @@ import {
   updateSupplement,
   deleteSupplement,
   createSupplement,
-} from "@/redux/slices/supplement-slice/index";
+} from "@/redux/slices/supplement-slice";
 
 import {
   DndContext,
@@ -36,6 +36,8 @@ import {
 } from "@/components/ui/dialog";
 import { Pencil, Trash, Loader2 } from "lucide-react";
 import SupplementForm from "./page";
+import ConfirmDelete from "@/components/common/ConfirmDelete";
+import { toast } from "react-toastify";
 
 function SortableRow({ supplement, index, onEdit, onDelete }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -56,29 +58,26 @@ function SortableRow({ supplement, index, onEdit, onDelete }) {
       >
         ☰
       </td>
-
       <td className="p-2">
         <Image
           src={supplement.iconUrl}
-        // src="https://ik.imagekit.io/ch0wxnp882/supplements/supplement_1751557948657_3fLt3Cdxo.jpg"
           alt="supplement icon"
           width={40}
           height={40}
           className="rounded"
         />
       </td>
-
       <td className="p-2 font-medium">{supplement.title}</td>
-      <td className="p-2 max-w-60">{supplement.description?.length > 400 ? supplement.description?.slice(0, 400) + "..." : supplement.description}</td>
+      <td className="p-2 max-w-60">
+        {supplement.description?.length > 400
+          ? supplement.description.slice(0, 400) + "..."
+          : supplement.description}
+      </td>
       <td className="p-2 space-x-2">
         <Button variant="outline" size="icon" onClick={() => onEdit(supplement)}>
           <Pencil className="h-4 w-4" />
         </Button>
-        <Button
-          variant="destructive"
-          size="icon"
-          onClick={() => onDelete(supplement._id)}
-        >
+        <Button variant="destructive" size="icon" onClick={() => onDelete(supplement)}>
           <Trash className="h-4 w-4" />
         </Button>
       </td>
@@ -93,6 +92,7 @@ export default function SupplementTable() {
   const [items, setItems] = useState([]);
   const [editData, setEditData] = useState(null);
   const [open, setOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -115,29 +115,20 @@ export default function SupplementTable() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
     try {
-      await dispatch(deleteSupplement(id)).unwrap();
+      await dispatch(deleteSupplement(deleteTarget._id)).unwrap();
+      toast.success("Supplement deleted");
     } catch (err) {
-      console.error("Delete failed", err);
+      toast.error("Failed to delete");
+    } finally {
+      setDeleteTarget(null);
     }
   };
 
-  const handleSubmit = async (formData) => {
-    try {
-      if (editData) {
-        await dispatch(
-          updateSupplement({ id: editData._id, ...formData })
-        ).unwrap();
-      } else {
-        await dispatch(createSupplement(formData)).unwrap();
-      }
-
-      setOpen(false);
-      setEditData(null);
-    } catch (err) {
-      console.error("Form submit failed", err);
-    }
+  const handleSubmit = async () => {
+    // Refresh already handled via slice
   };
 
   const handleDragEnd = async (event) => {
@@ -147,19 +138,18 @@ export default function SupplementTable() {
     const oldIndex = items.findIndex((item) => item._id === active.id);
     const newIndex = items.findIndex((item) => item._id === over.id);
     const reordered = arrayMove(items, oldIndex, newIndex);
-
     setItems(reordered);
 
     try {
       for (let i = 0; i < reordered.length; i++) {
         if (reordered[i].sno !== i + 1) {
           await dispatch(
-            updateSupplement({ id: reordered[i]._id, sno: i + 1 })
+            updateSupplement({ id: reordered[i]._id, formData: { sno: i + 1 } })
           ).unwrap();
         }
       }
     } catch (err) {
-      console.error("Reordering failed", err);
+      toast.error("Failed to reorder");
     }
   };
 
@@ -188,7 +178,14 @@ export default function SupplementTable() {
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>{editData ? "Edit Supplement" : "Add Supplement"}</DialogTitle>
-            <SupplementForm initialData={editData} onSubmit={handleSubmit} />
+            <SupplementForm
+              initialData={editData}
+              onSubmit={handleSubmit}
+              onClose={() => {
+                setOpen(false);
+                setEditData(null);
+              }}
+            />
           </DialogContent>
         </Dialog>
       </div>
@@ -220,7 +217,7 @@ export default function SupplementTable() {
                     supplement={supplement}
                     index={index}
                     onEdit={handleEdit}
-                    onDelete={handleDelete}
+                    onDelete={() => setDeleteTarget(supplement)}
                   />
                 ))}
               </tbody>
@@ -228,6 +225,12 @@ export default function SupplementTable() {
           </SortableContext>
         </DndContext>
       </div>
+
+      <ConfirmDelete
+        open={!!deleteTarget}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createSupplement, updateSupplement } from "@/redux/slices/supplement-slice/index";
-
+import { useDispatch } from "react-redux";
+import { createSupplement, updateSupplement } from "@/redux/slices/supplement-slice";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "react-toastify";
 
-const SupplementForm = ({ initialData = null, onSubmit }) => {
+const SupplementForm = ({ initialData = null, onSubmit, onClose }) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState(null);
-  const { loading } = useSelector((state) => state.supplements);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -25,21 +25,33 @@ const SupplementForm = ({ initialData = null, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     if (icon) formData.append("icon", icon);
 
-    if (initialData) {
-      await dispatch(updateSupplement({ id: initialData._id, formData })).unwrap();
-    } else {
-      await dispatch(createSupplement(formData)).unwrap();
-    }
+    try {
+      if (initialData) {
+        await dispatch(updateSupplement({ id: initialData._id, formData })).unwrap();
+        toast.success("Supplement updated");
+      } else {
+        await dispatch(createSupplement(formData)).unwrap();
+        toast.success("Supplement created");
+      }
 
-    if (onSubmit) onSubmit();
-    setTitle("");
-    setDescription("");
-    setIcon(null);
+      if (onSubmit) onSubmit();
+      if (onClose) onClose();
+
+      setTitle("");
+      setDescription("");
+      setIcon(null);
+    } catch (err) {
+      toast.error(err?.message || "Something went wrong");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -78,10 +90,10 @@ const SupplementForm = ({ initialData = null, onSubmit }) => {
         />
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Saving..." : initialData ? "Update" : "Create"}
+      <Button type="submit" disabled={submitting} className="w-full">
+        {submitting ? "Saving..." : initialData ? "Update" : "Create"}
       </Button>
-    </form> 
+    </form>
   );
 };
 
