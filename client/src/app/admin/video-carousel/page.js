@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createVideo,
   updateVideo,
-  fetchVideos,
-} from "@/redux/slices/video-carousel-slice/index";
+} from "@/redux/slices/video-carousel-slice";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 export default function VideoForm({ initialData = null, onSubmit }) {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ export default function VideoForm({ initialData = null, onSubmit }) {
 
   const [name, setName] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -28,17 +29,24 @@ export default function VideoForm({ initialData = null, onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
     const formData = { name, videoUrl };
 
     try {
       if (initialData) {
         await dispatch(updateVideo({ id: initialData._id, formData })).unwrap();
+        toast.success("Video updated");
       } else {
         await dispatch(createVideo(formData)).unwrap();
+        toast.success("Video uploaded");
       }
       if (onSubmit) onSubmit();
+      setName("");
+      setVideoUrl("");
     } catch (err) {
-      console.error("Failed to submit:", err);
+      toast.error("Failed to save video");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -64,8 +72,8 @@ export default function VideoForm({ initialData = null, onSubmit }) {
         />
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full">
-        {loading
+      <Button type="submit" disabled={loading || submitting} className="w-full">
+        {(loading || submitting)
           ? initialData
             ? "Updating..."
             : "Uploading..."

@@ -6,8 +6,7 @@ import {
   fetchVideos,
   deleteVideo,
   updateVideo,
-} from "@/redux/slices/video-carousel-slice/index";
-
+} from "@/redux/slices/video-carousel-slice";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,8 +15,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Pencil, Trash, Loader2 } from "lucide-react";
-
 import VideoForm from "./page";
+import ConfirmDelete from "@/components/common/ConfirmDelete";
+import { toast } from "react-toastify";
 
 export default function VideoTable() {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ export default function VideoTable() {
 
   const [editData, setEditData] = useState(null);
   const [open, setOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -35,8 +36,16 @@ export default function VideoTable() {
     setOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    await dispatch(deleteVideo(id));
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    try {
+      await dispatch(deleteVideo(deleteTarget._id)).unwrap();
+      toast.success("Video deleted successfully");
+    } catch (err) {
+      toast.error("Failed to delete video");
+    } finally {
+      setDeleteTarget(null);
+    }
   };
 
   const handleFormSubmit = () => {
@@ -57,7 +66,13 @@ export default function VideoTable() {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Video Carousel</h2>
 
-        <Dialog open={open} onOpenChange={(val) => setOpen(val)}>
+        <Dialog
+          open={open}
+          onOpenChange={(val) => {
+            setOpen(val);
+            if (!val) setEditData(null);
+          }}
+        >
           <DialogTrigger asChild>
             <Button onClick={() => setEditData(null)}>Add Video</Button>
           </DialogTrigger>
@@ -94,7 +109,7 @@ export default function VideoTable() {
               <Button
                 variant="destructive"
                 size="icon"
-                onClick={() => handleDelete(video._id)}
+                onClick={() => setDeleteTarget(video)}
               >
                 <Trash className="h-4 w-4" />
               </Button>
@@ -102,6 +117,12 @@ export default function VideoTable() {
           </div>
         ))}
       </div>
+
+      <ConfirmDelete
+        open={!!deleteTarget}
+        onCancel={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }
