@@ -4,7 +4,7 @@ import React from 'react'
 
 const page = ({params}) => {
   return (
-    <div>page dynamic id updated : {params.id}</div>
+    <div>page dynamic id updated 3.0 : {params.id}</div>
   )
 }
 
