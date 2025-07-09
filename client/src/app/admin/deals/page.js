@@ -30,6 +30,10 @@ const DealForm = ({ initialData = null, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const confirmSubmit = window.confirm(
+      "Are you sure you want to submit the fields?"
+    );
+    if (!confirmSubmit) return;
     setFormSubmitting(true);
 
     const formData = new FormData();

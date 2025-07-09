@@ -44,7 +44,10 @@ const HeaderImageSlider = ({ initialData = null, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const confirmSubmit = window.confirm(
+      "Are you sure you want to submit the fields?"
+    );
+    if (!confirmSubmit) return;
     try {
       if (initialData) {
         await dispatch(

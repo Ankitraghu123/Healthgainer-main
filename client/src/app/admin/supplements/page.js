@@ -24,6 +24,10 @@ const SupplementForm = ({ initialData = null, onSubmit, onClose }) => {
   }, [initialData]);
 
   const handleSubmit = async (e) => {
+    const confirmSubmit = window.confirm(
+      "Are you sure you want to submit the fields?"
+    );
+    if (!confirmSubmit) return;
     e.preventDefault();
     setSubmitting(true);
 
