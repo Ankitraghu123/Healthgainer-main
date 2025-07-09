@@ -100,9 +100,11 @@ const Navbar = () => {
             </Link>
           </div>
           {user ? (
-            <div className="text-white ms-6 font-semibold capitalize">
-              Hi, {user.firstName|| "User"}
-            </div>
+            <Link href="/user" className="flex items-center">
+              <div className="text-white ms-6 font-semibold capitalize">
+                Hi, {user.firstName || "User"}
+              </div>
+            </Link>
           ) : (
             <Link
               href="/login"
