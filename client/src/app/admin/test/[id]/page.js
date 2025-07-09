@@ -1,10 +1,13 @@
-export const dynamic = 'force-dynamic'; 
-import React from 'react'
-
-const page = ({params}) => {
-  return (
-    <div>page dynamic id updated 3.0 using force : {params.id}</div>
-  )
+export async function generateStaticParams() {
+  return [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+  ];
 }
 
-export default page
+export default function ProductPage({ params }) {
+  const { id } = params;
+
+  return <div>Static Product Page — ID: {id}</div>;
+}
