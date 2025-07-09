@@ -28,7 +28,7 @@ const WhyChooseUs = () => {
           className="text-center mb-10"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            Why <span className="text-primary">Choose Us</span>
+            Why <span className="">Choose Us</span>
           </h2>
           <p className="text-gray-300 max-w-xl mx-auto">
             Trusted by athletes and fitness enthusiasts worldwide
@@ -59,7 +59,7 @@ const WhyChooseUs = () => {
               className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-8"
             >
               {features.map((stat, index) => (
-                <div
+                <div id="new"
                   key={index}
                   className={`p-3 rounded-lg flex flex-col items-center ${
                     stat.highlight ? "bg-red-600" : "bg-gray-800"
@@ -85,7 +85,7 @@ const WhyChooseUs = () => {
               <div className="grid grid-cols-2 gap-3">
                 {advantages.map((adv, index) => (
                   <div key={index} className="flex items-start">
-                    <Check className="text-primary w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+                    <Check className="text-white w-4 h-4 mt-1 mr-2 flex-shrink-0" />
                     <span className="text-sm md:text-base text-gray-300">{adv.text}</span>
                   </div>
                 ))}
@@ -98,9 +98,9 @@ const WhyChooseUs = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <button className="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-md text-sm md:text-base transition-colors">
+              {/* <button className="bg-primary hover:bg-secondary text-white font-medium py-2 px-6 rounded-md text-sm md:text-base transition-colors">
                 Discover Our Products
-              </button>
+              </button> */}
             </motion.div>
           </div>
         </div>
