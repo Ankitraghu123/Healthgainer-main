@@ -23,7 +23,7 @@ app.use(logger("tiny"));
 
 // CORS
 const allowedOrigins = [
- 
+  "https://www.healthgainer.in",
    "https://healthgainer-main.vercel.app",
   "https://healthgainer-main-mhhi8ty6v-sky-info-groups-projects.vercel.app",
   "http://localhost:3000",
