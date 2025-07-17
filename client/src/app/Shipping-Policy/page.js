@@ -6,6 +6,10 @@ export default function ShippingPolicy() {
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">
         🚚 Shipping & Delivery Policy
       </h1>
+
+       {/* <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">
+        🚚 Shipping & Delivery Policy
+      </h1> */}
       <p className="text-lg text-center text-gray-600 mb-8">
         Thank you for shopping with HealthGainer! Please read our shipping and delivery policy to understand how we handle your orders.
       </p>
