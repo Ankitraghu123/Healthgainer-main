@@ -1,8 +1,11 @@
 import RootLayoutClient from "./RootLayoutClient";
 
 export const metadata = {
-  title: "Health Gainer",
-  description: "A modern Next.js application with Tailwind CSS and Redux.",
+  title: "HealthGainer – Build Muscle. Boost Energy.",
+  description: "HealthGainer offers powerful supplements to help you bulk up and gain lean muscle mass. Trusted by fitness enthusiasts, our products support faster recovery, better stamina, and real results..",
+   icons: {
+    icon: "/logos.png", // 👈 This is what adds the favicon
+  },
 };
 
 export default function RootLayout({ children }) {

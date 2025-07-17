@@ -15,50 +15,76 @@ export default function PrivacyPolicy() {
         <section>
           <h2 className="text-2xl font-semibold mb-2">📌 Information We Collect</h2>
           <p>
-            We collect personal information like name, email, and payment
-            details when you make a purchase. We also collect data through
-            cookies to improve our services.
+            We collect personal information such as your name, email address,
+            phone number, billing/shipping address, and payment details when you
+            make a purchase or interact with our platform. We also use cookies
+            and tracking technologies to enhance your browsing experience.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-2">⚡ How We Use Your Information</h2>
           <p>
-            Your data helps us process orders, provide customer support, and
-            send promotional offers (if opted in). We do not sell your
-            information to third parties.
+            We use your information to process transactions, manage orders,
+            provide customer service, send updates and marketing offers (if opted-in),
+            and improve our website and services.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-semibold mb-2">💳 Payment Processing</h2>
+          <p>
+            We use Razorpay as our trusted payment gateway partner. All payment
+            transactions are processed through Razorpay’s secure platform. Razorpay
+            collects and processes your payment information in accordance with
+            their own privacy policy. We do not store your credit/debit card
+            details on our servers.
+          </p>
+          <p className="mt-2">
+            For more information, please refer to{" "}
+            <a
+              href="https://razorpay.com/privacy/"
+              className="text-blue-600 underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Razorpay's Privacy Policy
+            </a>.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-2">🛑 Data Protection & Security</h2>
           <p>
-            We implement security measures to protect your personal data from
-            unauthorized access, alteration, or loss.
+            We implement industry-standard security measures including SSL encryption,
+            firewalls, and secure servers to protect your personal data from unauthorized
+            access, disclosure, or misuse.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-2">🌍 Third-Party Services</h2>
           <p>
-            We may use third-party payment gateways and analytics services that
-            have their own privacy policies.
+            Apart from Razorpay, we may use other third-party services such as analytics,
+            email marketing tools, or customer support platforms. These services
+            have their own privacy policies governing the use of your data.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-2">📅 Changes to Privacy Policy</h2>
           <p>
-            We may update this policy from time to time. Any changes will be
-            posted on this page.
+            We may update this policy periodically. Any significant changes will be
+            posted on this page with the updated revision date.
           </p>
         </section>
 
         <section>
           <h2 className="text-2xl font-semibold mb-2">📞 Contact Us</h2>
           <p>
-            If you have any questions about our privacy policy, feel free to
-            contact us at <span className="font-semibold">support@example.com</span>.
+            If you have any questions, concerns, or requests regarding our privacy
+            policy or your personal data, feel free to contact us at{" "}
+            <span className="font-semibold">teamhealthgainer@gmail.com</span>.
           </p>
         </section>
       </div>
