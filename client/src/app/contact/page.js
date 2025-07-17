@@ -140,22 +140,23 @@ const ContactPage = () => {
                                         {
                                             icon: <FiMapPin className="text-primary text-2xl" />,
                                             title: "Our Location",
-                                            content: " Corporate Office Address :- 5/11 Amer Complex 2nd Floor In Front Of PNB Bank, Zone-II, Maharana Pratap Nagar, Bhopal, ",
+                                            content: "5/11 Pharmascience Amer complex in front of PNB Bank M.P. Nagar zone 2 Bhopal",
                                             link: "https://maps.google.com",
                                             linkText: "View on map"
                                         },
                                         {
                                             icon: <FiMail className="text-primary text-2xl" />,
                                             title: "Email Us",
-                                            content: "support@weightgainer.com",
-                                            link: "mailto:support@weightgainer.com",
+                                            content: "teamhealthgainer@gmail.com",
+                                            link: "mailto:teamhealthgainer@gmail.com",
                                             linkText: "Send email"
                                         },
                                         {
                                             icon: <FiPhone className="text-primary text-2xl" />,
                                             title: "Call Us",
-                                            content: "+91 98765 43210",
-                                            link: "tel:+919876543210",
+                                            content: "+9174006-74000,  95221-95222",
+
+                                            link: "tel:+974006-74000",
                                             linkText: "Call now"
                                         },
                                     ].map((item, index) => (
@@ -206,9 +207,10 @@ const ContactPage = () => {
                         </p>
                     </motion.div>
                     <div className="rounded-xl overflow-hidden shadow-xl">
+                        {/* <if =rame src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3730.389747804958!2d77.43226644563734!3d23.232024162031202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sPharmascience%20Amer%20complex%20in%20front%20of%20PNB%20Bank%20M.P.%20Nagar%C2%A0zone%C2%A02%C2%A0Bhopal!5e0!3m2!1sen!2sin!4v1752735533816!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
                         <iframe
                             className="w-full h-96"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83937403492!2d77.06889769039843!3d28.527554214924196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3f1e0665d2b%3A0x3998c3a4e7a5c7f5!2sDelhi!5e0!3m2!1sen!2sin!4v1631031249723!5m2!1sen!2sin"
+                            src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3730.389747804958!2d77.43226644563734!3d23.232024162031202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sPharmascience%20Amer%20complex%20in%20front%20of%20PNB%20Bank%20M.P.%20Nagar%C2%A0zone%C2%A02%C2%A0Bhopal!5e0!3m2!1sen!2sin!4v1752735533816!5m2!1sen!2sin"
                             allowFullScreen=""
                             loading="lazy"
                         ></iframe>

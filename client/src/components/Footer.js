@@ -50,7 +50,7 @@ export default function Footer() {
                 Deal of the Day
               </a>
             </li>
-            
+
             <li>
               <a href="/media-awards" className="hover:text-primary transition-colors">
                 Media & Awards
@@ -67,40 +67,40 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-          
+
           <div className="mt-6">
             <h4 className="text-xl font-semibold mb-3">Follow Us</h4>
             <div className="flex gap-3">
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-600 transition-colors"
                 aria-label="Facebook"
               >
                 <FaFacebook className="text-2xl" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="hover:animate-none animate-bounce p-2 rounded-full bg-pink-600 transition-colors"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-2xl" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="hover:animate-none animate-bounce p-2 rounded-full bg-red-600 transition-colors"
                 aria-label="YouTube"
               >
                 <FaYoutube className="text-2xl" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-400 transition-colors"
                 aria-label="Twitter"
               >
                 <FaXTwitter  className="text-2xl" />
               </a>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="hover:animate-none animate-bounce p-2 rounded-full bg-purple-500 transition-colors"
                 aria-label="Picsart"
               >
@@ -116,13 +116,14 @@ export default function Footer() {
           <div className="space-y-2 text-sm text-gray-400">
             <p>Open Office Hours: Mon - Fri: 9:00 - 6:00, Sunday: 9:00 - 4:00</p>
             <p className="mt-2 flex items-center gap-2">
-              <span className="font-bold text-white">Phone:</span> +12 345 65 89 0
+              <span className="font-bold text-white">Phone: +9174006-74000 </span>
+               <span className="font-bold text-white">95221-95222</span>
             </p>
             <p className="flex items-center gap-2">
-              <span className="font-bold text-white">Email:</span> support@website.com
+              <span className="font-bold text-white">Email:</span> teamhealthgainer@gmail.com
             </p>
             <p className="flex items-center gap-2">
-              <span className="font-bold text-white">Address:</span> 201 Oak Street, Manchester, USA
+              <span className="font-bold text-white">Address:</span> 5/11 Pharmascience Amer complex in front of PNB Bank M.P. Nagar zone 2 Bhopal
             </p>
           </div>
         </div>
@@ -240,9 +241,9 @@ export default function Footer() {
           <a href="/cancellation-refund" className="hover:text-gray-300 transition-colors">
             Cancellation & Refund Policy
           </a>
-          <a href="/shipping-policy" className="hover:text-gray-300 transition-colors">
+          {/* <a href="/shipping-policy" className="hover:text-gray-300 transition-colors">
             Shipping Policy
-          </a>
+          </a> */}
           <a href="/faq" className="hover:text-gray-300 transition-colors">
             FAQ
           </a>
