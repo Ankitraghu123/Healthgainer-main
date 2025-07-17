@@ -241,7 +241,7 @@ export default function Footer() {
           <a href="/cancellation-refund" className="hover:text-gray-300 transition-colors">
             Cancellation & Refund Policy
           </a>
-          <a href="/shipping-policy" className="hover:text-gray-300 transition-colors">
+          <a href="/Shipping-Policy" className="hover:text-gray-300 transition-colors">
             Shipping Policy
           </a>
           <a href="/faq" className="hover:text-gray-300 transition-colors">
