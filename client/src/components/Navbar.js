@@ -42,16 +42,49 @@ const Navbar = () => {
     <div className="w-full bg-black text-white font-sans shadow-md py-2">
       {/* 🔝 Top Row: Social Icons + Call */}
       <div className="flex justify-end items-center px-4 py-2">
-        <div className="flex items-center space-x-3 text-xl">
-          <FaFacebookF className="hover:text-green-500 cursor-pointer" />
-          <FaPinterestP className="hover:text-green-500 cursor-pointer" />
-          <FaInstagram className="hover:text-green-500 cursor-pointer" />
-          <FaTwitter className="hover:text-green-500 cursor-pointer" />
-          <span className="text-sm sm:text-xl">
-            CALL US NOW: <strong>+917400674000</strong>
-          </span>
-        </div>
-      </div>
+  <div className="flex items-center space-x-3 text-xl">
+    <a
+      href="https://www.facebook.com/ipharmasciences"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Facebook"
+    >
+      <FaFacebookF className="hover:text-green-500 cursor-pointer" />
+    </a>
+
+    <a
+      href="https://in.pinterest.com/pharma_science/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Pinterest"
+    >
+      <FaPinterestP className="hover:text-green-500 cursor-pointer" />
+    </a>
+
+    <a
+      href="https://www.instagram.com/pharmascienceayurveda/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Instagram"
+    >
+      <FaInstagram className="hover:text-green-500 cursor-pointer" />
+    </a>
+
+    <a
+      href="https://x.com/Pharmascience_"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Twitter"
+    >
+      <FaTwitter className="hover:text-green-500 cursor-pointer" />
+    </a>
+
+    <span className="text-sm sm:text-xl">
+      CALL US NOW: <strong>+91 74006 74000</strong>
+    </span>
+  </div>
+</div>
+
 
       {/* 🔰 Middle Row: Logo + Line + Hamburger */}
       <div className="flex items-center justify-between px-4 py-2">
