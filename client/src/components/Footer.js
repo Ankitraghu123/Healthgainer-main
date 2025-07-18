@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createContact } from "@/redux/slices/contactSlice";
 import { toast } from "react-toastify";
-import { FaFacebook, FaInstagram, FaYoutube, FaLinkedin,    } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaYoutube, FaLinkedin, FaLinkedinIn, FaPinterestP,    } from "react-icons/fa";
 import {FaXTwitter} from "react-icons/fa6"
 import { SiPicsart } from "react-icons/si";
 
@@ -68,46 +68,71 @@ export default function Footer() {
             </li>
           </ul>
 
-          <div className="mt-6">
-            <h4 className="text-xl font-semibold mb-3">Follow Us</h4>
-            <div className="flex gap-3">
-              <a
-                href="#"
-                className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-600 transition-colors"
-                aria-label="Facebook"
-              >
-                <FaFacebook className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="hover:animate-none animate-bounce p-2 rounded-full bg-pink-600 transition-colors"
-                aria-label="Instagram"
-              >
-                <FaInstagram className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="hover:animate-none animate-bounce p-2 rounded-full bg-red-600 transition-colors"
-                aria-label="YouTube"
-              >
-                <FaYoutube className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-400 transition-colors"
-                aria-label="Twitter"
-              >
-                <FaXTwitter  className="text-2xl" />
-              </a>
-              <a
-                href="#"
-                className="hover:animate-none animate-bounce p-2 rounded-full bg-purple-500 transition-colors"
-                aria-label="Picsart"
-              >
-                <SiPicsart className="text-2xl" />
-              </a>
-            </div>
-          </div>
+     <div className="mt-6">
+  <h4 className="text-xl font-semibold mb-3">Follow Us</h4>
+  <div className="flex gap-3">
+    <a
+      href="https://www.facebook.com/ipharmasciences"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-600 transition-colors"
+      aria-label="Facebook"
+    >
+      <FaFacebook className="text-2xl text-white" />
+    </a>
+
+    <a
+      href="https://www.instagram.com/pharmascienceayurveda/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:animate-none animate-bounce p-2 rounded-full bg-pink-600 transition-colors"
+      aria-label="Instagram"
+    >
+      <FaInstagram className="text-2xl text-white" />
+    </a>
+
+    <a
+      href="https://www.youtube.com/channel/UC8115BwcRUKPG7B2uQyriTQ"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:animate-none animate-bounce p-2 rounded-full bg-red-600 transition-colors"
+      aria-label="YouTube"
+    >
+      <FaYoutube className="text-2xl text-white" />
+    </a>
+
+    <a
+      href="https://x.com/Pharmascience_"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-400 transition-colors"
+      aria-label="Twitter"
+    >
+      <FaXTwitter className="text-2xl text-white" />
+    </a>
+
+    <a
+      href="https://in.pinterest.com/pharma_science/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:animate-none animate-bounce p-2 rounded-full bg-pink-600 transition-colors"
+      aria-label="Pinterest"
+    >
+      <FaPinterestP className="text-2xl text-white" />
+    </a>
+
+    <a
+      href="https://in.linkedin.com/company/pharma-science"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:animate-none animate-bounce p-2 rounded-full bg-blue-700 transition-colors"
+      aria-label="LinkedIn"
+    >
+      <FaLinkedinIn className="text-2xl text-white" />
+    </a>
+  </div>
+</div>
+
         </div>
 
         {/* Contact Us */}
