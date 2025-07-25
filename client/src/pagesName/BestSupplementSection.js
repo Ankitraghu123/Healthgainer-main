@@ -81,7 +81,7 @@ export default function ProductSlider() {
                 </div>
 
                 {/* Thumbnails */}
-                <div className="flex flex-wrap gap-1 md:gap-4 mb-4">
+                <div className="flex flex-wrap gap-3 md:gap-4 mb-4">
   {supplements.map((thumbProduct, i) => (
     <button
       key={i}
@@ -90,12 +90,12 @@ export default function ProductSlider() {
         setActiveIndex(i); // manual update when clicking
       }}
       className={`w-28 h-28 md:w-32 md:h-32 rounded-lg transition-transform duration-300 overflow-hidden
-        ${i === activeIndex ? "ring-4  ring-lime-500 scale-105" : "hover:scale-105 border-rose-600 bg-black"}`}
+        ${i === activeIndex ? "scale-105" : "hover:scale-105 border-rose-600 bg-black"}`}
     >
       <img
         src={thumbProduct.iconUrl}
         alt={`thumb-${i}`}
-        className="w-full h-full object-contain"
+        className="w-full h-full "
       />
     </button>
   ))}
