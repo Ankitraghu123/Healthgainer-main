@@ -50,19 +50,7 @@ const AboutPage = () => {
         Discover the Ayurvedic-powered formula trusted by 50,000+ customers for healthy weight gain and overall wellness
       </motion.p>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.7 }}
-        className="flex flex-col sm:flex-row gap-4 justify-center"
-      >
-        <button className="bg-primary hover:bg-primary  text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-          Shop Now
-        </button>
-        <button className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105">
-          Learn More
-        </button>
-      </motion.div>
+
     </motion.div>
 
     {/* Floating product image */}
@@ -90,15 +78,15 @@ const AboutPage = () => {
     >
       <div className="container mx-auto grid grid-cols-3 divide-x divide-white/20">
         <div className="text-center">
-          <p className="text-xl md:text-3xl font-bold text-primary">10+</p>
+          <p className="text-xl md:text-3xl font-bold text-white">10+</p>
           <p className="text-white/80 text-sm md:text-base">Years of Research</p>
         </div>
         <div className="text-center">
-          <p className="text-xl md:text-3xl font-bold text-primary">50K+</p>
+          <p className="text-xl md:text-3xl font-bold text-white">50K+</p>
           <p className="text-white/80 text-sm md:text-base">Happy Customers</p>
         </div>
         <div className="text-center">
-          <p className="text-xl md:text-3xl font-bold text-primary">100%</p>
+          <p className="text-xl md:text-3xl font-bold text-white">100%</p>
           <p className="text-white/80 text-sm md:text-base">Natural Ingredients</p>
         </div>
       </div>
@@ -599,16 +587,10 @@ const AboutPage = () => {
                   <h3 className="text-3xl font-bold text-white mb-4">
                     Join Our Movement
                   </h3>
-                  <p className="text-xl text-gray-200 mb-6">
+                  <p className="text-xl text-gray-200 ">
                     Together, we're redefining what it means to be healthy and confident in your own skin
                   </p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-primary text-white px-8 py-3 rounded-full font-bold"
-                  >
-                    Become a Partner
-                  </motion.button>
+
                 </div>
               </div>
               <img
@@ -744,26 +726,11 @@ const AboutPage = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Transform Your Health?
           </h2>
-          <p className="text-xl mb-8">
+          <p className="text-xl ">
             Join thousands who've achieved their weight goals naturally with our
             Health Gainer
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-black px-8 py-3 rounded-full text-white text-lg font-semibold"
-            >
-              Order Now
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white px-8 py-3 rounded-full text-yellow-600 text-lg font-semibold"
-            >
-              Speak to an Expert
-            </motion.button>
-          </div>
+
         </motion.div>
       </section>
     </div>

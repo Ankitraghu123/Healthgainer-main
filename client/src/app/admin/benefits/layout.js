@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 function BenefitRow({ benefit, onEdit, onConfirmDelete }) {
   return (
     <tr className="border-t bg-white">
-      <td className="p-2">
+      <td className="p-2 shadow-2xl bg-black">
         <Image
           src={benefit.iconUrl}
           alt="benefit icon"

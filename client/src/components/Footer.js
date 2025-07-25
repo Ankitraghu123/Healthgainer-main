@@ -38,32 +38,38 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-8">
         {/* About Us */}
         <div>
-          <h3 className="text-lg font-semibold border-b pb-2 mb-4">About</h3>
+          <h3 className="text-lg font-semibold border-b pb-2 mb-4">Useful Links</h3>
           <ul className="space-y-2 text-sm text-gray-400">
+              <li>
+              <a href="/" className="hover:text-primary transition-colors">
+              Home
+              </a>
+            </li>
           <li>
-              <a href="/about-us" className="hover:text-primary transition-colors">
+              <a href="/about" className="hover:text-primary transition-colors">
                 About Us
               </a>
             </li>
-            <li>
-              <a href="/about-us" className="hover:text-primary transition-colors">
-                Deal of the Day
-              </a>
-            </li>
+
 
             <li>
-              <a href="/media-awards" className="hover:text-primary transition-colors">
-                Media & Awards
+              <a href="/media" className="hover:text-primary transition-colors">
+                Media & Reports
               </a>
             </li>
             <li>
-              <a href="/certificates" className="hover:text-primary transition-colors">
-                Certification
+              <a href="/product" className="hover:text-primary transition-colors">
+               Product
               </a>
             </li>
             <li>
-              <a href="/careers" className="hover:text-primary transition-colors">
-                Lab Reports
+              <a href="/distributorform" className="hover:text-primary transition-colors">
+               Get Distributorship
+              </a>
+            </li>
+             <li>
+              <a href="/contact" className="hover:text-primary transition-colors">
+              Contact
               </a>
             </li>
           </ul>
@@ -139,7 +145,7 @@ export default function Footer() {
         <div>
           <h3 className="text-lg font-semibold border-b pb-2 mb-4">Contact Us</h3>
           <div className="space-y-2 text-sm text-gray-400">
-            <p>Open Office Hours: Mon - Fri: 9:00 - 6:00, Sunday: 9:00 - 4:00</p>
+            <p>Open Office Hours: - 10:00 AM   6:30 PM</p>
             <p className="mt-2 flex items-center gap-2">
               <span className="font-bold text-white">Phone: +9174006-74000 </span>
                <span className="font-bold text-white">95221-95222</span>
@@ -147,9 +153,18 @@ export default function Footer() {
             <p className="flex items-center gap-2">
               <span className="font-bold text-white">Email:</span> teamhealthgainer@gmail.com
             </p>
-            <p className="flex items-center gap-2">
-              <span className="font-bold text-white">Address:</span> 5/11 Pharmascience Amer complex in front of PNB Bank M.P. Nagar zone 2 Bhopal
-            </p>
+          <p className="flex items-center gap-2">
+  <span className="font-bold text-white">Address:</span>
+<a
+  href="https://www.google.com/maps/search/?api=1&query=Pharmascience+Bhopal+M.P.+Nagar+Zone+2"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  5/11 Pharmascience Amer complex in front of PNB Bank, M.P. Nagar Zone 2, Bhopal
+</a>
+
+</p>
+
           </div>
         </div>
 

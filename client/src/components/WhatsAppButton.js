@@ -18,7 +18,7 @@ export default function WhatsAppButton() {
     }
 
     const encodedMessage = encodeURIComponent(message);
-    setWhatsappLink(`https://wa.me/918602196062?text=${encodedMessage}`);
+    setWhatsappLink(`https://wa.me/9522660777?text=${encodedMessage}`);
   }, []);
 
   return (
