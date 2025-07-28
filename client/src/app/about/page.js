@@ -50,7 +50,23 @@ const AboutPage = () => {
         Discover the Ayurvedic-powered formula trusted by 50,000+ customers for healthy weight gain and overall wellness
       </motion.p>
 
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.7 }}
+        className="flex flex-col sm:flex-row gap-4 justify-center"
+      >
+        <a href="/product">
 
+
+        <button className="bg-primary hover:bg-primary  text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+          Shop Now
+        </button>
+         </a>
+        <button className="bg-transparent border-2 border-white hover:bg-white/10 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105">
+          Learn More
+        </button>
+      </motion.div>
     </motion.div>
 
     {/* Floating product image */}
@@ -435,11 +451,7 @@ const AboutPage = () => {
             desc: "Quality Management System",
             icon: "📋",
           },
-          {
-            name: "Halal Certified",
-            desc: "Meets Islamic dietary laws",
-            icon: "☪️",
-          },
+
           {
             name: "Ayurvedic Approved",
             desc: "Traditional medicine standards",
@@ -587,9 +599,18 @@ const AboutPage = () => {
                   <h3 className="text-3xl font-bold text-white mb-4">
                     Join Our Movement
                   </h3>
-                  <p className="text-xl text-gray-200 ">
+                  <p className="text-xl text-gray-200 mb-6">
                     Together, we're redefining what it means to be healthy and confident in your own skin
                   </p>
+                  <a href="/distributorform">
+  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-primary text-white px-8 py-3 rounded-full font-bold"
+                  >
+                    Become a Partner
+                  </motion.button>
+                  </a>
 
                 </div>
               </div>
@@ -726,11 +747,20 @@ const AboutPage = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Transform Your Health?
           </h2>
-          <p className="text-xl ">
+          <p className="text-xl mb-8">
             Join thousands who've achieved their weight goals naturally with our
             Health Gainer
           </p>
 
+  <a href="/contact">
+  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-black 8 py-3 px-3 rounded-full font-bold"
+                  >
+                    Contact Our Experts Now
+                  </motion.button>
+                  </a>
         </motion.div>
       </section>
     </div>
