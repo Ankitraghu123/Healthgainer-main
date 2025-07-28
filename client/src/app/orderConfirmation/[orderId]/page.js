@@ -197,6 +197,10 @@ export default function OrderConfirmationPage({ params }) {
                     </span>
                     <span className="font-medium text-gray-700">Amount:</span>
                     <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span>
+                    {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
+                    {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
+  {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
+                    {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
                   </div>
                 </div>
               </div>
