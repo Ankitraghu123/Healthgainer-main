@@ -5,9 +5,9 @@ import VideoSlider from '@/pagesName/VideoSlider'
 const page = () => {
   return (
     <div>
-        
+
         <ReviewCarousel/>
-        <VideoSlider/>
+        {/* <VideoSlider/> */}
     </div>
   )
 }

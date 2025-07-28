@@ -164,7 +164,7 @@ export default function Testimonials() {
   }, [videos]);
 
   return (
-    <div className="w-full flex flex-col items-center py-8 md:py-12 px-4 relative">
+    <div className="w-full flex flex-col items-center py-8 md:py-20 px-4 relative">
       <h2 className="text-4xl md:text-5xl font-light text-black mb-8 text-center">
         Real Transformation <span className="text-lime-500 font-bold">Testimonials</span>
       </h2>
