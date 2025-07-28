@@ -25,6 +25,7 @@ import FullScreenVideo from '@/pagesName/FullScreenVideo'
 import AyurvedicWeightGainer from '@/pagesName/AyurvedicWeightGainer'
 import HealthGainerBenefits from '@/pagesName/HealthGainerBenefits'
 import NaturalHerbs from '@/pagesName/NaturalHerbs'
+import KeywordCloud from './keyword/page'
 
 
 
@@ -49,6 +50,8 @@ const page = () => {
       <NewsSlider/>
 
       <WhyChooseUs/>
+      <KeywordCloud/>
+
       {/* <BlogSection/> */}
       <CallbackForm/>
       <InfiniteScrollText/>
