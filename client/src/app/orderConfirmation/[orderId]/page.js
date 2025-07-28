@@ -153,6 +153,7 @@ export default function OrderConfirmationPage({ params }) {
                 </div>
                 <div className="p-4 rounded-md">
                   <h2 className="text-xl font-bold mb-2">INVOICE</h2>
+                   {/* <h2 className="text-xl font-bold mb-2">INVOICE</h2> */}
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <span className="font-medium">Invoice #</span>
                     <span>{order._id}</span>
