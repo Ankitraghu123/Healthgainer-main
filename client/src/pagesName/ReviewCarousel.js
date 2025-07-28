@@ -100,7 +100,6 @@
 //     </div>
 //   );
 // }
-
 "use client";
 
 import React, { useEffect, useRef } from "react";
@@ -110,11 +109,66 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
-import Player from "@vimeo/player";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
+// Convert YouTube Shorts, watch, share, Vimeo URLs to proper embed format WITHOUT autoplay
+function toEmbed(url = "") {
+  const YT_SHORTS = /youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/i;
+  const YT_WATCH = /youtube\.com\/watch\?v=([^&]+)/i;
+  const YT_SHARE = /youtu\.be\/([a-zA-Z0-9_-]{6,})/i;
+  const VIMEO = /vimeo\.com\/(?:video\/)?(\d+)/i;
+
+  let id = null;
+
+  if (YT_SHORTS.test(url)) {
+    id = url.match(YT_SHORTS)?.[1] ?? null;
+    if (id) {
+      return {
+        provider: "youtube",
+        id,
+        src: `https://www.youtube.com/embed/${id}?controls=1&modestbranding=1&rel=0&playsinline=1`,
+      };
+    }
+  }
+
+  if (YT_WATCH.test(url)) {
+    id = url.match(YT_WATCH)?.[1] ?? null;
+    if (id) {
+      return {
+        provider: "youtube",
+        id,
+        src: `https://www.youtube.com/embed/${id}?controls=1&modestbranding=1&rel=0&playsinline=1`,
+      };
+    }
+  }
+
+  if (YT_SHARE.test(url)) {
+    id = url.match(YT_SHARE)?.[1] ?? null;
+    if (id) {
+      return {
+        provider: "youtube",
+        id,
+        src: `https://www.youtube.com/embed/${id}?controls=1&modestbranding=1&rel=0&playsinline=1`,
+      };
+    }
+  }
+
+  if (VIMEO.test(url)) {
+    id = url.match(VIMEO)?.[1] ?? null;
+    if (id) {
+      return {
+        provider: "vimeo",
+        id,
+        src: `https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`,
+      };
+    }
+  }
+
+  return { provider: "unknown", id: null, src: url };
+}
 
 export default function Testimonials() {
   const dispatch = useDispatch();
@@ -122,46 +176,10 @@ export default function Testimonials() {
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const playerRefs = useRef([]);
 
   useEffect(() => {
     dispatch(fetchVideos());
   }, [dispatch]);
-
-  // This useEffect will wait for iframes to load fully
-  useEffect(() => {
-    if (videos.length > 0) {
-      // Delay to allow DOM to render iframe
-      const timeout = setTimeout(() => {
-        playerRefs.current = playerRefs.current.slice(0, videos.length);
-
-        videos.forEach((_, index) => {
-          const iframe = document.getElementById(`vimeo-player-${index}`);
-          if (iframe && iframe.tagName === "IFRAME" && iframe.src.includes("vimeo.com")) {
-            try {
-              const player = new Player(iframe);
-              player.setVolume(0); // mute
-              playerRefs.current[index] = player;
-
-              iframe.addEventListener("click", () => {
-                player.getPaused().then((paused) => {
-                  if (paused) {
-                    player.play();
-                  } else {
-                    player.pause();
-                  }
-                });
-              });
-            } catch (err) {
-              console.warn(`Error initializing player at index ${index}:`, err);
-            }
-          }
-        });
-      }, 500); // Delay to ensure iframe is ready
-
-      return () => clearTimeout(timeout);
-    }
-  }, [videos]);
 
   return (
     <div className="w-full flex flex-col items-center py-8 md:py-20 px-4 relative">
@@ -177,15 +195,17 @@ export default function Testimonials() {
         <div className="relative w-full">
           {/* Arrows */}
           <button
+            aria-label="Previous"
             ref={prevRef}
-            className="md:flex absolute left-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
+            className="hidden md:flex absolute left-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
           >
             <FaArrowLeft className="w-5 h-5" />
           </button>
 
           <button
+            aria-label="Next"
             ref={nextRef}
-            className="md:flex absolute right-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
+            className="hidden md:flex absolute right-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
           >
             <FaArrowRight className="w-5 h-5" />
           </button>
@@ -215,21 +235,24 @@ export default function Testimonials() {
               1280: { slidesPerView: 5 },
             }}
           >
-            {videos.map((video, index) => (
-              <SwiperSlide key={index}>
-                <div className="w-full h-[450px] rounded-xl overflow-hidden shadow-lg">
-                  <iframe
-                    id={`vimeo-player-${index}`}
-                    src={`${video.videoUrl}?autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0`}
-                    className="w-full h-full rounded-xl"
-                    frameBorder="0"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    title={`Video of ${video.name}`}
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
+            {videos.map((video, index) => {
+              const { src } = toEmbed(video.videoUrl);
+              return (
+                <SwiperSlide key={index}>
+                  <div className="w-full h-[450px] rounded-xl overflow-hidden shadow-lg">
+                    <iframe
+                      id={`player-${index}`}
+                      src={src}
+                      className="w-full h-full rounded-xl"
+                      frameBorder="0"
+                      allow="fullscreen; picture-in-picture"
+                      allowFullScreen
+                      title={`Video of ${video.name || `video-${index}`}`}
+                    />
+                  </div>
+                </SwiperSlide>
+              );
+            })}
           </Swiper>
 
           <div className="custom-swiper-pagination mt-6 flex justify-center gap-2" />
