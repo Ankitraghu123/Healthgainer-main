@@ -25,6 +25,10 @@ const dealSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    sno: {
+  type: Number,
+  required: true,
+}
   },
   { timestamps: true }
 );
