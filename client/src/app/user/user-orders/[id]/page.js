@@ -66,7 +66,7 @@ const OrderDetailsPage = ({ params }) => {
         id: 'shipped',
         name: 'Shipped',
         description: 'Your order has been shipped',
-        status: order?.status.toLowerCase() === 'processing' ? 'pending' : 
+        status: order?.status.toLowerCase() === 'processing' ? 'pending' :
                ['shipped', 'delivered'].includes(order?.status.toLowerCase()) ? 'complete' : 'cancelled',
         date: order?.shippedAt,
       },
@@ -74,7 +74,7 @@ const OrderDetailsPage = ({ params }) => {
         id: 'delivered',
         name: 'Delivered',
         description: 'Your order has been delivered',
-        status: order?.status.toLowerCase() === 'delivered' ? 'complete' : 
+        status: order?.status.toLowerCase() === 'delivered' ? 'complete' :
                order?.status.toLowerCase() === 'cancelled' ? 'cancelled' : 'pending',
         date: order?.deliveredAt,
       },
@@ -150,7 +150,7 @@ const OrderDetailsPage = ({ params }) => {
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
           {/* Order Header */}
-          <div className="bg-gradient-to-r from-primary to-secondary p-6 text-white">
+          <div className="bg-black p-6 text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h1 className="text-2xl font-bold mb-2">Order Details</h1>
@@ -195,8 +195,8 @@ const OrderDetailsPage = ({ params }) => {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div>
                         <h3 className={`text-sm font-medium ${
-                          step.status === 'complete' ? 'text-green-600' : 
-                          step.status === 'cancelled' ? 'text-red-600' : 
+                          step.status === 'complete' ? 'text-green-600' :
+                          step.status === 'cancelled' ? 'text-red-600' :
                           index === 0 ? 'text-primary' : 'text-gray-500'
                         }`}>
                           {step.name}
@@ -246,8 +246,8 @@ const OrderDetailsPage = ({ params }) => {
                   <span className="font-medium text-gray-700">Status:</span>
                   <span className="capitalize">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800' : 
-                      order.paymentStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
+                      order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-800' :
+                      order.paymentStatus === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
                       'bg-red-100 text-red-800'
                     }`}>
                       {order.paymentStatus.toLowerCase()}
@@ -360,23 +360,7 @@ const OrderDetailsPage = ({ params }) => {
             </div>
           )}
 
-          {/* Footer Actions */}
-          <div className="bg-gray-100 p-6 border-t">
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link
-                href="/"
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                Continue Shopping
-              </Link>
-              <Link
-                href="/contact"
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-md hover:bg-secondary transition-colors"
-              >
-                Contact Support
-              </Link>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>

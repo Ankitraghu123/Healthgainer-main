@@ -69,8 +69,8 @@ const OrdersPage = () => {
                         </h1>
                         <p className="text-gray-600 mt-1">View your order history and track current orders</p>
                     </div>
-                    <Link 
-                        href="/" 
+                    <Link
+                        href="/"
                         className="flex items-center gap-1 text-primary hover:text-secondary transition-colors"
                     >
                         Continue Shopping <ArrowRight className="h-4 w-4" />
@@ -92,8 +92,8 @@ const OrdersPage = () => {
                 ) : (
                     <div className="space-y-4">
                         {orders.map((order) => (
-                            <div 
-                                key={order._id} 
+                            <div
+                                key={order._id}
                                 className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                             >
                                 <div className="p-5">
@@ -130,7 +130,7 @@ const OrdersPage = () => {
                                                 {order.status}
                                             </span>
                                         </div>
-                                        <Link 
+                                        <Link
                                             href={`/user/user-orders/${order._id}`}
                                             className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-white border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition-colors"
                                         >

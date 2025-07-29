@@ -50,7 +50,7 @@ export default function CartPage() {
                                 {calculateSavings() > 0 && (
                                     <>
                                         <span className="mx-2">•</span>
-                                        <span className="text-green-600 font-medium">You save ₹{calculateSavings()}</span>
+                                        <span className="text-green-600 font-medium">You save ₹{calculateSavings().toFixed(2)}</span>
                                     </>
                                 )}
                             </div>
@@ -169,16 +169,16 @@ export default function CartPage() {
                                 <div className="p-6">
                                     <div className="flex justify-between text-base font-medium text-gray-900">
                                         <p>Subtotal ({calculateItemCount()} {calculateItemCount() === 1 ? 'item' : 'items'})</p>
-                                        <p>₹{calculateTotal()}</p>
+                                        <p>₹{calculateTotal().toFixed(2)}</p>
                                     </div>
                                     <div className="flex justify-between text-sm text-green-600 mt-1">
                                         <p>You save</p>
-                                        <p>₹{calculateSavings()}</p>
+                                        <p>₹{calculateSavings().toFixed(2)}</p>
                                     </div>
                                     <div className="mt-4 border-t border-gray-200 pt-4">
                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                             <p>Total</p>
-                                            <p>₹{calculateTotal()}</p>
+                                            <p>₹{calculateTotal().toFixed(2)}</p>
                                         </div>
                                     </div>
 

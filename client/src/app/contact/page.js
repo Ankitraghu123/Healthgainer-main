@@ -45,7 +45,7 @@ const ContactPage = () => {
                     className="text-center px-6"
                 >
                     <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Let's <span className="text-primary">Connect</span>
+                        Let's <span className="text-white">Connect</span>
                     </h1>
                     <p className="text-xl text-gray-200 max-w-2xl mx-auto">
                         We're here to help and answer any questions you might have.
@@ -234,13 +234,13 @@ const ContactPage = () => {
                             Our team is standing by to help you achieve your weight gain goals.
                             Get in touch today for personalized advice and support.
                         </p>
-                        <motion.button
+                        {/* <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="bg-black text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition"
                         >
                             Contact Our Experts Now
-                        </motion.button>
+                        </motion.button> */}
                     </motion.div>
                 </div>
             </section>
