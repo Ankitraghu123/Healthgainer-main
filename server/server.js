@@ -23,12 +23,10 @@ app.use(logger("tiny"));
 
 // CORS
 const allowedOrigins = [
-   "http://localhost:3000",
+  "http://localhost:3000",
   "https://www.healthgainer.in",
-   "https://healthgainer-main.vercel.app",
+  "https://healthgainer-main.vercel.app",
   "https://healthgainer-main-mhhi8ty6v-sky-info-groups-projects.vercel.app",
-
-
 ];
 
 app.use((req, res, next) => {
@@ -85,7 +83,10 @@ const newsRoutes = require("./routes/news/newsRoutes.js");
 const featureRoutes = require("./routes/why-choose/feature.js");
 const advantagesRoutes = require("./routes/why-choose/advantage.js");
 const mediaReportRoutes = require("./routes/mediaReport/mediaReportRoutes.js");
+const reqRoutes = require("./routes/reqRoutes.js");
+const distributorshipRoutes = require("./routes/distributorshipRoutes");
 
+const paymentRoutes = require("./routes/paymentRoutes.js");
 app.use("/api/v1/images", headerSliderImagesRoutes);
 
 app.use("/api/v1/auth", authRoutes);
@@ -95,6 +96,10 @@ app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/addresses", addressRoutes);
 app.use("/api/v1/contacts", contactRoutes);
+
+app.use("/api/distributorship", distributorshipRoutes);
+app.use("/api/v1/req", reqRoutes);
+
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/healthgainer", healthGainerRoutes);
 
@@ -108,6 +113,7 @@ app.use("/api/v1/why/features", featureRoutes);
 app.use("/api/v1/why/advantages", advantagesRoutes);
 app.use("/api/v1/mediaReports", mediaReportRoutes);
 
+app.use("/api/payment", paymentRoutes);
 
 // Error handling
 app.use(generatedError);

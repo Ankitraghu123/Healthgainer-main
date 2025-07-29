@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { createContact } from "@/redux/slices/contactSlice";
 import { useRouter } from "next/navigation";
+import { createReq } from "@/redux/slices/reqCallbackSlice";
 
 export default function CallbackForm() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ export default function CallbackForm() {
       return;
     }
 
-    dispatch(createContact(formData));
+    dispatch(createReq(formData));
 
     setTimeout(() => {
       setSubmitted(true);
@@ -52,57 +53,59 @@ export default function CallbackForm() {
 
   return (
     <motion.div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50"
+      className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50'
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
     >
-      <div className="bg-black p-8 rounded-xl shadow-2xl w-full max-w-md relative text-white border border-gray-700">
+      <div className='bg-black p-8 rounded-xl shadow-2xl w-full max-w-md relative text-white border border-gray-700'>
         {/* Close Button */}
         <button
-          className="absolute top-3 right-3 text-gray-400 hover:text-white"
+          className='absolute top-3 right-3 text-gray-400 hover:text-white'
           onClick={() => setShowForm(false)}
         >
-          <X className="w-6 h-6" />
+          <X className='w-6 h-6' />
         </button>
 
         {/* Form Heading */}
-        <h2 className="text-2xl font-bold mb-6 text-center">Request a Callback 📲</h2>
+        <h2 className='text-2xl font-bold mb-6 text-center'>
+          Request a Callback 📲
+        </h2>
 
         {/* Success Message */}
         {submitted ? (
-          <p className="text-center text-green-400 font-semibold">
+          <p className='text-center text-green-400 font-semibold'>
             Thank you! We'll contact you soon.
           </p>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className='space-y-5'>
             <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
+              type='text'
+              name='name'
+              placeholder='Your Name'
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-3 bg-black text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:outline-none focus:border-blue-500 transition"
+              className='w-full p-3 bg-black text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:outline-none focus:border-blue-500 transition'
             />
             <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
+              type='email'
+              name='email'
+              placeholder='Your Email'
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 bg-black text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:outline-none focus:border-blue-500 transition"
+              className='w-full p-3 bg-black text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:outline-none focus:border-blue-500 transition'
             />
             <input
-              type="tel"
-              name="phone"
-              placeholder="Your Phone"
+              type='tel'
+              name='phone'
+              placeholder='Your Phone'
               value={formData.phone}
               onChange={handleChange}
-              className="w-full p-3 bg-black text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:outline-none focus:border-blue-500 transition"
+              className='w-full p-3 bg-black text-white border border-gray-600 rounded-lg placeholder-gray-400 focus:outline-none focus:border-blue-500 transition'
             />
             <button
-              type="submit"
-              className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+              type='submit'
+              className='w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition'
             >
               Submit
             </button>

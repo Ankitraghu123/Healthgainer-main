@@ -1,5 +1,15 @@
 "use client";
-import { GalleryHorizontal, Medal, RepeatIcon, SparkleIcon, Video } from "lucide-react";
+import { Network } from "lucide-react";
+import {
+  GalleryHorizontal,
+  Medal,
+  RepeatIcon,
+  SparkleIcon,
+  Video,
+  PhoneCall,
+  Mail,
+  BarChart2,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -22,6 +32,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     products: false,
     settings: false,
     whyChoose: false, // NEW
+    enquiry: false, // NEW
   });
 
   const toggleMenu = (menu) => {
@@ -38,11 +49,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   };
   const mainMenu = [
     { name: "Orders", path: "/admin/orders", icon: <FiPackage size={18} /> },
-    {
-      name: "Enquiry",
-      path: "/admin/contact-queries",
-      icon: <FiBarChart2 size={18} />,
-    },
+
     { name: "Users", path: "/admin/users", icon: <FiUsers size={18} /> },
     {
       name: "Header Slider",
@@ -65,6 +72,11 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: <Video size={18} />,
     },
     {
+      name: "Distributorship",
+      path: "/admin/Distributorship",
+      icon: <Network size={18} />,
+    },
+    {
       name: "Media & Report",
       path: "/admin/media&reports",
       icon: <RepeatIcon size={18} />,
@@ -72,6 +84,19 @@ const Sidebar = ({ isOpen, onClose }) => {
     { name: "Deals", path: "/admin/deals", icon: <Video size={18} /> },
     { name: "News", path: "/admin/news", icon: <Video size={18} /> },
     // { name: "Testimonials", path: "/admin/testimonials", icon: <Medal size={18} /> },
+  ];
+
+  const EnquiryMenu = [
+    {
+      name: "Contact Enquiry",
+      path: "/admin/contact-queries",
+      icon: <Mail size={16} />, // Lucide Mail icon
+    },
+    {
+      name: "Request CallBack Enquiry",
+      path: "/admin/req-queries",
+      icon: <PhoneCall size={16} />, // Lucide PhoneCall icon
+    },
   ];
 
   const productMenu = [
@@ -122,7 +147,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          className='fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden'
           onClick={onClose}
         />
       )}
@@ -133,12 +158,12 @@ const Sidebar = ({ isOpen, onClose }) => {
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="h-full flex flex-col p-4 overflow-y-auto">
-          <h2 className="text-xl font-bold mb-8 p-2 border-b border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white">
+        <div className='h-full flex flex-col p-4 overflow-y-auto'>
+          <h2 className='text-xl font-bold mb-8 p-2 border-b border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'>
             Admin Panel
           </h2>
 
-          <nav className="flex-1 space-y-1">
+          <nav className='flex-1 space-y-1'>
             <Link
               href={dashboard.path}
               key={dashboard.path}
@@ -149,12 +174,11 @@ const Sidebar = ({ isOpen, onClose }) => {
               }`}
               onClick={onClose}
             >
-              <span className="mr-3">{dashboard.icon}</span>
+              <span className='mr-3'>{dashboard.icon}</span>
               <span>{dashboard.name}</span>
             </Link>
-
             {/* Products Dropdown */}
-            <div className="mt-2">
+            <div className='mt-2'>
               <button
                 onClick={() => toggleMenu("products")}
                 className={`flex items-center justify-between w-full p-3 rounded-lg transition-colors ${
@@ -163,8 +187,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                     : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 }`}
               >
-                <div className="flex items-center">
-                  <FiShoppingBag size={18} className="mr-3" />
+                <div className='flex items-center'>
+                  <FiShoppingBag size={18} className='mr-3' />
                   <span>Products</span>
                 </div>
                 {expandedMenus.products ? (
@@ -175,7 +199,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               </button>
 
               {expandedMenus.products && (
-                <div className="ml-8 mt-1 space-y-1">
+                <div className='ml-8 mt-1 space-y-1'>
                   {productMenu.map((item) => (
                     <Link
                       href={item.path}
@@ -187,13 +211,57 @@ const Sidebar = ({ isOpen, onClose }) => {
                       }`}
                       onClick={onClose}
                     >
-                      <span className="mr-2">{item.icon}</span>
-                      <span className="text-sm">{item.name}</span>
+                      <span className='mr-2'>{item.icon}</span>
+                      <span className='text-sm'>{item.name}</span>
                     </Link>
                   ))}
                 </div>
               )}
             </div>
+            {/* //! */}
+
+            <div className='mt-2'>
+              <button
+                onClick={() => toggleMenu("enquiry")}
+                className={`flex items-center justify-between w-full p-3 rounded-lg transition-colors ${
+                  EnquiryMenu.some((item) => pathname === item.path)
+                    ? "bg-blue-100 text-blue-600 dark:bg-gray-700 dark:text-white"
+                    : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                }`}
+              >
+                <div className='flex items-center'>
+                  <BarChart2 size={18} className='mr-3' /> {/* Lucide icon */}
+                  <span>Enquiry</span>
+                </div>
+                {expandedMenus.enquiry ? (
+                  <FiChevronUp size={18} />
+                ) : (
+                  <FiChevronDown size={18} />
+                )}
+              </button>
+
+              {expandedMenus.enquiry && (
+                <div className='ml-8 mt-1 space-y-1'>
+                  {EnquiryMenu.map((item) => (
+                    <Link
+                      href={item.path}
+                      key={item.path}
+                      className={`flex items-center p-2 rounded-lg transition-colors ${
+                        pathname === item.path
+                          ? "bg-blue-50 text-blue-600 dark:bg-gray-600 dark:text-white"
+                          : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+                      }`}
+                      onClick={onClose}
+                    >
+                      <span className='mr-2'>{item.icon}</span>
+                      <span className='text-sm'>{item.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* //! */}
             {/* Main Menu Items */}
             {mainMenu.map((item) => (
               <Link
@@ -206,13 +274,12 @@ const Sidebar = ({ isOpen, onClose }) => {
                 }`}
                 onClick={onClose}
               >
-                <span className="mr-3">{item.icon}</span>
+                <span className='mr-3'>{item.icon}</span>
                 <span>{item.name}</span>
               </Link>
             ))}
-
             {/* Why Choose Us Dropdown */}
-            <div className="mt-2">
+            <div className='mt-2'>
               <button
                 onClick={() => toggleMenu("whyChoose")}
                 className={`flex items-center justify-between w-full p-3 rounded-lg transition-colors ${
@@ -221,8 +288,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                     : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 }`}
               >
-                <div className="flex items-center">
-                  <Medal size={18} className="mr-3" />
+                <div className='flex items-center'>
+                  <Medal size={18} className='mr-3' />
                   <span>Why Choose Us</span>
                 </div>
                 {expandedMenus.whyChoose ? (
@@ -233,7 +300,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               </button>
 
               {expandedMenus.whyChoose && (
-                <div className="ml-8 mt-1 space-y-1">
+                <div className='ml-8 mt-1 space-y-1'>
                   {whyChooseMenu.map((item) => (
                     <Link
                       href={item.path}
@@ -245,14 +312,13 @@ const Sidebar = ({ isOpen, onClose }) => {
                       }`}
                       onClick={onClose}
                     >
-                      <span className="mr-2">{item.icon}</span>
-                      <span className="text-sm">{item.name}</span>
+                      <span className='mr-2'>{item.icon}</span>
+                      <span className='text-sm'>{item.name}</span>
                     </Link>
                   ))}
                 </div>
               )}
             </div>
-
             {/* Settings Dropdown */}
             {/* <div className="mt-2">
               <button
