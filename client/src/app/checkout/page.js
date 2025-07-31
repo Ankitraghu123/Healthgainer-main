@@ -660,7 +660,7 @@ const CheckoutPage = () => {
       const mongoOrderId = data.order.mongoOrderId;
 
       const options = {
-        key: "rzp_test_ZckjTyZsXhMpzT",
+        key: "rzp_live_Bqnw2amAFLgsHI",
         amount: data.order.amount,
         order_id: createdOrderId,
         handler: async function (response) {
