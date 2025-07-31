@@ -1,74 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { placeOrder } from "@/redux/actions/orderActions";
 
-const CheckoutButton = () => {
-  const loadRazorpayScript = () => {
+const CheckoutButton = ({ total, orderData }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const loadRazorpayScript = async () => {
+    if (window.Razorpay) return true;
+
     return new Promise((resolve) => {
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
+      script.id = "rzp-script";
+      script.async = true;
+
+      script.onload = () => {
+        console.log("Razorpay SDK loaded");
+        resolve(true);
+      };
+
+      script.onerror = () => {
+        console.warn("Primary CDN failed, trying fallback");
+        const fallback = document.createElement("script");
+        fallback.src = "https://cdn.razorpay.com/static/v1/checkout.js";
+        fallback.onload = () => resolve(true);
+        fallback.onerror = () => resolve(false);
+        document.body.appendChild(fallback);
+      };
+
       document.body.appendChild(script);
     });
   };
 
   const handlePayment = async () => {
-    const res = await loadRazorpayScript();
-    if (!res) {
-      alert("Razorpay SDK failed to load");
-      return;
-    }
+    setIsProcessing(true);
+    try {
+      // 1. Load Razorpay
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) throw new Error("Payment system unavailable");
 
-    // 1️⃣ Order create karo
-    const { data } = await axios.post(
-      "http://localhost:5000/api/payment/create-order",
-      {
-        amount: 500, // Rupees me
+      // 2. Verify environment variables
+      if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
+        throw new Error("Payment configuration missing");
       }
-    );
 
-    // 2️⃣ Razorpay options
-    const options = {
-      key: "rzp_test_WQVXFCfsMttRU1", // apna TEST key_id yahan daalna
-      amount: data.amount,
-      currency: data.currency,
-      name: "Demo Store",
-      description: "Test Payment",
-      order_id: data.id, // Jo tumne backend se liya
-      handler: async function (response) {
-        // 3️⃣ Payment hone ke baad verify karo
-        const verifyRes = await axios.post(
-          "http://localhost:5000/api/payment/verify",
-          {
-            order_id: data.id,
-            payment_id: response.razorpay_payment_id,
-            signature: response.razorpay_signature,
+      // 3. Prepare API endpoint
+      const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+      const createOrderURL = `${baseURL}/payment/create-order`;
+      
+      console.log("Creating order at:", createOrderURL); // Verify this in console
+
+      // 4. Create order
+      const { data } = await axios.post(createOrderURL, {
+        amount: total
+      }).catch(err => {
+        console.error("Order creation failed:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          config: err.config
+        });
+        throw err;
+      });
+
+      // 5. Initialize payment
+      const rzp = new window.Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: data.currency || "INR",
+        name: "Your Business",
+        order_id: data.id,
+        handler: async (response) => {
+          try {
+            const verifyURL = `${baseURL}/payment/verify`;
+            const verifyRes = await axios.post(verifyURL, {
+              order_id: data.id,
+              payment_id: response.razorpay_payment_id,
+              signature: response.razorpay_signature
+            });
+
+            if (verifyRes.data.success) {
+              const action = await dispatch(placeOrder({
+                ...orderData,
+                paymentInfo: response
+              }));
+              router.push(`/order-success/${action.payload._id}`);
+            } else {
+              alert("Payment failed verification");
+            }
+          } catch (verifyErr) {
+            console.error("Verification error:", verifyErr);
+            alert("Payment verification failed");
           }
-        );
+        },
+        theme: { color: "#3399cc" }
+      });
 
-        console.log("Verify Response:", verifyRes.data);
-        alert(verifyRes.data.message);
-      },
-      prefill: {
-        name: "Sourabh Badgaiya",
-        email: "sourabh@example.com",
-        contact: "9999999999",
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
+      rzp.open();
+      
+    } catch (err) {
+      console.error("Payment error:", {
+        message: err.message,
+        response: err.response?.data
+      });
+      alert(err.response?.data?.error || "Payment processing failed");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
     <button
       onClick={handlePayment}
-      className='bg-blue-600 text-white px-4 py-2 rounded'
+      disabled={isProcessing}
+      className={`payment-button ${isProcessing ? 'processing' : ''}`}
     >
-      Pay ₹500 Now
+      {isProcessing ? 'Processing...' : 'Pay Now'}
     </button>
   );
 };

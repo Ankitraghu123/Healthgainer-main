@@ -1,21 +1,15 @@
-// services/razorpayService.js
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-
-console.log({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
 
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-exports.createOrder = async ({ amount, currency, receipt }) => {
+exports.createOrder = async ({ amount, currency = "INR", receipt }) => {
   const options = {
-    amount: amount * 100, // amount in paisa
-    currency: currency || "INR",
+    amount: amount * 100, // Razorpay expects paise
+    currency,
     receipt: receipt || `rcptid_${Math.floor(Math.random() * 10000)}`,
   };
 
@@ -24,8 +18,8 @@ exports.createOrder = async ({ amount, currency, receipt }) => {
 
 exports.verifyPayment = ({ order_id, payment_id, signature }) => {
   const generatedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_SECRET)
-    .update(order_id + "|" + payment_id)
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .update(`${order_id}|${payment_id}`)
     .digest("hex");
 
   return generatedSignature === signature;

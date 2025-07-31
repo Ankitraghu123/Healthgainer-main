@@ -113,7 +113,9 @@ app.use("/api/v1/why/features", featureRoutes);
 app.use("/api/v1/why/advantages", advantagesRoutes);
 app.use("/api/v1/mediaReports", mediaReportRoutes);
 
-app.use("/api/payment", paymentRoutes);
+// app.use("/api/payment", paymentRout
+app.use("/api/v1/payment", paymentRoutes);
+
 
 // Error handling
 app.use(generatedError);
