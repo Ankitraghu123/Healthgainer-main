@@ -197,7 +197,7 @@ export default function Testimonials() {
           <button
             aria-label="Previous"
             ref={prevRef}
-            className="hidden md:flex absolute left-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
+            className=" md:flex absolute left-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
           >
             <FaArrowLeft className="w-5 h-5" />
           </button>
@@ -205,7 +205,7 @@ export default function Testimonials() {
           <button
             aria-label="Next"
             ref={nextRef}
-            className="hidden md:flex absolute right-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
+            className=" md:flex absolute right-[-15px] top-1/2 z-10 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform"
           >
             <FaArrowRight className="w-5 h-5" />
           </button>

@@ -7,11 +7,11 @@ import { Pagination, Navigation } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDeals } from "@/redux/slices/deal-slice";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { useRouter } from "next/navigation";
 
 export default function DealsOfTheDay() {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ export default function DealsOfTheDay() {
   const swiperRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(fetchDeals());
@@ -33,8 +34,6 @@ export default function DealsOfTheDay() {
 
   const hotDealIndex = deals.findIndex((deal) => deal.tag === "HOT DEAL");
 
-  const router = useRouter();
-
   const handleViewPlanClick = (deal) => {
     const query = new URLSearchParams({
       title: deal.title,
@@ -46,11 +45,12 @@ export default function DealsOfTheDay() {
     router.push(`/checkout?${query}`);
   };
 
-  
-
   if (loading || !deals.length) {
     return <div className='text-center text-white py-10'>Loading deals...</div>;
   }
+
+  // ✅ Sort deals by `sno` so it reflects drag-and-drop backend updates
+  const sortedDeals = [...deals].sort((a, b) => a.sno - b.sno);
 
   return (
     <div className='bg-[#060606] py-10 px-4 md:px-20 overflow-hidden font-sans relative'>
@@ -80,8 +80,6 @@ export default function DealsOfTheDay() {
         modules={[Pagination, Navigation]}
         spaceBetween={12}
         slidesPerView={2.2}
-        centeredSlides={true}
-        initialSlide={hotDealIndex}
         pagination={{ clickable: true }}
         navigation={{
           prevEl: prevRef.current,
@@ -109,7 +107,7 @@ export default function DealsOfTheDay() {
         }}
         className='w-full'
       >
-        {deals.map((deal, index) => {
+        {sortedDeals.map((deal, index) => {
           const isActive = activeIndex === index;
           const showHotDealTag = isActive && deal.tag === "HOT DEAL";
 
@@ -155,9 +153,6 @@ export default function DealsOfTheDay() {
                     </div>
                   )}
                 </div>
-                {/* <button className='bg-lime-600 hover:bg-lime-700 text-black font-bold py-1.5 px-4 sm:py-2 sm:px-5 rounded-full transition text-sm sm:text-base'>
-                  View Plan
-                </button> */}
                 <button
                   onClick={() => handleViewPlanClick(deal)}
                   className='bg-lime-600 hover:bg-lime-700 text-black font-bold py-1.5 px-4 sm:py-2 sm:px-5 rounded-full transition text-sm sm:text-base'
