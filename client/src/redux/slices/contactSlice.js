@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../lib/api";
 
 // Async Thunks for API Calls
@@ -7,10 +7,13 @@ export const fetchContacts = createAsyncThunk("contacts/fetchAll", async () => {
   return response.data;
 });
 
-export const createContact = createAsyncThunk("contacts/create", async (contactData) => {
-  const response = await API.post("/contacts/create", contactData);
-  return response.data;
-});
+export const createContact = createAsyncThunk(
+  "contacts/create",
+  async (contactData) => {
+    const response = await API.post("/contacts/create", contactData);
+    return response.data;
+  }
+);
 
 export const deleteContact = createAsyncThunk("contacts/delete", async (id) => {
   await API.delete(`/contacts/delete/${id}`);
@@ -43,7 +46,9 @@ const contactSlice = createSlice({
         state.contacts.push(action.payload.contact);
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
-        state.contacts = state.contacts.filter((contact) => contact._id !== action.payload);
+        state.contacts = state.contacts.filter(
+          (contact) => contact._id !== action.payload
+        );
       });
   },
 });

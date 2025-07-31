@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const contactSchema = new mongoose.Schema(
+const reqCallBackSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -21,5 +21,5 @@ const contactSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Contact = mongoose.model("Contact", contactSchema);
-module.exports = Contact;
+const ReqCallBack = mongoose.model("ReqCallBack", reqCallBackSchema);
+module.exports = ReqCallBack;

@@ -1,6 +1,6 @@
-const Contact = require("../models/contactModel");
+const Req = require("../models/reqCallBackModel");
 
-exports.createContact = async (req, res) => {
+exports.createReq = async (req, res) => {
   try {
     const { name, message, email, phone } = req.body;
 
@@ -12,7 +12,7 @@ exports.createContact = async (req, res) => {
     //   return res.status(400).json({ message: 'At least one field (email or phone) is required' });
     // }
     // Create a new contact instance
-    const newContact = new Contact({
+    const newReq = new Req({
       name,
       message,
       email,
@@ -20,12 +20,12 @@ exports.createContact = async (req, res) => {
     });
 
     // Save the contact to the database
-    await newContact.save();
+    await newReq.save();
 
     return res.status(201).json({
-      message: "Contact created successfully.",
+      message: "Req created successfully.",
       success: true,
-      contact: newContact,
+      req: newReq,
     });
   } catch (error) {
     console.error(error);
@@ -35,16 +35,11 @@ exports.createContact = async (req, res) => {
   }
 };
 
-exports.getAllContacts = async (req, res) => {
+exports.getAllReq = async (req, res) => {
   try {
     // Fetch all contacts
-    const contacts = await Contact.find().sort({ createdAt: -1 });
-
-    console.log(
-      contacts.map((r) => r.createdAt),
-      "contact controller"
-    );
-    return res.status(200).json(contacts);
+    const req = await Req.find().sort({ createdAt: -1 });
+    return res.status(200).json(req);
   } catch (error) {
     console.error(error);
     return res
@@ -53,30 +48,30 @@ exports.getAllContacts = async (req, res) => {
   }
 };
 
-exports.updateContact = async (req, res) => {
+exports.updateReq = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, message, email, phone } = req.body;
 
     // Check if contact exists
-    const contact = await Contact.findById(id);
-    if (!contact) {
-      return res.status(404).json({ message: "Contact not found" });
+    const req = await Req.findById(id);
+    if (!req) {
+      return res.status(404).json({ message: "ReqCall not found" });
     }
 
     // Update contact fields
-    contact.name = name || contact.name;
-    contact.message = message || contact.message;
-    contact.email = email || contact.email;
-    contact.phone = phone || contact.phone;
+    req.name = name || req.name;
+    req.message = message || req.message;
+    req.email = email || req.email;
+    req.phone = phone || req.phone;
 
     // Save updated contact to the database
-    await contact.save();
+    await req.save();
 
     return res.status(200).json({
       message: "Contact updated successfully.",
       success: true,
-      contact: contact,
+      req: req,
     });
   } catch (error) {
     console.error(error);
@@ -86,23 +81,23 @@ exports.updateContact = async (req, res) => {
   }
 };
 
-exports.deleteContact = async (req, res) => {
+exports.deleteReq = async (req, res) => {
   try {
     const { id } = req.params;
 
     // Check if contact exists
-    const contact = await Contact.findById(id);
-    if (!contact) {
+    const request = await Req.findById(id);
+    if (!req) {
       return res.status(404).json({ message: "Contact not found" });
     }
 
     // Delete contact from database
-    await Contact.findByIdAndDelete(id);
+    await Req.findByIdAndDelete(id);
 
     return res.status(200).json({
       message: "Contact deleted successfully.",
       success: true,
-      contact: contact,
+      req: request,
     });
   } catch (error) {
     console.error(error);

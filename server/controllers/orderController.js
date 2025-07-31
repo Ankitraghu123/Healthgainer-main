@@ -2,140 +2,185 @@ const Order = require("../models/orderModel");
 const Cart = require("../models/cartModel");
 const Address = require("../models/addressModel");
 
-// ✅ Place Order
-// exports.placeOrder = async (req, res) => {
-//   const id = req.id;
-//   const userId = id;
-//   try {
-//     const { addressId, paymentMethod,note } = req.body;
+const crypto = require("crypto");
+const Razorpay = require("razorpay");
 
-//     // Fetch the user's cart and populate product and variant details
-//     let cart = await Cart.findOne({ userId }).populate({
-//       path: "items.productId",
-//       model: "Product"
-//     });
-
-//     if (!cart || cart.items.length === 0) {
-//       return res.status(400).json({ success: false, message: "Cart is empty!" });
-//     }
-
-//     // Fetch the address
-//     const address = await Address.findById(addressId);
-//     if (!address) {
-//       return res.status(404).json({ success: false, message: "Address not found" });
-//     }
-
-//     // Calculate the total amount based on variant prices
-//     let totalAmount = cart.items.reduce((acc, item) => {
-//       const product = item.productId;
-//       const variant = product.variants.find((v) => v._id.toString() === item.variantId.toString());
-
-//       if (!variant) {
-//         throw new Error(`Variant not found for product: ${product.name}`);
-//       }
-
-//       // Use variant price if available, otherwise use product price
-//       const price = variant.price || product.price;
-//       return acc + item.quantity * price;
-//     }, 0);
-
-//     // Create the order
-//     const order = new Order({
-//       userId,
-//       items: cart.items.map((item) => ({
-//         productId: item.productId._id,
-//         variantId: item.variantId,
-//         quantity: item.quantity,
-//         price: item.productId.variants.find((v) => v._id.toString() === item.variantId.toString())?.price || item.productId.price
-//       })),
-//       totalAmount,
-//       address: addressId,
-//       note,
-//       paymentMethod,
-//       paymentStatus: paymentMethod === "COD" ? "Pending" : "Paid"
-//     });
-
-//     await order.save();
-
-//     // Empty the cart after placing the order
-//     await Cart.findOneAndDelete({ userId });
-
-//     res.status(201).json({ success: true, message: "Order placed successfully!", order });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 exports.placeOrder = async (req, res) => {
-  const id = req.id;
+  const id = req.id; // user id from auth middleware
   const userId = id;
 
   try {
-    const { addressId, paymentMethod, note } = req.body;
+    const { addressId, note } = req.body;
 
     let cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
-      model: "Product"
+      model: "Product",
     });
 
     if (!cart || cart.items.length === 0) {
-      return res.status(400).json({ success: false, message: "Cart is empty!" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Cart is empty!" });
     }
 
     const address = await Address.findById(addressId);
     if (!address) {
-      return res.status(404).json({ success: false, message: "Address not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Address not found" });
     }
 
+    // Calculate total
     let totalAmount = cart.items.reduce((acc, item) => {
       const product = item.productId;
-      const variant = product.variants.find((v) => v._id.toString() === item.variantId.toString());
-
+      const variant = product.variants.find(
+        (v) => v._id.toString() === item.variantId.toString()
+      );
       if (!variant) {
         throw new Error(`Variant not found for product: ${product.name}`);
       }
-
       const price = variant.price || product.price;
       return acc + item.quantity * price;
     }, 0);
 
-    // 🔹 **Generate Unique `orderId` (HG + 4 Random Digits)**
-    const randomNum = Math.floor(1000 + Math.random() * 9000); // 1000-9999
+    // ✅ Create Razorpay Order
+    const razorpayOrder = await razorpay.orders.create({
+      amount: totalAmount * 100, // paise
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`,
+    });
+
+    // 🔹 Generate custom OrderId + OrderNumber
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
     const newOrderId = `HG${randomNum}`;
 
-    // 🔹 **Generate Incremental `orderNumber`**
-    const lastOrder = await Order.findOne().sort({ orderNumber: -1 }); // Get last order
-    const newOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 101; // Start from 101
+    const lastOrder = await Order.findOne().sort({ orderNumber: -1 });
+    const newOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 101;
 
+    // ✅ Save Order in DB with status Pending
     const order = new Order({
-      orderId: newOrderId, // ✅ Random Unique ID
-      orderNumber: newOrderNumber, // ✅ Incremental Order Number
+      orderId: newOrderId,
+      orderNumber: newOrderNumber,
       userId,
       items: cart.items.map((item) => ({
         productId: item.productId._id,
         variantId: item.variantId,
         quantity: item.quantity,
-        price: item.productId.variants.find((v) => v._id.toString() === item.variantId.toString())?.price || item.productId.price
+        price:
+          item.productId.variants.find(
+            (v) => v._id.toString() === item.variantId.toString()
+          )?.price || item.productId.price,
       })),
       totalAmount,
       address: addressId,
       note,
-      paymentMethod,
-      paymentStatus: paymentMethod === "COD" ? "Pending" : "Paid"
+      paymentMethod: "Online",
+      paymentStatus: "Pending",
+      razorpayOrderId: razorpayOrder.id,
     });
 
     await order.save();
 
-    await Cart.findOneAndDelete({ userId });
+    // console.log(order, "order place controller");
 
-    res.status(201).json({ success: true, message: "Order placed successfully!", order });
+    // ✅ Return Razorpay order details to frontend
+    res.status(201).json({
+      success: true,
+      razorpayOrder,
+      orderId: order._id,
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
+// exports.placeOrder = async (req, res) => {
+//   const id = req.id;
+//   const userId = id;
+
+//   try {
+//     const { addressId, paymentMethod, note } = req.body;
+
+//     let cart = await Cart.findOne({ userId }).populate({
+//       path: "items.productId",
+//       model: "Product",
+//     });
+
+//     if (!cart || cart.items.length === 0) {
+//       return res
+//         .status(400)
+//         .json({ success: false, message: "Cart is empty!" });
+//     }
+
+//     const address = await Address.findById(addressId);
+//     if (!address) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Address not found" });
+//     }
+
+//     let totalAmount = cart.items.reduce((acc, item) => {
+//       const product = item.productId;
+//       const variant = product.variants.find(
+//         (v) => v._id.toString() === item.variantId.toString()
+//       );
+
+//       if (!variant) {
+//         throw new Error(`Variant not found for product: ${product.name}`);
+//       }
+
+//       const price = variant.price || product.price;
+//       return acc + item.quantity * price;
+//     }, 0);
+
+//     // 🔹 **Generate Unique `orderId` (HG + 4 Random Digits)**
+//     const randomNum = Math.floor(1000 + Math.random() * 9000); // 1000-9999
+//     const newOrderId = `HG${randomNum}`;
+
+//     // 🔹 **Generate Incremental `orderNumber`**
+//     const lastOrder = await Order.findOne().sort({ orderNumber: -1 }); // Get last order
+//     const newOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 101; // Start from 101
+
+//     const order = new Order({
+//       orderId: newOrderId, // ✅ Random Unique ID
+//       orderNumber: newOrderNumber, // ✅ Incremental Order Number
+//       userId,
+//       items: cart.items.map((item) => ({
+//         productId: item.productId._id,
+//         variantId: item.variantId,
+//         quantity: item.quantity,
+//         price:
+//           item.productId.variants.find(
+//             (v) => v._id.toString() === item.variantId.toString()
+//           )?.price || item.productId.price,
+//       })),
+//       totalAmount,
+//       address: addressId,
+//       note,
+//       paymentMethod,
+//       paymentStatus: paymentMethod === "COD" ? "Pending" : "Paid",
+//     });
+
+//     await order.save();
+
+//     await Cart.findOneAndDelete({ userId });
+
+//     res
+//       .status(201)
+//       .json({ success: true, message: "Order placed successfully!", order });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
 // ✅ Get Orders for a User
+
 exports.getOrders = async (req, res) => {
   const id = req.id;
   const userId = id;
@@ -153,11 +198,16 @@ exports.getOrders = async (req, res) => {
 exports.getOrderById = async (req, res) => {
   try {
     const { orderId } = req.params;
-    const order = await Order.findById(orderId)
-      .populate("address") // Address details populate karein
-      .populate("items.productId"); // Product details populate karein
+    const order = await Order.findById(orderId);
+
+    console.log(order, "get order by id");
+
+    // .populate("address") // Address details populate karein
+    // .populate("items.productId"); // Product details populate karein
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
     res.status(200).json({ success: true, order });
   } catch (error) {
@@ -169,36 +219,44 @@ exports.updateOrderStatus = async (req, res) => {
   try {
     const { orderId, status } = req.body;
     const order = await Order.findById(orderId);
-    
+
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
 
     // Update Order Status
     order.status = status;
 
     // If order is delivered and payment method is COD, mark payment as paid
-    if (status === "Delivered" && order.paymentMethod === "COD") {
+    if (status === "Delivered") {
       order.paymentStatus = "Paid";
     }
 
     await order.save();
-    res.status(200).json({ success: true, message: "Order status updated successfully!", order });
-
+    res.status(200).json({
+      success: true,
+      message: "Order status updated successfully!",
+      order,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 exports.deleteOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
     const order = await Order.findByIdAndDelete(orderId);
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
-    res.status(200).json({ success: true, message: "Order deleted successfully!" });
+    res
+      .status(200)
+      .json({ success: true, message: "Order deleted successfully!" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -224,7 +282,6 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
-
 exports.updateOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -233,7 +290,9 @@ exports.updateOrder = async (req, res) => {
     const order = await Order.findById(orderId);
 
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
 
     order.status = status;
@@ -241,7 +300,9 @@ exports.updateOrder = async (req, res) => {
 
     await order.save();
 
-    res.status(200).json({ success: true, message: "Order updated successfully!", order });
+    res
+      .status(200)
+      .json({ success: true, message: "Order updated successfully!", order });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -254,10 +315,14 @@ exports.totalRevenu = async (req, res) => {
     ]);
 
     if (totalRevenue.length === 0) {
-      return res.status(404).json({ success: false, message: "No orders found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "No orders found" });
     }
 
-    res.status(200).json({ success: true, totalRevenue: totalRevenue[0].total });
+    res
+      .status(200)
+      .json({ success: true, totalRevenue: totalRevenue[0].total });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -272,7 +337,7 @@ exports.monthlyRevenu = async (req, res) => {
           total: { $sum: "$totalAmount" },
         },
       },
-      { $sort: { _id: 1 } } // Sort by month
+      { $sort: { _id: 1 } }, // Sort by month
     ]);
 
     // Helper function to format revenue
@@ -287,8 +352,21 @@ exports.monthlyRevenu = async (req, res) => {
       return amount.toString();
     };
 
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
     const formattedRevenue = monthlyRevenue.map((data) => ({
       month: months[data._id - 1], // Convert _id (1-12) to month name
       total: formatAmount(data.total), // Format total amount
@@ -300,21 +378,16 @@ exports.monthlyRevenu = async (req, res) => {
   }
 };
 
-
-
-
 exports.getOrdersByUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const orders = await Order.find({ userId })
-      .sort({ createdAt: -1 }); // Newest orders first
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 }); // Newest orders first
 
     res.status(200).json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 exports.newOrderNotifications = (req, res) => {
   console.log("🔹 [SSE] Request received for new order notifications.");
@@ -325,14 +398,20 @@ exports.newOrderNotifications = (req, res) => {
     res.setHeader("Connection", "keep-alive");
 
     console.log("✅ [SSE] Client connected successfully.");
-    const connectionType = mongoose.connection?.db?.topology?.s?.descriptionType;
+    const connectionType =
+      mongoose.connection?.db?.topology?.s?.descriptionType;
 
     if (connectionType !== "ReplicaSetWithPrimary") {
-      console.warn("⚠️ [SSE] Change streams require a replica set. Skipping stream.");
-      res.write(`data: ${JSON.stringify({ error: "Change stream not supported on this DB." })}\n\n`);
+      console.warn(
+        "⚠️ [SSE] Change streams require a replica set. Skipping stream."
+      );
+      res.write(
+        `data: ${JSON.stringify({
+          error: "Change stream not supported on this DB.",
+        })}\n\n`
+      );
       return;
     }
-
 
     const changeStream = Order.watch();
 
@@ -366,18 +445,17 @@ exports.newOrderNotifications = (req, res) => {
     req.on("close", () => {
       console.log("❌ [SSE] Client disconnected.");
       clearInterval(keepAliveInterval);
-      changeStream.close().then(() => {
-        console.log("🔒 [SSE] Change stream closed.");
-      }).catch((err) => {
-        console.error("❌ [SSE] Error closing change stream:", err);
-      });
+      changeStream
+        .close()
+        .then(() => {
+          console.log("🔒 [SSE] Change stream closed.");
+        })
+        .catch((err) => {
+          console.error("❌ [SSE] Error closing change stream:", err);
+        });
     });
-
   } catch (err) {
     console.error("❌ [SSE] Error in newOrderNotifications handler:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
-

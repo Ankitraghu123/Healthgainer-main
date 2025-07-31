@@ -6,11 +6,14 @@ import { fetchContacts, deleteContact } from "@/redux/slices/contactSlice";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { CSVLink } from "react-csv";
+import { deleteReq, fetchReq } from "@/redux/slices/reqCallbackSlice";
 import dayjs from "dayjs";
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const { contacts, loading, error } = useSelector((state) => state.contact);
+  const { contacts, loading, error } = useSelector(
+    (state) => state.requestCall
+  );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState({
@@ -21,12 +24,12 @@ const ContactList = () => {
   const contactsPerPage = 5;
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchReq());
   }, [dispatch]);
 
   const handleDelete = (id) => {
     if (confirm("Are you sure you want to delete this contact?")) {
-      dispatch(deleteContact(id));
+      dispatch(deleteReq(id));
       toast.success("Contact deleted successfully!");
     }
   };
@@ -67,7 +70,6 @@ const ContactList = () => {
     { label: "Name", key: "name" },
     { label: "Email", key: "email" },
     { label: "Phone", key: "phone" },
-    { label: "Message", key: "message" },
     { label: "Date", key: "date" },
   ];
 
@@ -79,7 +81,7 @@ const ContactList = () => {
         transition={{ duration: 0.5 }}
         className='text-3xl font-bold text-center mb-6'
       >
-        Contact List
+        Request Contact List
       </motion.h1>
 
       <div className='flex justify-between mb-4'>
@@ -144,17 +146,6 @@ const ContactList = () => {
                 </th>
                 <th
                   className='p-3 cursor-pointer'
-                  onClick={() => handleSort("message")}
-                >
-                  Message{" "}
-                  {sortConfig.key === "message"
-                    ? sortConfig.direction === "asc"
-                      ? "↑"
-                      : "↓"
-                    : ""}
-                </th>
-                <th
-                  className='p-3 cursor-pointer'
                   onClick={() => handleSort("date")}
                 >
                   Date{" "}
@@ -179,10 +170,10 @@ const ContactList = () => {
                   <td className='p-3 text-center'>{contact.name}</td>
                   <td className='p-3 text-center'>{contact.email}</td>
                   <td className='p-3 text-center'>{contact.phone}</td>
-                  <td className='p-3 text-center'>{contact.message}</td>
                   <td className='p-3 text-center'>
                     {dayjs(contact.createdAt).format("DD-MM-YYYY hh:mm A")}
                   </td>
+
                   <td className='p-3 text-center'>
                     <button
                       onClick={() => handleDelete(contact._id)}
