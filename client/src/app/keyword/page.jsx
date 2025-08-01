@@ -25,29 +25,49 @@ const keywords = [
   "Buy #1 Mass Gainers Powder Online in India",
   "Buy Weight Gainer for Men Online at Best Prices in India",
   "Best Weight Gainer for Men Without Gym",
+  "Ayurvedic Gain+ Weight & Mass Gainer",
+  "Ayurvedic Weight Gainer for Women",
+  "Ayurvedic Mass Gainer powder",
+  "Best Ayurvedic Mass Gainer in India",
+  "best ayurvedic mass gainer in india",
+  "Best Ayurvedic medicine for weight gain",
+  "Weight gain Ayurvedic herbs",
+  "Gain muscle mass naturally",
+  "Health Gainer is unique combination of rare ayurvedic herbs",
+  "Buy Ayurvedic Immunity Booster",
+  "Buy Ayurvedic Immunity Booster Products Online In India",
+  "Best immunity Booster Ayurvedic medicine",
+  "aloe vera juice benefits in hindi",
+  "Aloe vera juice in india",
+  "best aloe vera juice in india",
+  "Ayurvedic Medicine for Weight Loss",
+  "Ayurvedic weight loss capsules",
+  "Weight Loss Ayurvedic medicine in Hindi",
+  "Best Ayurvedic medicine for weight loss",
+  "best ayurvedic treatment for weight loss",
 ];
 
 const KeywordCloud = () => {
   return (
-    <section className="bg-gradient-to-br from-[#e0f7fa] to-[#fff3e0] py-8 px-4 mt-12 rounded-xl shadow-inner">
-      <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6">
+    <section className="bg-gradient-to-br from-[#e0f7fa] to-[#fff3e0] p-2 mt-1 shadow-inner">
+      {/* <h2 className="text-sm sm:text-base font-semibold text-gray-800 mb-2 text-justify">
         🔍 Popular Searches Related to Weight Gainer in India
-      </h2>
+      </h2> */}
 
-      <div className="flex flex-wrap justify-center gap-3 text-sm sm:text-base">
+      <div className="flex flex-wrap justify-start gap-[4px] text-[10px] sm:text-xs leading-tight text-justify">
         {keywords.map((keyword, index) => (
           <span
             key={index}
-            className="px-3 py-1 rounded-full bg-white hover:bg-[#d1c4e9] border border-gray-200 text-gray-700 hover:text-black transition-all duration-300 shadow-sm cursor-pointer"
+            className="rounded bg-white hover:bg-[#d1c4e9] border border-gray-200 text-gray-700 hover:text-black transition-all duration-200 shadow-sm cursor-pointer m-[1px]"
           >
             {keyword}
           </span>
         ))}
       </div>
 
-      <p className="text-center text-xs text-gray-500 mt-6">
+      {/* <p className="text-[9px] text-gray-500 mt-3 text-justify">
         All trademarks and brand names are property of their respective owners.
-      </p>
+      </p> */}
     </section>
   );
 };
