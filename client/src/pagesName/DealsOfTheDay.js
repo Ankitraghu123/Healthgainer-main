@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { toast } from "react-toastify";
 
 export default function DealsOfTheDay() {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ export default function DealsOfTheDay() {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const router = useRouter();
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     dispatch(fetchDeals());
@@ -34,15 +37,36 @@ export default function DealsOfTheDay() {
 
   const hotDealIndex = deals.findIndex((deal) => deal.tag === "HOT DEAL");
 
-  const handleViewPlanClick = (deal) => {
-    const query = new URLSearchParams({
-      title: deal.title,
-      amount: deal.price,
-      quantity: deal.quantity,
-      type: "viewPlan",
-    }).toString();
+  // const handleViewPlanClick = (deal) => {
+  //   const query = new URLSearchParams({
+  //     title: deal.title,
+  //     amount: deal.price,
+  //     quantity: deal.quantity,
+  //     subtitle: deal.subtitle,
+  //     type: "viewPlan",
+  //   }).toString();
 
-    router.push(`/checkout?${query}`);
+  //   router.push(`/checkout?${query}`);
+  // };
+
+  const handleViewPlanClick = (deal) => {
+    if (user) {
+      const query = new URLSearchParams({
+        title: deal.title,
+        amount: deal.price,
+        quantity: deal.quantity,
+        subtitle: deal.subtitle,
+        type: "viewPlan",
+      }).toString();
+
+      router.push(`/checkout?${query}`);
+    } else {
+      toast.warn("Please login to continue!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      router.push(`/login`);
+    }
   };
 
   if (loading || !deals.length) {

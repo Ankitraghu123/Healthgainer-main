@@ -583,6 +583,7 @@ const CheckoutPage = () => {
   const checkoutType = searchParams.get("type");
   const planTitle = searchParams.get("title");
   const quantity = Number(searchParams.get("quantity"));
+  const subtitle = searchParams.get("subtitle");
   const planAmountParam = searchParams.get("amount") || "0";
 
   // 👉 Rs. 4599/- → 4599
@@ -596,6 +597,7 @@ const CheckoutPage = () => {
           title: planTitle,
           price: PlanAmount,
           quantity: quantity,
+          subtitle: subtitle,
         },
       ]
     : cartItems;
@@ -758,6 +760,9 @@ const CheckoutPage = () => {
                         {isViewPlan ? item.title : item.name}
                       </p>
                       <p className='text-sm'>Qty: {item.quantity}</p>
+                      <p className='text-sm'>
+                        {isViewPlan ? `SubTitle: ${item.subtitle}` : ""}
+                      </p>
                       <p className='font-medium'>
                         ₹
                         {isViewPlan

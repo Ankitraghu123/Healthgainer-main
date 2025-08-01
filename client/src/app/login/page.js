@@ -28,29 +28,6 @@ export default function LoginPage() {
     }
   }, [error]);
 
-  // Handle Login
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   if (!loginForm.email || !loginForm.password) {
-  //     toast.error("Please fill in all fields");
-  //     return;
-  //   }
-
-  //   setIsLoading(true);
-  //   dispatch(loginUser(loginForm))
-  //     .unwrap()
-  //     .then(() => {
-  //       toast.success("Login Successful");
-  //       router.push("/user");
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err || "Login failed");
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // };
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -84,6 +61,13 @@ export default function LoginPage() {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   if (!isMounted) return null;
 
