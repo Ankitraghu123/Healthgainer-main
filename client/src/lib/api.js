@@ -1,9 +1,9 @@
 import axios from "axios";
 // console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
 const API = axios.create({
-  // baseURL: "http://localhost:5000/api/v1", // Fallback base URL for local development
+  baseURL: "http://localhost:5000/api/v1", // Fallback base URL for local development
 
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  // baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

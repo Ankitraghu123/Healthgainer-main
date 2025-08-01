@@ -14,13 +14,17 @@ const ContactPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!form.name || !form.email || !form.message) {
+        const { name, email, message } = form;
+
+        if (!name || !email || !message) {
             toast.error("Please fill all fields!");
             return;
         }
 
         setIsSubmitting(true);
+
         dispatch(createContact(form))
+            .unwrap()
             .then(() => {
                 toast.success("Message sent successfully!");
                 setForm({ name: "", email: "", message: "" });
@@ -37,7 +41,10 @@ const ContactPage = () => {
         <div className="bg-gray-50 text-gray-800">
             {/* Hero Section */}
             <section className="relative flex items-center justify-center h-96 bg-cover bg-center bg-no-repeat bg-fixed"
-                     style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1075&q=80')" }}>
+                style={{
+                    backgroundImage:
+                        "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=1075&q=80')"
+                }}>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -140,7 +147,7 @@ const ContactPage = () => {
                                         {
                                             icon: <FiMapPin className="text-primary text-2xl" />,
                                             title: "Our Location",
-                                            content: "5/11 Pharmascience Amer complex in front of PNB Bank M.P. Nagar zone 2 Bhopal",
+                                            content: "5/11 Pharmascience Amer complex in front of PNB Bank M.P. Nagar zone 2 Bhopal",
                                             link: "https://maps.google.com",
                                             linkText: "View on map"
                                         },
@@ -154,9 +161,8 @@ const ContactPage = () => {
                                         {
                                             icon: <FiPhone className="text-primary text-2xl" />,
                                             title: "Call Us",
-                                            content: "+9174006-74000,  95221-95222",
-
-                                            link: "tel:+974006-74000",
+                                            content: "+9174006-74000, 95221-95222",
+                                            link: "tel:+917400674000",
                                             linkText: "Call now"
                                         },
                                     ].map((item, index) => (
@@ -168,9 +174,7 @@ const ContactPage = () => {
                                             viewport={{ once: true }}
                                             className="flex items-start gap-4 p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition"
                                         >
-                                            <div className="mt-1">
-                                                {item.icon}
-                                            </div>
+                                            <div className="mt-1">{item.icon}</div>
                                             <div>
                                                 <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
                                                 <p className="text-gray-600 mt-1">{item.content}</p>
@@ -207,7 +211,6 @@ const ContactPage = () => {
                         </p>
                     </motion.div>
                     <div className="rounded-xl overflow-hidden shadow-xl">
-                        {/* <if =rame src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3730.389747804958!2d77.43226644563734!3d23.232024162031202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sPharmascience%20Amer%20complex%20in%20front%20of%20PNB%20Bank%20M.P.%20Nagar%C2%A0zone%C2%A02%C2%A0Bhopal!5e0!3m2!1sen!2sin!4v1752735533816!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
                         <iframe
                             className="w-full h-96"
                             src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3730.389747804958!2d77.43226644563734!3d23.232024162031202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sPharmascience%20Amer%20complex%20in%20front%20of%20PNB%20Bank%20M.P.%20Nagar%C2%A0zone%C2%A02%C2%A0Bhopal!5e0!3m2!1sen!2sin!4v1752735533816!5m2!1sen!2sin"
@@ -234,13 +237,6 @@ const ContactPage = () => {
                             Our team is standing by to help you achieve your weight gain goals.
                             Get in touch today for personalized advice and support.
                         </p>
-                        {/* <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-black text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition"
-                        >
-                            Contact Our Experts Now
-                        </motion.button> */}
                     </motion.div>
                 </div>
             </section>

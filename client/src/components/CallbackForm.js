@@ -5,8 +5,6 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { createContact } from "@/redux/slices/contactSlice";
-import { useRouter } from "next/navigation";
 import { createReq } from "@/redux/slices/reqCallbackSlice";
 
 export default function CallbackForm() {
@@ -18,6 +16,7 @@ export default function CallbackForm() {
     phone: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,13 +39,21 @@ export default function CallbackForm() {
       return;
     }
 
-    dispatch(createReq(formData));
+    setLoading(true);
 
-    setTimeout(() => {
-      setSubmitted(true);
-      toast.success("Your request has been submitted!");
-      setFormData({ name: "", email: "", phone: "" });
-    }, 1000);
+    dispatch(createReq(formData))
+      .unwrap()
+      .then(() => {
+        setSubmitted(true);
+        toast.success("Your request has been submitted!");
+        setFormData({ name: "", email: "", phone: "" });
+      })
+      .catch(() => {
+        toast.error("Something went wrong. Please try again.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   if (!showForm) return null;
@@ -105,9 +112,14 @@ export default function CallbackForm() {
             />
             <button
               type='submit'
-              className='w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition'
+              disabled={loading}
+              className={`w-full py-3 rounded-lg font-medium transition ${
+                loading
+                  ? "bg-gray-600 cursor-not-allowed"
+                  : "bg-primary hover:bg-blue-700"
+              } text-white`}
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </form>
         )}

@@ -1,3 +1,4 @@
+import LoadingOverlay from "@/components/LoadingOverlay";
 import RootLayoutClient from "./RootLayoutClient";
 
 export const metadata = {
@@ -9,5 +10,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return <RootLayoutClient>{children}</RootLayoutClient>;
+  return <RootLayoutClient>
+      <LoadingOverlay  />
+    {children}
+    </RootLayoutClient>;
 }
