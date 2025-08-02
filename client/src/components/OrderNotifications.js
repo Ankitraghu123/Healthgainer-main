@@ -7,30 +7,30 @@ const OrderNotifications = () => {
 
     useEffect(() => {
         if (!eventSourceRef.current) {
-          eventSourceRef.current = new EventSource("http://localhost:5000/api/v1/orders/notifications");
-      
+          eventSourceRef.current = new EventSource("https://healthgainer-main.onrender.com/api/v1/orders/notifications");
+
           eventSourceRef.current.onmessage = (event) => {
             console.log("🎯 SSE Event Received:", event.data);
-            
+
             if (event.data !== "{}") { // ❌ Ignore empty keep-alive messages
               const newOrder = JSON.parse(event.data);
               setNewOrders((prev) => [...prev, newOrder]);
               alert("🎉 New Order Arrived!");
             }
           };
-      
+
           eventSourceRef.current.onerror = (error) => {
             console.error("❌ SSE Connection Error:", error);
           };
         }
-      
+
         return () => {
           console.log("Closing SSE Connection...");
           eventSourceRef.current?.close();
           eventSourceRef.current = null;
         };
       }, []);
-      
+
 
     return <div>
 
