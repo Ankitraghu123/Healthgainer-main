@@ -2,7 +2,7 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // Base URL for your backend
-const API_URL = "http://localhost:5000/api/distributorship";
+const API_URL = "https://healthgainer-main.onrender.com/api/v1/distributorship";
 
 // CREATE
 export const createForm = createAsyncThunk(
