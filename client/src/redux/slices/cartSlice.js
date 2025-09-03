@@ -4,52 +4,63 @@ import API from "../../lib/api";
 const API_URL = "https://healthgainer-main.onrender.com/cart";
 
 // ✅ Fetch Cart
-export const fetchCart = createAsyncThunk("cart/fetchCart", async (userId, { rejectWithValue }) => {
-  try {
-    const response = await API.get(`/cart`);
-    return response.data.cart;
-  } catch (error) {
-    return rejectWithValue(error.response?.data || "Error fetching cart");
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await API.get(`/cart`);
+      return response.data.cart;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Error fetching cart");
+    }
   }
-});
+);
 
 // ✅ Add to Cart
-export const addToCart = createAsyncThunk("cart/addToCart", async ({ userId, productId, variantId, quantity }, { rejectWithValue }) => {
-  try {
-    const response = await API.post(`/cart/add`, {  productId, variantId, quantity });
-    return response.data.cart;
-  } catch (error) {
-    return rejectWithValue(error.response?.data || "Error adding to cart");
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async ({ userId, productId, variantId, quantity }, { rejectWithValue }) => {
+    try {
+      const response = await API.post(`/cart/add`, {
+        userId,
+        productId,
+        variantId,
+        quantity,
+      });
+      return response.data.cart;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Error adding to cart");
+    }
   }
-});
+);
 
 // ✅ Remove from Cart
 export const removeFromCart = createAsyncThunk(
-    "cart/removeFromCart",
-    async ({ variantId }, { rejectWithValue }) => {
-      try {
-        const response = await API.post(`/cart/remove`, { variantId });
-        return response.data.cart;
-      } catch (error) {
-        return rejectWithValue(error.response?.data || "Error removing from cart");
-      }
+  "cart/removeFromCart",
+  async ({ variantId }, { rejectWithValue }) => {
+    try {
+      const response = await API.post(`/cart/remove`, { variantId });
+      return response.data.cart;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Error removing from cart"
+      );
     }
-  );
-
+  }
+);
 
 // ✅ Update Cart Quantity
 export const updateCartQuantity = createAsyncThunk(
-    "cart/updateCartQuantity",
-    async ({ variantId, quantity }, { rejectWithValue }) => {
-      try {
-        const response = await API.post(`/cart/update`, { variantId, quantity });
-        return response.data.cart;
-      } catch (error) {
-        return rejectWithValue(error.response?.data || "Error updating cart");
-      }
+  "cart/updateCartQuantity",
+  async ({ variantId, quantity }, { rejectWithValue }) => {
+    try {
+      const response = await API.post(`/cart/update`, { variantId, quantity });
+      return response.data.cart;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Error updating cart");
     }
-  );
-
+  }
+);
 
 const cartSlice = createSlice({
   name: "cart",
