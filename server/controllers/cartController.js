@@ -4,7 +4,7 @@ const Product = require("../models/Product");
 exports.addToCart = async (req, res) => {
   const id = req.id;
   const userId = id;
-  console.log(userId, "userId");
+  // console.log(userId, "userId");
 
   try {
     const { productId, variantId, quantity } = req.body;
@@ -20,10 +20,10 @@ exports.addToCart = async (req, res) => {
     const variant = product.variants.find(
       (v) => v._id.toString() === variantId
     );
-    if (!variant)
-      return res
-        .status(404)
-        .json({ success: false, message: "Variant not found" });
+    // if (!variant)
+    //   return res
+    //     .status(404)
+    //     .json({ success: false, message: "Variant not found" });
 
     // Calculate discounted price and subtotal
     const price = variant.mrp - (variant.mrp * variant.discount) / 100;
