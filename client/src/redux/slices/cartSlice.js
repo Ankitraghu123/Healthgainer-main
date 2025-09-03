@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../lib/api";
 
-const API_URL = "http://localhost:5000/cart";
+const API_URL = "https://healthgainer-main.onrender.com/cart";
 
 // ✅ Fetch Cart
 export const fetchCart = createAsyncThunk("cart/fetchCart", async (userId, { rejectWithValue }) => {
@@ -35,7 +35,7 @@ export const removeFromCart = createAsyncThunk(
       }
     }
   );
-  
+
 
 // ✅ Update Cart Quantity
 export const updateCartQuantity = createAsyncThunk(
@@ -49,7 +49,7 @@ export const updateCartQuantity = createAsyncThunk(
       }
     }
   );
-  
+
 
 const cartSlice = createSlice({
   name: "cart",
