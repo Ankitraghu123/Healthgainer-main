@@ -40,11 +40,11 @@ export default function RegisterPage() {
     e.preventDefault();
     const { firstName, lastName, email, mobileNumber, password, confirmPassword } = registerForm;
 
-    // Validate all fields
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !mobileNumber.trim() || !password.trim() || !confirmPassword.trim()) {
-      toast.error("Please fill in all fields");
-      return;
-    }
+    // // Validate all fields
+    // if (!firstName.trim() || !lastName.trim() || !email.trim() || !mobileNumber.trim() || !password.trim() || !confirmPassword.trim()) {
+    //   toast.error("Please fill in all fields");
+    //   return;
+    // }
 
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
@@ -52,11 +52,11 @@ export default function RegisterPage() {
       return;
     }
 
-    // Validate mobile number
-    if (mobileNumber.trim().length !== 10 || isNaN(mobileNumber.trim())) {
-      toast.error("Mobile number must be 10 digits");
-      return;
-    }
+    // // Validate mobile number
+    // if (mobileNumber.trim().length !== 10 || isNaN(mobileNumber.trim())) {
+    //   toast.error("Mobile number must be 10 digits");
+    //   return;
+    // }
 
     // Validate password length
     if (password.trim().length < 6) {
@@ -104,7 +104,7 @@ export default function RegisterPage() {
 
             <form onSubmit={handleRegister}>
               <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                {/* <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
                       First Name
@@ -133,7 +133,7 @@ export default function RegisterPage() {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -150,7 +150,7 @@ export default function RegisterPage() {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700 mb-1">
                     Mobile Number
                   </label>
@@ -169,7 +169,7 @@ export default function RegisterPage() {
                       required
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">

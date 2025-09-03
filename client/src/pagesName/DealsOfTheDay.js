@@ -181,7 +181,7 @@ export default function DealsOfTheDay() {
                   onClick={() => handleViewPlanClick(deal)}
                   className='bg-lime-600 hover:bg-lime-700 text-black font-bold py-1.5 px-4 sm:py-2 sm:px-5 rounded-full transition text-sm sm:text-base'
                 >
-                  View Plan
+                 Buy Now
                 </button>
               </div>
             </SwiperSlide>

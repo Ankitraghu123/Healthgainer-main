@@ -9,7 +9,7 @@ exports.registerUser = async (req, res) => {
 
     console.log(req.body, "HEELO");
 
-    if (!firstName || !lastName || !mobileNumber || !email || !password) {
+    if (!email || !password) {
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
