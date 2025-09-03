@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const variantSchema = new mongoose.Schema({
-  weight: { type: String, required: true },
-  mrp: { type: Number, required: true },
+  weight: { type: String, required: false },
+  mrp: { type: Number, required: false },
   discount: { type: Number, default: 0 }, // Discount in percentage
   price: { type: Number }, // Price will be set in middleware
-  images: [{ type: String, required: true }],
-  stock: { type: Number, required: true, default: 0 },
-  isAvailable: { type: Boolean, default: true }
+  images: [{ type: String, required: false }],
+  stock: { type: Number, required: false, default: 0 },
+  isAvailable: { type: Boolean, default: false },
 });
 
 // Middleware to calculate `price` before saving variant
@@ -24,13 +24,13 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
-    images: [{ type: String, required: true }],
+    images: [{ type: String, required: false }],
     mrp: { type: Number, required: true },
     discount: { type: Number, default: 0 }, // Discount in percentage
     price: { type: Number }, // Price will be set in middleware
     variants: [variantSchema], // Array of variant objects
     stock: { type: Number, required: true, default: 0 },
-    status: { type: String, enum: ["Active", "Inactive"], default: "Active" }
+    status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
   },
   { timestamps: true }
 );
