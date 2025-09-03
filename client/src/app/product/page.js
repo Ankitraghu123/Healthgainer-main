@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 export default function ProductGallery() {
   const router = useRouter();
   const dispatch = useDispatch();
+
   const {
     products: productsData,
     loading,
@@ -18,7 +19,7 @@ export default function ProductGallery() {
   } = useSelector((state) => state.product);
   const [loadingProductId, setLoadingProductId] = useState(null); // To track which product is being added
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")) || null;
 
   useEffect(() => {
     dispatch(fetchProducts());
