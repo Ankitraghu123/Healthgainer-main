@@ -37,9 +37,9 @@ export const addToCart = createAsyncThunk(
 // ✅ Remove from Cart
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
-  async ({ variantId }, { rejectWithValue }) => {
+  async ({ productId, itemId }, { rejectWithValue }) => {
     try {
-      const response = await API.post(`/cart/remove`, { variantId });
+      const response = await API.post(`/cart/remove`, { productId, itemId });
       return response.data.cart;
     } catch (error) {
       return rejectWithValue(
@@ -52,9 +52,14 @@ export const removeFromCart = createAsyncThunk(
 // ✅ Update Cart Quantity
 export const updateCartQuantity = createAsyncThunk(
   "cart/updateCartQuantity",
-  async ({ variantId, quantity }, { rejectWithValue }) => {
+  async ({ variantId, productId, itemId, quantity }, { rejectWithValue }) => {
     try {
-      const response = await API.post(`/cart/update`, { variantId, quantity });
+      const response = await API.post(`/cart/update`, {
+        variantId,
+        productId,
+        quantity,
+        itemId,
+      });
       return response.data.cart;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Error updating cart");

@@ -25,14 +25,16 @@ export default function CartPage() {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  const updateQuantity = (variantId, quantity) => {
+  const updateQuantity = (itemId, quantity) => {
+    // console.log("Removing productId:", itemId, "New quantity:", quantity);
+
     if (quantity > 0) {
-      dispatch(updateCartQuantity({ variantId, quantity }));
+      dispatch(updateCartQuantity({ itemId, quantity }));
     }
   };
 
-  const removeItem = (variantId) => {
-    dispatch(removeFromCart({ variantId }));
+  const removeItem = (productId, itemId) => {
+    dispatch(removeFromCart({ productId, itemId }));
   };
 
   const calculateTotal = () => {
@@ -163,10 +165,7 @@ export default function CartPage() {
                             <div className='flex items-center'>
                               <button
                                 onClick={() =>
-                                  updateQuantity(
-                                    item.variantId,
-                                    item.quantity - 1
-                                  )
+                                  updateQuantity(item._id, item.quantity - 1)
                                 }
                                 className='p-2 border border-gray-300 rounded-l-md hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500'
                               >
@@ -177,10 +176,7 @@ export default function CartPage() {
                               </span>
                               <button
                                 onClick={() =>
-                                  updateQuantity(
-                                    item.variantId,
-                                    item.quantity + 1
-                                  )
+                                  updateQuantity(item._id, item.quantity + 1)
                                 }
                                 className='p-2 border border-gray-300 rounded-r-md hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500'
                               >
@@ -189,7 +185,9 @@ export default function CartPage() {
                             </div>
 
                             <button
-                              onClick={() => removeItem(item.variantId)}
+                              onClick={() =>
+                                removeItem(item.variantId, item._id)
+                              }
                               className='ml-4 text-red-600 hover:text-red-800 flex items-center'
                             >
                               <FaTrash className='mr-1' />

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { fetchProducts } from "@/redux/slices/productSlice";
-import { addToCart } from "@/redux/slices/cartSlice"; // ⬅️ ensure this exists
+import { addToCart } from "@/redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { FaStar } from "react-icons/fa";
@@ -17,7 +17,7 @@ export default function ProductGallery() {
     loading,
     error,
   } = useSelector((state) => state.product);
-  const [loadingProductId, setLoadingProductId] = useState(null); // To track which product is being added
+  const [loadingProductId, setLoadingProductId] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user")) || null;
 
