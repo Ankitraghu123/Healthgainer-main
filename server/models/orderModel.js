@@ -1,20 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const orderSchema = new mongoose.Schema(
-//   {
-//     razorpayOrderId: { type: String, required: true, unique: true },
-//     razorpayPaymentId: { type: String },
-//     razorpaySignature: { type: String },
-//     amount: Number,
-//     currency: String,
-//     receipt: String,
-//     status: { type: String, default: "created" },
-//   },
-//   { timestamps: true }
-// );
-
-// module.exports = mongoose.model("Order", orderSchema);
-
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
@@ -26,7 +9,6 @@ const orderSchema = new mongoose.Schema(
     currency: String,
     receipt: String,
     type: String,
-    // status: { type: String, default: "created" },
 
     orderId: { type: String, unique: true }, // 🔹 Random ID (HG + 4-digit number)
     orderNumber: { type: Number, unique: true }, // 🔹 Sequential order number (101, 102, ...)
@@ -42,7 +24,7 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
-        variantId: { type: mongoose.Schema.Types.ObjectId, required: true },
+        variantId: { type: mongoose.Schema.Types.ObjectId, required: false },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
       },

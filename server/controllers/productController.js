@@ -46,13 +46,11 @@ exports.createProduct = async (req, res) => {
     });
 
     await product.save();
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Product created successfully",
-        product,
-      });
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully",
+      product,
+    });
   } catch (error) {
     console.error("Error creating product:", error);
     res.status(500).json({
@@ -76,7 +74,10 @@ exports.getProducts = async (req, res) => {
     if (category) filter.category = category;
     if (search) filter.name = new RegExp(search, "i"); // Case-insensitive search
 
-    const products = await Product.find(filter).skip(skip).limit(limit);
+    const products = await Product.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
     const total = await Product.countDocuments(filter);
 
     res.json({
@@ -189,13 +190,11 @@ exports.updateProduct = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating product:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 };
 

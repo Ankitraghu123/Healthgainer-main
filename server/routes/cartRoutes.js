@@ -4,15 +4,15 @@ const cartController = require("../controllers/cartController");
 const isAuthenticated = require("../middleware/authMiddleware");
 
 // ✅ Get user's cart
-router.get("/", cartController.getCart);
+router.get("/", isAuthenticated, cartController.getCart);
 
 // ✅ Add item to cart
-router.post("/add", cartController.addToCart);
+router.post("/add", isAuthenticated, cartController.addToCart);
 
 // ✅ Remove item from cart
-router.post("/remove", cartController.removeFromCart);
+router.post("/remove", isAuthenticated, cartController.removeFromCart);
 
 // ✅ Update item quantity in cart
-router.post("/update", cartController.updateCartItemQuantity);
+router.post("/update", isAuthenticated, cartController.updateCartItemQuantity);
 
 module.exports = router;

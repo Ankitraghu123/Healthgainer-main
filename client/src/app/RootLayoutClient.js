@@ -26,6 +26,7 @@ export default function RootLayoutClient({ children }) {
   return (
     <html lang='en' className='scroll-smooth'>
       <body
+        cz-shortcut-listen='true'
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
       >
         <Providers>
