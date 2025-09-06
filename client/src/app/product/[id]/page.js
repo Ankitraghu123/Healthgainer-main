@@ -32,7 +32,7 @@ export default function ProductDetailPage() {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  console.log(product);
+  // console.log(product);
 
   useEffect(() => {
     if (id) {
@@ -60,18 +60,19 @@ export default function ProductDetailPage() {
     setSelectedImage(product.images[prevIndex]);
   };
 
-  const handleAddToCart = () => {
-    if (!selectedVariant) {
-      toast.error("Please select a variant before adding to cart.");
-      return;
-    }
+  const handleAddToCart = (productId) => {
+    // if (!selectedVariant) {
+    //   toast.error("Please select a variant before adding to cart.");
+    //   return;
+    // }
+    // console.log("clicked", productId);
 
     const userId = "user123";
     dispatch(
       addToCart({
-        userId,
-        productId: product._id,
-        variantId: selectedVariant._id,
+        // userId,
+        productId: productId,
+        // variantId: selectedVariant._id || null, // optional
         quantity,
       })
     )
@@ -336,7 +337,7 @@ export default function ProductDetailPage() {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={handleAddToCart}
+                      onClick={() => handleAddToCart(product._id)}
                       className='flex-1 bg-primary hover:bg-secondary hover:text-black text-white py-2 md:py-3 md:px-6 rounded-lg font-sm md:font-medium flex items-center justify-center gap-2 transition'
                     >
                       <FaShoppingCart />
