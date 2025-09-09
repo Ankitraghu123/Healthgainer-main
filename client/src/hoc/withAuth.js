@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import API from "@/lib/api";
 
 const withAuth = (WrappedComponent, allowedRoles) => {
   return function AuthenticatedComponent(props) {
@@ -8,27 +9,25 @@ const withAuth = (WrappedComponent, allowedRoles) => {
     const router = useRouter();
 
     useEffect(() => {
-      const token = localStorage.getItem("token");
-      const userData = localStorage.getItem("user");
-      
-
-      let userRole = null;
-      if (userData) {
+      let isMounted = true;
+      const checkAuth = async () => {
         try {
-          const parsedUser = JSON.parse(userData); // 🛠 Parse user JSON
-          userRole = parsedUser.role; // ✅ Extract role
-        } catch (error) {
-          console.error("Error parsing user data:", error);
+          // Validate via backend cookie session
+          const { data } = await API.get("/auth/profile");
+          const userRole = data?.role || data?.user?.role;
+          if (!allowedRoles.includes(String(userRole).toLowerCase())) {
+            router.push("/unauthorized");
+            return;
+          }
+          if (isMounted) setLoading(false);
+        } catch (err) {
+          router.push("/unauthorized");
         }
-      }
-
-    //   alert("User Role:", userRole);
-
-      if (!token || !allowedRoles.includes(userRole)) {
-        router.push("/unauthorized");
-      } else {
-        setLoading(false);
-      }
+      };
+      checkAuth();
+      return () => {
+        isMounted = false;
+      };
     }, []);
 
     if (loading) return <p>Loading...</p>;

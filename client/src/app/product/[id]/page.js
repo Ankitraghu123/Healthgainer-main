@@ -67,7 +67,7 @@ export default function ProductDetailPage() {
     // }
     // console.log("clicked", productId);
 
-    const userId = "user123";
+    const userId = null; // backend will use sessionId for guests
     dispatch(
       addToCart({
         // userId,
@@ -84,7 +84,7 @@ export default function ProductDetailPage() {
         toast.error(err || "Failed to add item to cart");
       });
 
-    router.push("/checkout");
+    // Stay on product page after adding to cart
   };
 
   const toggleWishlist = () => {

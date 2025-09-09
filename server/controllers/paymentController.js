@@ -13,13 +13,63 @@ const razorpay = new Razorpay({
 exports.createPaymentOrder = async (req, res) => {
   try {
     const { addressId, note, type } = req.body;
-    const userId = req.id;
+    const userId = String(req.id);
 
-    // ✅ Get Cart
+    // ✅ Get Cart (merge guest cart if needed)
     let cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
       model: "Product",
     });
+
+    if (!cart) {
+      const guestId = String(req.sessionId || "");
+      if (guestId) {
+        const guestCart = await Cart.findOne({ userId: guestId }).populate({
+          path: "items.productId",
+          model: "Product",
+        });
+        if (guestCart) {
+          // If a user cart exists (rare), merge; otherwise reassign
+          const existingUserCart = await Cart.findOne({ userId });
+          if (existingUserCart) {
+            // Merge items by product+variant
+            guestCart.items.forEach((gItem) => {
+              const idx = existingUserCart.items.findIndex(
+                (uItem) =>
+                  String(uItem.productId) === String(gItem.productId._id || gItem.productId) &&
+                  String(uItem.variantId || "") === String(gItem.variantId || "")
+              );
+              if (idx > -1) {
+                existingUserCart.items[idx].quantity += gItem.quantity;
+                existingUserCart.items[idx].subtotal =
+                  existingUserCart.items[idx].price * existingUserCart.items[idx].quantity;
+              } else {
+                existingUserCart.items.push({
+                  productId: gItem.productId._id || gItem.productId,
+                  variantId: gItem.variantId || null,
+                  name: gItem.name,
+                  weight: gItem.weight,
+                  price: gItem.price,
+                  mrp: gItem.mrp,
+                  discount: gItem.discount,
+                  quantity: gItem.quantity,
+                  subtotal: gItem.subtotal,
+                  images: gItem.images,
+                });
+              }
+            });
+            await existingUserCart.save();
+            await Cart.deleteOne({ _id: guestCart._id });
+            cart = await Cart.findOne({ userId }).populate({ path: "items.productId", model: "Product" });
+          } else {
+            // Reassign guest cart to user
+            guestCart.userId = userId;
+            await guestCart.save();
+            cart = await Cart.findOne({ userId }).populate({ path: "items.productId", model: "Product" });
+          }
+        }
+      }
+    }
 
     if (!cart || cart.items.length === 0) {
       return res
@@ -52,7 +102,7 @@ exports.createPaymentOrder = async (req, res) => {
         price = product.price;
       }
 
-      return acc + item.quantity * price;
+      return acc + item.quantity * (price || product.price);
     }, 0);
 
     // ✅ Create Razorpay Order

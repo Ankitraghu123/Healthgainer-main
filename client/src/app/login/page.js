@@ -42,17 +42,16 @@ export default function LoginPage() {
       .unwrap()
       .then((res) => {
         toast.success("Login Successful");
-
-        const role = res?.user?.role?.toLowerCase();
-
-        if (role === "admin") {
-          router.push("/admin");
-        } else if (role === "user") {
-          router.push("/user");
-        } else {
-          toast.warn("Unknown role, redirecting to home");
-          router.push("/");
+        const params = new URLSearchParams(window.location.search);
+        const returnUrl = params.get("returnUrl");
+        if (returnUrl) {
+          router.push(returnUrl);
+          return;
         }
+        const role = res?.user?.role?.toLowerCase();
+        if (role === "admin") router.push("/admin");
+        else if (role === "user") router.push("/user");
+        else router.push("/");
       })
       .catch((err) => {
         toast.error(err || "Login failed");

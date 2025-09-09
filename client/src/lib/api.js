@@ -9,21 +9,6 @@ const API = axios.create({
   },
   withCredentials: true,
 });
-// Request interceptor to attach token
-API.interceptors.request.use((config) => {
-  let token = localStorage.getItem("token");
-  // console.log("Token from localStorage:", token);
-
-  // Remove extra double quotes if present
-  if (token && token.startsWith('"') && token.endsWith('"')) {
-    token = token.slice(1, -1);
-  }
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
 
 // Response interceptor to handle errors globally
 API.interceptors.response.use(

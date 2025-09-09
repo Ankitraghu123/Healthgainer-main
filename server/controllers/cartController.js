@@ -72,7 +72,8 @@ const Product = require("../models/Product");
 // };
 
 exports.addToCart = async (req, res) => {
-  const userId = req.id;
+  // Support guest carts via sessionId cookie; authenticated via req.id
+  const userId = String(req.id || req.sessionId);
   try {
     const { productId, variantId, quantity } = req.body;
 
@@ -115,9 +116,9 @@ exports.addToCart = async (req, res) => {
     const subtotal = price * quantity;
 
     // Find user's cart
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId: String(userId) });
     if (!cart) {
-      cart = new Cart({ userId, items: [] });
+      cart = new Cart({ userId: String(userId), items: [] });
     }
 
     // Check if product already in cart
@@ -220,11 +221,11 @@ exports.addToCart = async (req, res) => {
 // };
 
 exports.removeFromCart = async (req, res) => {
-  const userId = req.id; // user id from auth
+  const userId = String(req.id || req.sessionId); // allow guest carts
   try {
     const { itemId } = req.body;
 
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId: String(userId) });
     if (!cart) {
       return res
         .status(404)
@@ -262,11 +263,11 @@ exports.removeFromCart = async (req, res) => {
 };
 
 exports.updateCartItemQuantity = async (req, res) => {
-  const userId = req.id; // middleware se aa raha hai
+  const userId = String(req.id || req.sessionId); // allow guest carts
   const { itemId, quantity } = req.body;
 
   try {
-    let cart = await Cart.findOne({ userId });
+    let cart = await Cart.findOne({ userId: String(userId) });
     if (!cart) {
       return res
         .status(404)
@@ -304,9 +305,9 @@ exports.updateCartItemQuantity = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   try {
-    const id = req.id;
+    const id = String(req.id || req.sessionId);
     const userId = id;
-    const cart = await Cart.findOne({ userId }).populate("items.productId");
+    const cart = await Cart.findOne({ userId: String(userId) }).populate("items.productId");
 
     if (!cart)
       return res

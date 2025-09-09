@@ -365,10 +365,15 @@ const CheckoutPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (!user) {
+      const returnUrl = encodeURIComponent("/checkout");
+      router.push(`/login?returnUrl=${returnUrl}`);
+      return;
+    }
     if (!isViewPlan && cartItems.length === 0) {
       router.push("/cart");
     }
-  }, [cartItems, router, isViewPlan]);
+  }, [cartItems, router, isViewPlan, user]);
 
   const subtotal = isViewPlan
     ? PlanAmount

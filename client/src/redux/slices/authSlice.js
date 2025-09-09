@@ -15,8 +15,8 @@ export const loginUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const { data } = await API.post("/auth/login", userData);
+      // Token is set as httpOnly cookie by backend; only persist user locally
       localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("token", JSON.stringify(data.token));
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -31,7 +31,6 @@ export const registerUser = createAsyncThunk(
     try {
       const { data } = await API.post("/auth/register", userData);
       localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("token", JSON.stringify(data.token));
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -156,8 +155,6 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await API.post("/auth/logout");
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
-
     return null;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -189,7 +186,6 @@ const authSlice = createSlice({
     clearUser: (state) => {
       state.user = null;
       localStorage.removeItem("user");
-      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {

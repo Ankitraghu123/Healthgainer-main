@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const isProd = process.env.NODE_ENV === "production";
 
 // Register User
 exports.registerUser = async (req, res) => {
@@ -45,20 +46,17 @@ exports.registerUser = async (req, res) => {
 
     console.log("Generated Token:", token); // Debugging log
 
-    // ✅ Secure cookies me store karna
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true, // Set to true in production
-      sameSite: "lax",
+    // ✅ Cookies (env-aware)
+    const cookieExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const commonCookie = {
       path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    });
+      expires: cookieExpires,
+      sameSite: isProd ? "none" : "lax",
+      secure: isProd,
+    };
 
-    res.cookie("role", newUser.role, {
-      sameSite: "lax",
-      path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    res.cookie("token", token, { ...commonCookie, httpOnly: true });
+    res.cookie("role", newUser.role, { ...commonCookie });
 
     console.log("Cookies Set:", { token, role: newUser.role }); // Debugging log
 
@@ -106,22 +104,17 @@ exports.loginUser = async (req, res) => {
 
     console.log("Generated Token:", token); // Debugging log
 
-    // ✅ Secure cookies me store karna
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true, // Set to true in production
-      sameSite: "lax",
+    // ✅ Cookies (env-aware)
+    const cookieExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const commonCookie = {
       path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    });
+      expires: cookieExpires,
+      sameSite: isProd ? "none" : "lax",
+      secure: isProd,
+    };
 
-    res.cookie("role", user.role, {
-      // httpOnly: true,
-      // secure: true, // Set to true in production
-      sameSite: "lax",
-      path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    res.cookie("token", token, { ...commonCookie, httpOnly: true });
+    res.cookie("role", user.role, { ...commonCookie });
 
     console.log("Cookies Set:", { token, role: user.role }); // Debugging log
 
@@ -140,19 +133,15 @@ exports.loginUser = async (req, res) => {
 // Logout User
 exports.logoutUser = async (req, res) => {
   try {
-    res.cookie("token", "", {
+    const clearCookie = {
       expires: new Date(0),
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
+      path: "/",
+      sameSite: isProd ? "none" : "lax",
+      secure: isProd,
+    };
 
-    res.cookie("role", "", {
-      expires: new Date(0),
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-    });
+    res.cookie("token", "", { ...clearCookie, httpOnly: true });
+    res.cookie("role", "", { ...clearCookie });
 
     res.status(200).json({ message: "Logout Successful", success: true });
   } catch (error) {

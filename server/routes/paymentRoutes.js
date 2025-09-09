@@ -7,7 +7,8 @@ const {
 
 const isAuthenticated = require("../middleware/authMiddleware");
 
+// Allow order creation for logged-in users; verification can be public (signature verified)
 router.post("/order", isAuthenticated, createPaymentOrder);
-router.post("/verify", isAuthenticated, handlePaymentVerify);
+router.post("/verify", handlePaymentVerify);
 
 module.exports = router;
