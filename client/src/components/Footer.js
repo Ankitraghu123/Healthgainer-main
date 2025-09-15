@@ -156,11 +156,12 @@ export default function Footer() {
           <p className="flex items-center gap-2">
   <span className="font-bold text-white">Address:</span>
 <a
-  href="https://www.google.com/maps/search/?api=1&query=Pharmascience+Bhopal+M.P.+Nagar+Zone+2"
+  href="https://www.google.com/maps/search/?api=1&query=Bhopal+M.P.+Nagar+Zone+2"
   target="_blank"
   rel="noopener noreferrer"
 >
-  5/11 Pharmascience Amer complex in front of PNB Bank, M.P. Nagar Zone 2, Bhopal
+  
+  <p> 5/11 Pharma Science The Indian Ayurveda </p>
 </a>
 
 </p>
@@ -287,9 +288,12 @@ export default function Footer() {
           <a href="/faq" className="hover:text-gray-300 transition-colors">
             FAQ
           </a>
+         
         </div>
-        <p>Copyright © {new Date().getFullYear()} YourCompany. All Rights Reserved.</p>
+        <p>Copyright © {new Date().getFullYear()} Pharma Science The Indian Ayurveda</p>
       </div>
+      
+
     </footer>
   );
 }
