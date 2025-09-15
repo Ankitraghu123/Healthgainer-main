@@ -26,11 +26,8 @@ app.use(logger("tiny"));
 const allowedOrigins = [
   "http://localhost:3000",
   "https://www.healthgainer.in",
-  "https://healthgainer-main.vercel.app",
-  "https://healthgainer-main-mhhi8ty6v-sky-info-groups-projects.vercel.app",
-  "https://healthgainer-main-mhhi8ty6v-sky-info-groups-projects.vercel.app",
-  "https://healthgainer-main-hazel.vercel.app",
-  "https://healthgainer-main-git-main-pharma-science.vercel.app",
+  "https://healthgainer.in",
+ 
   
   
 ];
