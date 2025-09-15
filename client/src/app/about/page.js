@@ -163,9 +163,7 @@ const AboutPage = () => {
                   The Science of <span className="text-primary">Healthy Weight Gain</span>
                 </h2>
                 <p className="text-lg text-gray-600 mb-4">
-                  Health Gainer  is a revolutionary Ayurvedic formulation designed to support
-                  healthy weight gain through natural ingredients. Unlike synthetic supplements, our formula
-                  works with your body's natural processes to promote sustainable results.
+                  Health Gainer by Pharma Science - The Indian Ayurveda is a revolutionary Ayurvedic formulation designed to support healthy weight gain through natural ingredients. Unlike synthetic supplements, our formula works harmoniously with your body's natural processes to promote sustainable and lasting results.
                 </p>
                 <p className="text-lg text-gray-600 mb-4">
                   Our product is certified by GMP, Halal, and ISO standards, ensuring the highest quality
