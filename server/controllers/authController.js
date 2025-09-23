@@ -6,6 +6,8 @@ const isProd = process.env.NODE_ENV === "production";
 // Register User
 exports.registerUser = async (req, res) => {
   try {
+    // const url = "http://redirect.ds3.in/submitsms.jsp";
+
     const { firstName, lastName, mobileNumber, email, password } = req.body;
 
     console.log(req.body, "HEELO");
@@ -25,6 +27,9 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const profilePhoto = `https://avatar.iran.liara.run/public/boy?email=${email}`;
+
+
+
 
     const newUser = await User.create({
       firstName,

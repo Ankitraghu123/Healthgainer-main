@@ -92,6 +92,7 @@ const advantagesRoutes = require("./routes/why-choose/advantage.js");
 const mediaReportRoutes = require("./routes/mediaReport/mediaReportRoutes.js");
 const reqRoutes = require("./routes/reqRoutes.js");
 const distributorshipRoutes = require("./routes/distributorshipRoutes");
+const OTP = require("./routes/OTP.js");
 
 const paymentRoutes = require("./routes/paymentRoutes.js");
 app.use("/api/v1/images", headerSliderImagesRoutes);
@@ -103,6 +104,10 @@ app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/addresses", addressRoutes);
 app.use("/api/v1/contacts", contactRoutes);
+
+// OTP Call
+app.use("/api/v1/getOTP",OTP );
+// 
 
 app.use("/api/distributorship", distributorshipRoutes);
 app.use("/api/v1/req", reqRoutes);
