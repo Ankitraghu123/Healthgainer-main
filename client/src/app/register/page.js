@@ -7,7 +7,7 @@ import { registerUser } from "@/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import axios from "axios";
+import API from "@/lib/api";
 
 export default function RegisterPage() {
   const [isMounted, setIsMounted] = useState(false);
@@ -24,8 +24,6 @@ export default function RegisterPage() {
   const [hideForm, setHideForm] = useState(false);
   const [getOtp, setGetOtp] = useState(null);
   const [OTPNumber, setOTPNumber] = useState("");
-
-  const url = "http://redirect.ds3.in/submitsms.jsp";
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -45,61 +43,29 @@ export default function RegisterPage() {
   const generateOTP = async (e) => {
     e.preventDefault();
     setHideForm(true);
-    const { mobileNumber } = registerForm;
-
-    const otpNumber = Math.floor(1000 + Math.random() * 9000);
-    setOTPNumber(otpNumber);
-
-    // setOTPNumber(otpNumber);
-    try {
-      const response = await axios.get(url, {
-        params: {
-          user: "FORTUNEINF",
-          key: "ec48a1fc79XX",
-          mobile: `+91${mobileNumber}`,
-          message: `Your OTP is ${otpNumber} for login to healthgainer.in By Pharma science The Indian Ayurveda. Valid for 10 minutes. Do not share this code with anyone.`,
-          senderid: "PSAYUR",
-          accusage: "1",
-          entityid: "1201160222472542813",
-          tempid: "1707175810749668953",
-        },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+    const res = await API.post("/getOTP", { phone: registerForm.mobileNumber });
+    if (res?.data?.status) {
+      toast.success("OTP send to you number please check your SMS.");
+      setOTPNumber(res?.data?.Data);
     }
+    // console.log(res);
   };
 
   const resendOTP = async () => {
-    const { mobileNumber } = registerForm;
-    toast.success("OTP resend to you number.");
-
-    try {
-      const response = await axios.get(url, {
-        params: {
-          user: "FORTUNEINF",
-          key: "ec48a1fc79XX",
-          mobile: `+91${mobileNumber}`,
-          message: `Your OTP is ${OTPNumber} for login to healthgainer.in By Pharma science The Indian Ayurveda. Valid for 10 minutes. Do not share this code with anyone.`,
-          senderid: "PSAYUR",
-          accusage: "1",
-          entityid: "1201160222472542813",
-          tempid: "1707175810749668953",
-        },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
+    const res = await API.post("/getOTP/resend", {
+      phone: registerForm.mobileNumber,
+      OTPNumber,
+    });
+    if (res?.data?.status) {
+      toast.success("OTP resend to you number again please check your SMS.");
+      setOTPNumber(res?.data?.Data);
     }
   };
 
-  // Handle Register
   const handleRegister = async (e) => {
     e.preventDefault();
 
     if (OTPNumber == getOtp) {
-      // setHideForm(true);
-
       const {
         firstName,
         lastName,
@@ -109,7 +75,6 @@ export default function RegisterPage() {
         confirmPassword,
       } = registerForm;
 
-      // // Validate all fields
       if (
         !firstName.trim() ||
         !email.trim() ||
