@@ -1,7 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
 import API from "@/lib/api";
+=======
+>>>>>>> completed
 
 const withAuth = (WrappedComponent, allowedRoles) => {
   return function AuthenticatedComponent(props) {
@@ -9,6 +12,7 @@ const withAuth = (WrappedComponent, allowedRoles) => {
     const router = useRouter();
 
     useEffect(() => {
+<<<<<<< HEAD
       let isMounted = true;
       const checkAuth = async () => {
         try {
@@ -28,6 +32,26 @@ const withAuth = (WrappedComponent, allowedRoles) => {
       return () => {
         isMounted = false;
       };
+=======
+      const token = localStorage.getItem("token");
+      const userData = localStorage.getItem("user");
+
+      let userRole = null;
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          userRole = parsedUser.role;
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      }
+
+      if (!token || !allowedRoles.includes(userRole)) {
+        router.push("/unauthorized");
+      } else {
+        setLoading(false);
+      }
+>>>>>>> completed
     }, []);
 
     if (loading) return <p>Loading...</p>;

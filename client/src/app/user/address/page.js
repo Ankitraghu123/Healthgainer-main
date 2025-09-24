@@ -23,7 +23,10 @@ const AddAddressForm = () => {
         e.preventDefault();
         try {
             await dispatch(addAddress(formData)).unwrap();
+<<<<<<< HEAD
             // Reset form and hide after successful submission
+=======
+>>>>>>> completed
             setFormData({
                 fullName: '',
                 phone: '',
@@ -35,7 +38,10 @@ const AddAddressForm = () => {
                 isDefault: false,
             });
             setShowForm(false);
+<<<<<<< HEAD
             // Refresh the address list
+=======
+>>>>>>> completed
             await dispatch(fetchAddresses());
         } catch (error) {
             console.error('Failed to add address:', error);
@@ -192,7 +198,10 @@ const AddAddressForm = () => {
                         </form>
                     </div>
                 )}
+<<<<<<< HEAD
 
+=======
+>>>>>>> completed
                 <AddressList />
             </div>
         </div>

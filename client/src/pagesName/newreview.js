@@ -11,8 +11,11 @@ const testimonials = [
     review: "BigMuscles Karnage delivers explosive energy, intense focus, unmatched pumps...",
     videoUrl: "https://player.vimeo.com/video/1094277637?h=8949da3ad7&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
   },
+<<<<<<< HEAD
 
   // <div style="padding:177.78% 0 0 0;position:relative;"><iframe src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="videoplayback"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+=======
+>>>>>>> completed
   {
     name: "Mannu Chaudhary",
     role: "Power Lifter",
@@ -161,7 +164,10 @@ export default function Testimonials() {
                     transition={{ duration: 0.6 }}
                     style={{ transformStyle: "preserve-3d" }}
                   >
+<<<<<<< HEAD
                     {/* Front Side */}
+=======
+>>>>>>> completed
                     <div
                       className="absolute inset-0 z-10"
                       style={{ backfaceVisibility: "hidden" }}
@@ -179,8 +185,11 @@ export default function Testimonials() {
                         <p className="text-xs md:text-sm">{testimonial.role}</p>
                       </div>
                     </div>
+<<<<<<< HEAD
 
                     {/* Back Side */}
+=======
+>>>>>>> completed
                     <div
                       className="absolute inset-0 bg-white flex items-center justify-center rounded-xl p-4 md:p-6 border border-primary"
                       style={{

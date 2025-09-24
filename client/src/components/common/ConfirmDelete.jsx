@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // components/common/ConfirmDelete.jsx
+=======
+>>>>>>> completed
 "use client";
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";

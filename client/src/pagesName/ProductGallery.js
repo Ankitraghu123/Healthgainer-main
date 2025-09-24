@@ -26,7 +26,10 @@ export default function ProductGallery() {
             <h2 className="text-3xl font-bold text-center">Product Gallery</h2>
             <div className="w-20 h-1 bg-red-500 mx-auto my-4"></div>
 
+<<<<<<< HEAD
             {/* Category Filters */}
+=======
+>>>>>>> completed
             <div className="flex justify-center space-x-4 mt-6 overflow-x-auto">
                 {categories.map(category => (
                     <button
@@ -39,24 +42,37 @@ export default function ProductGallery() {
                 ))}
             </div>
 
+<<<<<<< HEAD
             {/* Product Grid */}
+=======
+>>>>>>> completed
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                 {filteredProducts.map(product => (
                     <div
                         key={product.id}
                         className="group bg-white text-black shadow-lg rounded-lg overflow-hidden relative hover:-translate-y-2 duration-300"
                     >
+<<<<<<< HEAD
                         {/* Hover Overlay */}
+=======
+
+>>>>>>> completed
                         <div className="w-full h-full transition-all duration-300 opacity-0 group-hover:opacity-100 bg-primary bg-opacity-90 absolute top-0 left-0 flex items-center justify-center">
                             <CiSearch className="text-white text-6xl" />
                         </div>
 
+<<<<<<< HEAD
                         {/* Product Image */}
+=======
+>>>>>>> completed
                         <div className="w-full flex items-center justify-center">
                             <img src={product.image} alt={product.name} className="w-48 h-48 object-cover" />
                         </div>
 
+<<<<<<< HEAD
                         {/* Product Details */}
+=======
+>>>>>>> completed
                         <div className="p-4 text-center  text-black">
                             <h3 className="text-lg font-semibold">{product.name}</h3>
                             <p className="text-sm ">{product.category}</p>

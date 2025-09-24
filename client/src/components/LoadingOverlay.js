@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 // components/LoadingOverlay.jsx
 'use client';
 
 import { useEffect, useState } from 'react';
+=======
+'use client';
+
+import { useEffect, useState, useCallback } from 'react';
+>>>>>>> completed
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -9,11 +15,24 @@ export default function LoadingOverlay() {
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
 
+<<<<<<< HEAD
   useEffect(() => {
     setLoading(true);
     const timeout = setTimeout(() => setLoading(false), 1000); // Adjust delay as needed
     return () => clearTimeout(timeout);
   }, [pathname]);
+=======
+  const triggerLoading = useCallback(() => {
+    setLoading(true);
+    const timeout = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    const cleanup = triggerLoading();
+    return cleanup;
+  }, [pathname, triggerLoading]);
+>>>>>>> completed
 
   return (
     <AnimatePresence>

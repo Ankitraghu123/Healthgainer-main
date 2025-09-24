@@ -4,7 +4,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, XCircle, Clock, Truck, ArrowLeft, CreditCard, MapPin, Package } from 'lucide-react';
 import API from '@/lib/api';
+<<<<<<< HEAD
 import Link from 'next/link';
+=======
+>>>>>>> completed
 
 const OrderDetailsPage = ({ params }) => {
   const { id } = params;
@@ -121,7 +124,11 @@ const OrderDetailsPage = ({ params }) => {
             <XCircle className="h-5 w-5 text-yellow-500" />
             <div className="ml-3">
               <p className="text-yellow-800 font-medium">Order Not Found</p>
+<<<<<<< HEAD
               <p className="text-yellow-700">We couldn't find the order you're looking for.</p>
+=======
+              <p className="text-yellow-700">We couldn&apos;t find the order you&apos;re looking for.</p>
+>>>>>>> completed
             </div>
           </div>
           <button
@@ -149,7 +156,10 @@ const OrderDetailsPage = ({ params }) => {
         </button>
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+<<<<<<< HEAD
           {/* Order Header */}
+=======
+>>>>>>> completed
           <div className="bg-black p-6 text-white">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
@@ -163,7 +173,10 @@ const OrderDetailsPage = ({ params }) => {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Order Tracking */}
+=======
+>>>>>>> completed
           <div className="p-6 border-b">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Order Tracking</h2>
             <div className="relative">
@@ -214,7 +227,10 @@ const OrderDetailsPage = ({ params }) => {
               </ul>
             </div>
 
+<<<<<<< HEAD
             {/* Delivery Map Placeholder */}
+=======
+>>>>>>> completed
             {order.status.toLowerCase() === 'shipped' && (
               <div className="mt-8 bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
                 <div className="p-4 bg-primary text-white">
@@ -232,7 +248,10 @@ const OrderDetailsPage = ({ params }) => {
             )}
           </div>
 
+<<<<<<< HEAD
           {/* Order Summary */}
+=======
+>>>>>>> completed
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6 border-b">
             <div>
               <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -276,7 +295,10 @@ const OrderDetailsPage = ({ params }) => {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Order Items */}
+=======
+>>>>>>> completed
           <div className="p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <Package className="h-5 w-5 text-primary" />
@@ -321,7 +343,10 @@ const OrderDetailsPage = ({ params }) => {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Order Summary */}
+=======
+>>>>>>> completed
           <div className="bg-gray-50 p-6 border-t">
             <div className="max-w-md ml-auto">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Order Summary</h3>
@@ -348,7 +373,10 @@ const OrderDetailsPage = ({ params }) => {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Order Notes */}
+=======
+>>>>>>> completed
           {order.note && (
             <div className="p-6 border-t">
               <h3 className="text-lg font-semibold text-gray-800 mb-3">Order Notes</h3>
@@ -359,8 +387,11 @@ const OrderDetailsPage = ({ params }) => {
               </div>
             </div>
           )}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> completed
         </div>
       </div>
     </div>

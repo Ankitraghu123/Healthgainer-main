@@ -3,28 +3,49 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
 import { loginUser } from "@/redux/slices/authSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Link from "next/link";
 // import axios from "axios";
+=======
+import { getOTPLogin, loginUser } from "@/redux/slices/authSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import Link from "next/link";
+>>>>>>> completed
 import API from "@/lib/api";
 
 export default function LoginPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [loginForm, setLoginForm] = useState({
+<<<<<<< HEAD
     email: "",
+=======
+>>>>>>> completed
     password: "",
     phone: "",
   });
 
   const [OtpForCheck, setOtpForCheck] = useState("");
+<<<<<<< HEAD
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [hideForm, setHideForm] = useState(false);
 
   const [OTPNumber, setOTPNumber] = useState("");
+=======
+  const [OTPNumber, setOTPNumber] = useState("");
+
+  const [hideForm, setHideForm] = useState(false);
+
+  // 🔑 Loading states for each button
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isConfirmingOTP, setIsConfirmingOTP] = useState(false);
+  const [isResendingOTP, setIsResendingOTP] = useState(false);
+>>>>>>> completed
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -43,6 +64,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     if (OTPNumber == OtpForCheck) {
       if (!loginForm.email || !loginForm.password || !loginForm.phone) {
         toast.error("Please fill in all fields");
@@ -104,6 +126,82 @@ export default function LoginPage() {
     if (res?.data?.status) {
       toast.success("OTP resend to you number again please check your sms.");
       setOTPNumber(res?.data?.Data);
+=======
+    if (!loginForm.phone) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsSigningIn(true);
+
+    dispatch(getOTPLogin(loginForm))
+      .unwrap()
+      .then((result) => {
+        if (result.success) {
+          setHideForm(true);
+          toast.success("OTP generated successfully. Please check your SMS.");
+          setOTPNumber(result?.Data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsSigningIn(false);
+      });
+  };
+
+  const confirmOTP = async () => {
+    setIsConfirmingOTP(true);
+    try {
+      if (OTPNumber == OtpForCheck) {
+        if (!loginForm.phone) {
+          toast.error("Please fill in all fields");
+          return;
+        }
+
+        dispatch(loginUser({ loginForm }))
+          .unwrap()
+          .then((res) => {
+            console.log(res);
+
+            if (res?.success) {
+              toast.success("Login Successful!");
+              router.push("/");
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            setIsConfirmingOTP(false);
+          });
+      } else {
+        toast.error("Wrong OTP");
+        setIsConfirmingOTP(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsConfirmingOTP(false);
+    }
+  };
+
+  const resendOTP = async () => {
+    setIsResendingOTP(true);
+    try {
+      const res = await API.post("/getOTP/resend", {
+        phone: loginForm.phone,
+        OTPNumber,
+      });
+      if (res?.data?.status) {
+        toast.success("OTP resent successfully. Please check your SMS.");
+        setOTPNumber(res?.data?.Data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsResendingOTP(false);
+>>>>>>> completed
     }
   };
 
@@ -125,6 +223,7 @@ export default function LoginPage() {
             </div>
 
             {!hideForm ? (
+<<<<<<< HEAD
               <form onSubmit={generateOTP}>
                 <div className="space-y-5">
                   <div>
@@ -149,6 +248,12 @@ export default function LoginPage() {
 
                   <div>
                     <label
+=======
+              <form onSubmit={handleLogin}>
+                <div className="space-y-5">
+                  <div>
+                    <label
+>>>>>>> completed
                       htmlFor="phone"
                       className="block text-sm font-medium text-gray-700 mb-1"
                     >
@@ -168,6 +273,7 @@ export default function LoginPage() {
                     />
                   </div>
 
+<<<<<<< HEAD
                   <div>
                     <div className="flex justify-between items-center mb-1">
                       <label
@@ -196,14 +302,22 @@ export default function LoginPage() {
                     />
                   </div>
 
+=======
+>>>>>>> completed
                   <motion.button
                     type="submit"
                     className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-lg shadow-md transition-all duration-300"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+<<<<<<< HEAD
                     disabled={isLoading}
                   >
                     {isLoading ? (
+=======
+                    disabled={isSigningIn}
+                  >
+                    {isSigningIn ? (
+>>>>>>> completed
                       <span className="flex items-center justify-center">
                         <svg
                           className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -240,11 +354,16 @@ export default function LoginPage() {
                     onChange={(e) => setOtpForCheck(e.target.value)}
                     type="text"
                     placeholder="Enter OTP here"
+<<<<<<< HEAD
                     className="border rounded p-2 mb-2"
+=======
+                    className="border rounded p-2 mb-2 w-full"
+>>>>>>> completed
                   />
                 </div>
                 <div className="flex gap-2">
                   <button
+<<<<<<< HEAD
                     onClick={handleLogin}
                     className="bg-green-700 text-white p-2"
                   >
@@ -255,6 +374,20 @@ export default function LoginPage() {
                     className="bg-blue-700 text-white p-2"
                   >
                     Resend OTP
+=======
+                    onClick={confirmOTP}
+                    disabled={isConfirmingOTP}
+                    className="flex-1 bg-green-700 text-white p-2 rounded-md flex items-center justify-center"
+                  >
+                    {isConfirmingOTP ? "Confirming..." : "Confirm OTP"}
+                  </button>
+                  <button
+                    onClick={resendOTP}
+                    disabled={isResendingOTP}
+                    className="flex-1 bg-blue-700 text-white p-2 rounded-md flex items-center justify-center"
+                  >
+                    {isResendingOTP ? "Resending..." : "Resend OTP"}
+>>>>>>> completed
                   </button>
                 </div>
               </div>
@@ -262,7 +395,11 @@ export default function LoginPage() {
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
+<<<<<<< HEAD
                 Don't have an account?
+=======
+                Don&apos;t have an account?{" "}
+>>>>>>> completed
                 <Link
                   href="/register"
                   className="text-blue-600 hover:text-blue-500 font-medium"

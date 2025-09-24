@@ -1,10 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+<<<<<<< HEAD
 
 
 
 import API from "../../lib/api"; 
 
 // Fetch Reviews
+=======
+import API from "../../lib/api"; 
+
+>>>>>>> completed
 export const fetchReviews = createAsyncThunk(
   "reviews/fetchReviews",
   async (productId, { rejectWithValue }) => {
@@ -17,7 +22,10 @@ export const fetchReviews = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // Add Review
+=======
+>>>>>>> completed
 export const addReview = createAsyncThunk(
   "reviews/addReview",
   async (reviewData, { rejectWithValue }) => {
@@ -32,7 +40,10 @@ export const addReview = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // Delete Review
+=======
+>>>>>>> completed
 export const deleteReview = createAsyncThunk(
   "reviews/deleteReview",
   async ({ reviewId, token }, { rejectWithValue }) => {

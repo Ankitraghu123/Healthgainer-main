@@ -3,21 +3,31 @@ import API from "@/lib/api";
 
 const BASE_URL = "/deals";
 
+<<<<<<< HEAD
 // Fetch all
+=======
+>>>>>>> completed
 export const fetchDeals = createAsyncThunk("deal/fetchAll", async () => {
   const res = await API.get(BASE_URL);
   return res.data.deals;
 });
 
+<<<<<<< HEAD
 // Create
+=======
+>>>>>>> completed
 export const createDeal = createAsyncThunk("deal/create", async (formData) => {
     const res = await API.post(BASE_URL, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res.data.deal;
   });
+<<<<<<< HEAD
   
   // Update
+=======
+
+>>>>>>> completed
   export const updateDeal = createAsyncThunk("deal/update", async ({ id, formData }) => {
     const res = await API.put(`${BASE_URL}/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -25,7 +35,10 @@ export const createDeal = createAsyncThunk("deal/create", async (formData) => {
     return res.data.deal;
   });
 
+<<<<<<< HEAD
 // Delete
+=======
+>>>>>>> completed
 export const deleteDeal = createAsyncThunk("deal/delete", async (id) => {
   await API.delete(`${BASE_URL}/${id}`);
   return id;

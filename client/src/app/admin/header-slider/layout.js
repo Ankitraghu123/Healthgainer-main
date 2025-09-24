@@ -1,6 +1,10 @@
 "use client";
 
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
+=======
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+>>>>>>> completed
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +20,15 @@ import {
   fetchAllImages,
   deleteImage,
   updateImage,
+<<<<<<< HEAD
   createImage,
 } from "@/redux/slices/header-slice/imageSlice";
 import { toast } from "react-toastify";
 
+=======
+} from "@/redux/slices/header-slice/imageSlice";
+import dynamic from "next/dynamic";
+>>>>>>> completed
 import {
   DndContext,
   closestCenter,
@@ -36,6 +45,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+<<<<<<< HEAD
 
 import ConfirmDelete from "@/components/common/ConfirmDelete";
 
@@ -47,6 +57,21 @@ function SortableRow({ img, index, handleEdit, confirmDelete }) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+=======
+import ConfirmDelete from "@/components/common/ConfirmDelete";
+
+const { toast } = dynamic(() => import("react-toastify"), { ssr: false });
+
+const SortableRow = React.memo(function SortableRow({
+  img,
+  handleEdit,
+  confirmDelete,
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: img._id });
+
+  const style = { transform: CSS.Transform.toString(transform), transition };
+>>>>>>> completed
 
   return (
     <tr ref={setNodeRef} style={style} className="border-t bg-white">
@@ -58,7 +83,10 @@ function SortableRow({ img, index, handleEdit, confirmDelete }) {
       >
         ☰
       </td>
+<<<<<<< HEAD
 
+=======
+>>>>>>> completed
       <td className="p-2">
         <Image
           src={img.url}
@@ -83,12 +111,20 @@ function SortableRow({ img, index, handleEdit, confirmDelete }) {
       </td>
     </tr>
   );
+<<<<<<< HEAD
 }
 
 export default function ImageTable() {
   const dispatch = useDispatch();
   const { images, loading } = useSelector((state) => state?.headerSlider);
 
+=======
+});
+
+export default function ImageTable() {
+  const dispatch = useDispatch();
+  const { images, loading } = useSelector((state) => state.headerSlider || {});
+>>>>>>> completed
   const [open, setOpen] = useState(false);
   const [editImage, setEditImage] = useState(null);
   const [items, setItems] = useState([]);
@@ -99,6 +135,7 @@ export default function ImageTable() {
   }, [dispatch]);
 
   useEffect(() => {
+<<<<<<< HEAD
     const sorted = [...(images || [])].sort((a, b) => a.sno - b.sno);
     setItems(sorted);
   }, [images]);
@@ -127,6 +164,36 @@ export default function ImageTable() {
     setOpen(false);
     setEditImage(null);
   };
+=======
+    if (images) {
+      const sorted = [...images].sort((a, b) => a.sno - b.sno);
+      setItems(sorted);
+    }
+  }, [images]);
+
+  const confirmDelete = useCallback((id) => setDeleteId(id), []);
+
+  const handleDelete = useCallback(async () => {
+    try {
+      await dispatch(deleteImage(deleteId)).unwrap();
+      (await toast).success("Image deleted successfully");
+    } catch {
+      (await toast).error("Failed to delete image");
+    } finally {
+      setDeleteId(null);
+    }
+  }, [deleteId, dispatch]);
+
+  const handleEdit = useCallback((image) => {
+    setEditImage(image);
+    setOpen(true);
+  }, []);
+
+  const handleFormSubmit = useCallback(() => {
+    setOpen(false);
+    setEditImage(null);
+  }, []);
+>>>>>>> completed
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -135,6 +202,7 @@ export default function ImageTable() {
     })
   );
 
+<<<<<<< HEAD
   const handleDragEnd = async (event) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -160,6 +228,31 @@ export default function ImageTable() {
       toast.error("Reordering failed");
     }
   };
+=======
+  const handleDragEnd = useCallback(
+    async (event) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id) return;
+
+      const oldIndex = items.findIndex((i) => i._id === active.id);
+      const newIndex = items.findIndex((i) => i._id === over.id);
+      const newItems = arrayMove(items, oldIndex, newIndex);
+      setItems(newItems);
+
+      try {
+        for (let i = 0; i < newItems.length; i++) {
+          const image = newItems[i];
+          if (image.sno !== i + 1) {
+            await dispatch(updateImage({ id: image._id, sno: i + 1 })).unwrap();
+          }
+        }
+      } catch {
+        (await toast).error("Reordering failed");
+      }
+    },
+    [items, dispatch]
+  );
+>>>>>>> completed
 
   if (loading) {
     return (
@@ -211,11 +304,18 @@ export default function ImageTable() {
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
                 {items.map((img, index) => (
                   <SortableRow
                     key={img._id}
                     img={img}
                     index={index}
+=======
+                {items.map((img) => (
+                  <SortableRow
+                    key={img._id}
+                    img={img}
+>>>>>>> completed
                     handleEdit={handleEdit}
                     confirmDelete={confirmDelete}
                   />

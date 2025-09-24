@@ -7,13 +7,19 @@ export default function NewsSection() {
 
     return (
         <div className="relative flex flex-col md:flex-row items-center justify-center bg-black text-white px-8 py-12 md:px-16 md:py-20 space-y-10 md:space-y-0 md:space-x-10 shadow-2xl  overflow-hidden">
+<<<<<<< HEAD
 
     {/* ✨ Background Effects */}
+=======
+>>>>>>> completed
     <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.1)_10%,_transparent_50%)] pointer-events-none"></div>
     <div className="absolute top-0 left-0 w-32 h-32 bg-yellow-500 rounded-full blur-3xl opacity-30"></div>
     <div className="absolute bottom-0 right-0 w-48 h-48 bg-purple-500 rounded-full blur-3xl opacity-30"></div>
 
+<<<<<<< HEAD
     {/* 🎨 Floating Image Section */}
+=======
+>>>>>>> completed
     <div className="relative hidden md:flex items-center justify-center w-1/5">
         <div className="relative w-52 h-52 transform transition-all duration-500 hover:scale-110">
             <Image
@@ -25,8 +31,11 @@ export default function NewsSection() {
             />
         </div>
     </div>
+<<<<<<< HEAD
 
     {/* 🎯 Call to Action (Button) */}
+=======
+>>>>>>> completed
     <div className="flex flex-col items-center text-center">
         <h2 className="text-2xl font-bold text-yellow-400 mb-4">Latest Health & Fitness News</h2>
         <button
@@ -37,7 +46,10 @@ export default function NewsSection() {
         </button>
     </div>
 
+<<<<<<< HEAD
     {/* 🎖️ News Source 1 - The Readers Time */}
+=======
+>>>>>>> completed
     <div className="group relative flex flex-col items-center justify-center bg-gray-900 bg-opacity-80 h-48 p-6 rounded-xl shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105 border-2 border-yellow-500">
         <a
             href="https://thereaderstime.in/best-ayurvedic-weight-gainer-powder"
@@ -56,7 +68,10 @@ export default function NewsSection() {
         </a>
     </div>
 
+<<<<<<< HEAD
     {/* 🏆 News Source 2 - Hindustan Times */}
+=======
+>>>>>>> completed
     <div className="group relative flex flex-col items-center justify-center bg-gray-900 bg-opacity-80 h-48 p-6 rounded-xl shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105 border-2 border-yellow-500">
         <a
             href="https://www.hindustantimes.com/lifestyle/health/best-weight-gainer-10-options-to-see-maximum-results-101705308650209.html"
@@ -74,9 +89,13 @@ export default function NewsSection() {
             </p>
         </a>
     </div>
+<<<<<<< HEAD
 
 </div>
 
 
+=======
+</div>
+>>>>>>> completed
     );
 }

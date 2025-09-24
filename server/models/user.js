@@ -14,6 +14,14 @@ const userModel = new mongoose.Schema(
       type: String,
       required: false,
     },
+<<<<<<< HEAD
+=======
+    phone:{
+      type:String,
+      default:"",
+      unique:true
+    },
+>>>>>>> completed
     email: {
       type: String,
       default: "",

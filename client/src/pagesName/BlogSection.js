@@ -1,5 +1,9 @@
 "use client";
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
+=======
+import { useState, useEffect, useCallback } from "react";
+>>>>>>> completed
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -31,6 +35,7 @@ const blogData = [
   },
 ];
 
+<<<<<<< HEAD
 export default function BlogSection() {
   const router = useRouter();
   const [index, setIndex] = useState(0);
@@ -86,21 +91,98 @@ export default function BlogSection() {
       <h2 className="text-4xl font-bold text-gray-800 mb-6">Blogs</h2>
       
       <div className="relative overflow-hidden h-[500px] md:h-[450px] ">
+=======
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction) => ({
+    x: direction < 0 ? 300 : -300,
+    opacity: 0,
+  }),
+};
+
+export default function BlogSection() {
+  const router = useRouter();
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const nextSlide = useCallback(() => {
+    setDirection(1);
+    setIndex(prev => (prev + 1) % blogData.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setDirection(-1);
+    setIndex(prev => prev === 0 ? blogData.length - 1 : prev - 1);
+  }, []);
+
+  const goToSlide = useCallback((i) => {
+    setDirection(i > index ? 1 : -1);
+    setIndex(i);
+  }, [index]);
+
+  useEffect(() => {
+    if (isHovered) return;
+    
+    const interval = setInterval(nextSlide, 5000);
+    return () => clearInterval(interval);
+  }, [isHovered, nextSlide]);
+
+  const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+  const handleMouseLeave = useCallback(() => setIsHovered(false), []);
+
+  const handleReadMore = useCallback(() => {
+    router.push(`/blog/${blogData[index].id}`);
+  }, [index, router]);
+
+  return (
+    <section 
+      className="py-12 px-6 md:px-12 lg:px-24"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <h2 className="text-4xl font-bold text-gray-800 mb-6">Blogs</h2>
+      
+      <div className="relative overflow-hidden h-[500px] md:h-[450px]">
+>>>>>>> completed
         <AnimatePresence custom={direction} initial={false}>
           <motion.div
             key={index}
             custom={direction}
+<<<<<<< HEAD
             variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
+=======
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ 
+              type: "tween",
+              duration: 0.3,
+              ease: "easeInOut"
+            }}
+>>>>>>> completed
             className="absolute top-0 left-0 right-0 flex flex-col md:flex-row gap-6"
           >
             {blogData.map((blog, i) => (
               <div
                 key={blog.id}
+<<<<<<< HEAD
                 className={`w-full md:w-1/3 bg-white rounded-lg shadow-lg p-4  ${
+=======
+                className={`w-full md:w-1/3 bg-white rounded-lg shadow-lg p-4 ${
+>>>>>>> completed
                   i === index ? "block" : "hidden md:block"
                 }`}
               >
@@ -108,6 +190,7 @@ export default function BlogSection() {
                   src={blog.image}
                   alt={blog.title}
                   className="w-full h-40 object-cover rounded-lg"
+<<<<<<< HEAD
                 />
                 <div className="mt-4">
                   {/* <span className="bg-primary text-white px-3 py-1 text-xs font-bold rounded-full uppercase">
@@ -117,6 +200,18 @@ export default function BlogSection() {
                   <p className="text-gray-500 text-sm my-2">{blog.date}</p>
                   <p className="text-gray-600 text-sm">{blog.description}</p>
                   <button onClick={() => router.push(`/blog/${blogData[index].id}`)} className="mt-4 px-2 py-1 border border-primary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all">
+=======
+                  loading={i === index ? "eager" : "lazy"}
+                />
+                <div className="mt-4">
+                  <h3 className="text-lg font-bold mt-2">{blog.title}</h3>
+                  <p className="text-gray-500 text-sm my-2">{blog.date}</p>
+                  <p className="text-gray-600 text-sm">{blog.description}</p>
+                  <button 
+                    onClick={handleReadMore}
+                    className="mt-4 px-2 py-1 border border-primary text-secondary rounded-lg hover:bg-secondary hover:text-white transition-all"
+                  >
+>>>>>>> completed
                     Read More
                   </button>
                 </div>
@@ -128,19 +223,31 @@ export default function BlogSection() {
         <button
           onClick={prevSlide}
           className="absolute left-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-200 z-10"
+<<<<<<< HEAD
+=======
+          aria-label="Previous slide"
+>>>>>>> completed
         >
           <FaArrowLeft className="text-gray-700" />
         </button>
         <button
           onClick={nextSlide}
           className="absolute right-0 top-1/2 -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-200 z-10"
+<<<<<<< HEAD
+=======
+          aria-label="Next slide"
+>>>>>>> completed
         >
           <FaArrowRight className="text-gray-700" />
         </button>
       </div>
 
+<<<<<<< HEAD
       {/* Dots indicator */}
       <div className="flex justify-center gap-2  ">
+=======
+      <div className="flex justify-center gap-2">
+>>>>>>> completed
         {blogData.map((_, i) => (
           <button
             key={i}
@@ -148,6 +255,10 @@ export default function BlogSection() {
             className={`w-3 h-3 rounded-full transition-all ${
               i === index ? "bg-primary w-6" : "bg-gray-300"
             }`}
+<<<<<<< HEAD
+=======
+            aria-label={`Go to slide ${i + 1}`}
+>>>>>>> completed
           />
         ))}
       </div>

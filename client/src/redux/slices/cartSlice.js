@@ -3,7 +3,10 @@ import API from "../../lib/api";
 
 const API_URL = "https://healthgainer-main.onrender.com/cart";
 
+<<<<<<< HEAD
 // ✅ Fetch Cart
+=======
+>>>>>>> completed
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (userId, { rejectWithValue }) => {
@@ -16,7 +19,10 @@ export const fetchCart = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // ✅ Add to Cart
+=======
+>>>>>>> completed
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ userId, productId, variantId, quantity }, { rejectWithValue }) => {
@@ -34,12 +40,20 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // ✅ Remove from Cart
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
   async ({ productId, itemId }, { rejectWithValue }) => {
     try {
       const response = await API.post(`/cart/remove`, { productId, itemId });
+=======
+export const removeFromCart = createAsyncThunk(
+  "cart/removeFromCart",
+  async ({ variantId }, { rejectWithValue }) => {
+    try {
+      const response = await API.post(`/cart/remove`, { variantId });
+>>>>>>> completed
       return response.data.cart;
     } catch (error) {
       return rejectWithValue(
@@ -49,6 +63,7 @@ export const removeFromCart = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // ✅ Update Cart Quantity
 export const updateCartQuantity = createAsyncThunk(
   "cart/updateCartQuantity",
@@ -60,6 +75,13 @@ export const updateCartQuantity = createAsyncThunk(
         quantity,
         itemId,
       });
+=======
+export const updateCartQuantity = createAsyncThunk(
+  "cart/updateCartQuantity",
+  async ({ variantId, quantity }, { rejectWithValue }) => {
+    try {
+      const response = await API.post(`/cart/update`, { variantId, quantity });
+>>>>>>> completed
       return response.data.cart;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Error updating cart");

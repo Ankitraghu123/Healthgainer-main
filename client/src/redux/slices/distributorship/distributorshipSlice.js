@@ -26,7 +26,10 @@ const distributorshipSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+<<<<<<< HEAD
     // Create
+=======
+>>>>>>> completed
     builder.addCase(createForm.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -40,7 +43,10 @@ const distributorshipSlice = createSlice({
       state.error = action.payload;
     });
 
+<<<<<<< HEAD
     // Fetch All
+=======
+>>>>>>> completed
     builder.addCase(fetchForms.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -54,7 +60,10 @@ const distributorshipSlice = createSlice({
       state.error = action.payload;
     });
 
+<<<<<<< HEAD
     // Fetch by ID
+=======
+>>>>>>> completed
     builder.addCase(fetchFormById.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -68,7 +77,10 @@ const distributorshipSlice = createSlice({
       state.error = action.payload;
     });
 
+<<<<<<< HEAD
     // Update
+=======
+>>>>>>> completed
     builder.addCase(updateForm.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -84,7 +96,10 @@ const distributorshipSlice = createSlice({
       state.error = action.payload;
     });
 
+<<<<<<< HEAD
     // Delete
+=======
+>>>>>>> completed
     builder.addCase(deleteForm.pending, (state) => {
       state.loading = true;
       state.error = null;

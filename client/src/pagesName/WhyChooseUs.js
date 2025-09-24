@@ -11,7 +11,10 @@ const WhyChooseUs = () => {
   const dispatch = useDispatch();
   const { features } = useSelector((state) => state.features);
   const { advantages } = useSelector((state) => state.advantages);
+<<<<<<< HEAD
   console.log(advantages)
+=======
+>>>>>>> completed
 
   useEffect(() => {
     dispatch(fetchFeatures());
@@ -21,14 +24,22 @@ const WhyChooseUs = () => {
   return (
     <section className="bg-black text-white py-12 md:py-16 px-6 md:px-8">
       <div className="max-w-6xl mx-auto">
+<<<<<<< HEAD
         {/* Header */}
+=======
+
+>>>>>>> completed
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
+<<<<<<< HEAD
             Why <span className="">Choose Us</span>
+=======
+            Why <span>Choose Us</span>
+>>>>>>> completed
           </h2>
           <p className="text-gray-300 max-w-xl mx-auto">
             Trusted by athletes and fitness enthusiasts worldwide
@@ -36,7 +47,11 @@ const WhyChooseUs = () => {
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8 items-center">
+<<<<<<< HEAD
           {/* Image Section */}
+=======
+
+>>>>>>> completed
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -49,9 +64,14 @@ const WhyChooseUs = () => {
             />
           </motion.div>
 
+<<<<<<< HEAD
           {/* Content Section */}
           <div className="w-full lg:w-3/5">
             {/* Stats Grid */}
+=======
+          <div className="w-full lg:w-3/5">
+
+>>>>>>> completed
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -59,7 +79,11 @@ const WhyChooseUs = () => {
               className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-8"
             >
               {features.map((stat, index) => (
+<<<<<<< HEAD
                 <div id="new"
+=======
+                <div
+>>>>>>> completed
                   key={index}
                   className={`p-3 rounded-lg flex flex-col items-center ${
                     stat.highlight ? "bg-red-600" : "bg-gray-800"
@@ -67,14 +91,21 @@ const WhyChooseUs = () => {
                 >
                   <img src={stat.imageUrl} alt="icon" className="w-6 h-6 mb-1" />
                   <p className="font-bold text-sm md:text-base">{stat.title}</p>
+<<<<<<< HEAD
                   <p className="text-xs text-gray-300 text-center">
                     {stat.description}
                   </p>
+=======
+                  <p className="text-xs text-gray-300 text-center">{stat.description}</p>
+>>>>>>> completed
                 </div>
               ))}
             </motion.div>
 
+<<<<<<< HEAD
             {/* Features List */}
+=======
+>>>>>>> completed
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -92,6 +123,7 @@ const WhyChooseUs = () => {
               </div>
             </motion.div>
 
+<<<<<<< HEAD
             {/* CTA */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -102,6 +134,8 @@ const WhyChooseUs = () => {
                 Discover Our Products
               </button> */}
             </motion.div>
+=======
+>>>>>>> completed
           </div>
         </div>
       </div>

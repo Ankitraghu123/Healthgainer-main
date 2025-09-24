@@ -3,7 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
 import { registerUser } from "@/redux/slices/authSlice";
+=======
+import { registerUser, getOTP } from "@/redux/slices/authSlice";
+>>>>>>> completed
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Link from "next/link";
@@ -40,6 +44,7 @@ export default function RegisterPage() {
     }
   }, [error]);
 
+<<<<<<< HEAD
   const generateOTP = async (e) => {
     e.preventDefault();
     setHideForm(true);
@@ -51,6 +56,8 @@ export default function RegisterPage() {
     // console.log(res);
   };
 
+=======
+>>>>>>> completed
   const resendOTP = async () => {
     const res = await API.post("/getOTP/resend", {
       phone: registerForm.mobileNumber,
@@ -65,7 +72,58 @@ export default function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
     if (OTPNumber == getOtp) {
+=======
+    const {
+      firstName,
+      lastName,
+      email,
+      mobileNumber,
+      password,
+      confirmPassword,
+    } = registerForm;
+
+    if (!firstName.trim() || !mobileNumber.trim() || !email.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (mobileNumber.trim().length !== 10 || isNaN(mobileNumber.trim())) {
+      toast.error("Mobile number must be 10 digits");
+      return;
+    }
+
+    setIsLoading(true);
+    dispatch(getOTP({ firstName, lastName, email, mobileNumber, password }))
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+
+        if (res?.success) {
+          setHideForm(true);
+          setOTPNumber(res?.Data);
+        }
+
+        toast.success("OTP generated successfull");
+        // router.push("/login");
+      })
+      .catch((err) => {
+        toast.error(err || "Registration failed");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const confirmOTP = () => {
+    try {
+>>>>>>> completed
       const {
         firstName,
         lastName,
@@ -75,6 +133,7 @@ export default function RegisterPage() {
         confirmPassword,
       } = registerForm;
 
+<<<<<<< HEAD
       if (
         !firstName.trim() ||
         !email.trim() ||
@@ -127,6 +186,26 @@ export default function RegisterPage() {
         });
     } else {
       toast.error("Wrong OTP");
+=======
+      if (OTPNumber == getOtp) {
+        setIsLoading(true);
+        dispatch(
+          registerUser({ firstName, lastName, email, mobileNumber, password })
+        )
+          .unwrap()
+          .then((res) => {
+            if (res?.success) {
+              toast.success("Registration Successful! Please log in.");
+              router.push("/login");
+            }
+          });
+      } else {
+        toast.error("Wrong OTP");
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+>>>>>>> completed
     }
   };
 
@@ -162,7 +241,11 @@ export default function RegisterPage() {
                   <div>
                     <button
                       className="bg-green-700 p-2 text-white"
+<<<<<<< HEAD
                       onClick={handleRegister}
+=======
+                      onClick={confirmOTP}
+>>>>>>> completed
                     >
                       Confirm OTP
                     </button>
@@ -178,7 +261,11 @@ export default function RegisterPage() {
                 </div>
               </div>
             ) : (
+<<<<<<< HEAD
               <form onSubmit={generateOTP}>
+=======
+              <form onSubmit={handleRegister}>
+>>>>>>> completed
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -274,6 +361,7 @@ export default function RegisterPage() {
                     />
                   </div>
 
+<<<<<<< HEAD
                   {/* <div>
                   <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-700 mb-1">
                     Mobile Number
@@ -344,6 +432,8 @@ export default function RegisterPage() {
                     />
                   </div>
 
+=======
+>>>>>>> completed
                   <motion.button
                     type="submit"
                     className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-lg shadow-md transition-all duration-300 mt-2"

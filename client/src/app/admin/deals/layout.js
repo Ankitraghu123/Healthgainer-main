@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // "use client";
 
 // import { useEffect, useState } from "react";
@@ -132,6 +133,14 @@ import {
   updateDeal,
 } from "@/redux/slices/deal-slice";
 
+=======
+"use client";
+
+import { useEffect, useState, useMemo, useCallback } from "react";
+import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDeals, deleteDeal, updateDeal } from "@/redux/slices/deal-slice";
+>>>>>>> completed
 import {
   DndContext,
   closestCenter,
@@ -148,7 +157,10 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+<<<<<<< HEAD
 
+=======
+>>>>>>> completed
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -160,7 +172,10 @@ import { Pencil, Trash, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import DealForm from "./page";
 
+<<<<<<< HEAD
 // 🟢 Sortable Row Component
+=======
+>>>>>>> completed
 function SortableRow({ deal, onEdit, onDelete }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: deal._id });
@@ -209,7 +224,10 @@ function SortableRow({ deal, onEdit, onDelete }) {
   );
 }
 
+<<<<<<< HEAD
 // 🟢 Main Component
+=======
+>>>>>>> completed
 export default function DealsTableLayout() {
   const dispatch = useDispatch();
   const { deals, loading } = useSelector((state) => state.deals);
@@ -230,6 +248,7 @@ export default function DealsTableLayout() {
     dispatch(fetchDeals());
   }, [dispatch]);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (deals?.length) {
       const sorted = [...deals].sort((a, b) => a.sno - b.sno);
@@ -280,6 +299,66 @@ export default function DealsTableLayout() {
       toast.error("Failed to reorder deals");
     }
   };
+=======
+  const sortedDeals = useMemo(() => {
+    if (!deals?.length) return [];
+    return [...deals].sort((a, b) => a.sno - b.sno);
+  }, [deals]);
+
+  useEffect(() => {
+    setItems(sortedDeals);
+  }, [sortedDeals]);
+
+  const handleEdit = useCallback((deal) => {
+    setEditData(deal);
+    setOpen(true);
+  }, []);
+
+  const handleDelete = useCallback(
+    async (id) => {
+      try {
+        await dispatch(deleteDeal(id)).unwrap();
+        toast.success("Deal deleted successfully");
+      } catch {
+        toast.error("Failed to delete deal");
+      } finally {
+        setDeleteDialog({ open: false, id: null });
+      }
+    },
+    [dispatch]
+  );
+
+  const handleSubmit = useCallback(() => {
+    setOpen(false);
+    setEditData(null);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    async (event) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id) return;
+
+      const oldIndex = items.findIndex((item) => item._id === active.id);
+      const newIndex = items.findIndex((item) => item._id === over.id);
+      const reordered = arrayMove(items, oldIndex, newIndex);
+      setItems(reordered);
+
+      try {
+        for (let i = 0; i < reordered.length; i++) {
+          if (reordered[i].sno !== i + 1) {
+            await dispatch(
+              updateDeal({ id: reordered[i]._id, formData: { sno: i + 1 } })
+            ).unwrap();
+          }
+        }
+        dispatch(fetchDeals());
+      } catch {
+        toast.error("Failed to reorder deals");
+      }
+    },
+    [items, dispatch]
+  );
+>>>>>>> completed
 
   if (loading) {
     return (
@@ -349,6 +428,7 @@ export default function DealsTableLayout() {
         </DndContext>
       </div>
 
+<<<<<<< HEAD
       {/* Delete Confirmation Dialog */}
       <Dialog
         open={deleteDialog.open}
@@ -360,6 +440,14 @@ export default function DealsTableLayout() {
           <DialogTitle>
             Are you sure you want to delete this deal?
           </DialogTitle>
+=======
+      <Dialog
+        open={deleteDialog.open}
+        onOpenChange={(val) => setDeleteDialog({ ...deleteDialog, open: val })}
+      >
+        <DialogContent>
+          <DialogTitle>Are you sure you want to delete this deal?</DialogTitle>
+>>>>>>> completed
           <div className="flex justify-end gap-3 pt-4">
             <Button
               variant="outline"

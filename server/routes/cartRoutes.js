@@ -3,6 +3,7 @@ const router = express.Router();
 const cartController = require("../controllers/cartController");
 const isAuthenticated = require("../middleware/authMiddleware");
 
+<<<<<<< HEAD
 // ✅ Get user's cart (guest or logged-in)
 router.get("/", cartController.getCart);
 
@@ -13,6 +14,18 @@ router.post("/add", cartController.addToCart);
 router.post("/remove", cartController.removeFromCart);
 
 // ✅ Update item quantity in cart (guest or logged-in)
+=======
+// ✅ Get user's cart
+router.get("/", cartController.getCart);
+
+// ✅ Add item to cart
+router.post("/add", cartController.addToCart);
+
+// ✅ Remove item from cart
+router.post("/remove", cartController.removeFromCart);
+
+// ✅ Update item quantity in cart
+>>>>>>> completed
 router.post("/update", cartController.updateCartItemQuantity);
 
 module.exports = router;

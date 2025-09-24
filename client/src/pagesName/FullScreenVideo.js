@@ -7,6 +7,7 @@ const FullScreenVideo = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+<<<<<<< HEAD
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -20,15 +21,36 @@ const FullScreenVideo = () => {
   return (
     <motion.div
       className="w-full h-[30vh]  md:h-screen relative overflow-hidden"
+=======
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const videoClasses = `absolute top-0 left-0 md:w-full md:h-full ${
+    isMobile ? "object-center" : "object-cover"
+  }`;
+
+  return (
+    <motion.div
+      className="w-full h-[30vh] md:h-screen relative overflow-hidden"
+>>>>>>> completed
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
+<<<<<<< HEAD
       {/* Video Background */}
       <video
         className={`md:w-full md:h-full md:object-cover absolute top-0 left-0 ${
           isMobile ? 'object-center' : 'object-cover'
         }`}
+=======
+      <video
+        className={videoClasses}
+>>>>>>> completed
         autoPlay
         loop
         muted
@@ -38,6 +60,7 @@ const FullScreenVideo = () => {
         <source src="/hg-video.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+<<<<<<< HEAD
 
       {/* Optional Content Overlay */}
       {/* <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4">
@@ -55,8 +78,14 @@ const FullScreenVideo = () => {
           </p>
         </motion.div>
       </div> */}
+=======
+>>>>>>> completed
     </motion.div>
   );
 };
 
+<<<<<<< HEAD
 export default FullScreenVideo;
+=======
+export default FullScreenVideo;
+>>>>>>> completed

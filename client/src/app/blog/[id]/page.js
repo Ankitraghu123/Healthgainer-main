@@ -2,8 +2,11 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useEffect, useState,use } from "react";
+<<<<<<< HEAD
 import Image from "next/image";
 
+=======
+>>>>>>> completed
 
 const blogData = [
   {
@@ -145,7 +148,10 @@ export default function BlogDetail({ params }) {
       transition={{ duration: 0.5 }}
       className="w-full min-h-screen bg-gray-50"
     >
+<<<<<<< HEAD
       {/* Hero Section with Image Carousel */}
+=======
+>>>>>>> completed
       <div className="relative w-full h-[60vh] bg-gray-900 overflow-hidden">
         {blog.images.map((img, idx) => (
           <motion.div
@@ -174,8 +180,12 @@ export default function BlogDetail({ params }) {
             </div>
           </motion.div>
         ))}
+<<<<<<< HEAD
         
         {/* Image Navigation */}
+=======
+
+>>>>>>> completed
         <button
           onClick={prevImage}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/30 hover:bg-white/50 p-3 rounded-full backdrop-blur-sm transition-all"
@@ -192,8 +202,12 @@ export default function BlogDetail({ params }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
+<<<<<<< HEAD
         
         {/* Dots Indicator */}
+=======
+
+>>>>>>> completed
         <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-20">
           {blog.images.map((_, idx) => (
             <button
@@ -205,9 +219,14 @@ export default function BlogDetail({ params }) {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Author Info */}
+=======
+      <div className="max-w-6xl mx-auto px-6 py-12">
+
+>>>>>>> completed
         <div className="flex items-center gap-4 mb-8">
           <img
             src={blog.authorImage}
@@ -222,7 +241,10 @@ export default function BlogDetail({ params }) {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Back Button */}
+=======
+>>>>>>> completed
         <button
           onClick={() => router.back()}
           className="mb-8 flex items-center gap-2 text-primary hover:text-primary-dark transition-colors"
@@ -233,7 +255,10 @@ export default function BlogDetail({ params }) {
           Back to Blogs
         </button>
 
+<<<<<<< HEAD
         {/* Blog Content */}
+=======
+>>>>>>> completed
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -272,7 +297,10 @@ export default function BlogDetail({ params }) {
           })}
         </motion.div>
 
+<<<<<<< HEAD
         {/* Share Buttons */}
+=======
+>>>>>>> completed
         <div className="mt-12 border-t pt-8">
           <h3 className="text-lg font-semibold mb-4">Share this article</h3>
           <div className="flex gap-4">
@@ -292,7 +320,10 @@ export default function BlogDetail({ params }) {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Related Blogs Section */}
+=======
+>>>>>>> completed
       <div className="bg-gray-100 py-12">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-gray-800 mb-8">You might also like</h2>

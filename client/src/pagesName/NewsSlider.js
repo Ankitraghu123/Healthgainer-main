@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 "use client";
+=======
+'use client';
+>>>>>>> completed
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +20,7 @@ const NewsSlider = () => {
     dispatch(fetchNews());
   }, [dispatch]);
 
+<<<<<<< HEAD
   return (
     <section className="py-8 h-full bg-gray-50">
       <div className="container mx-auto px-4">
@@ -69,6 +74,53 @@ const NewsSlider = () => {
             ))}
           </Swiper>
         </div>
+=======
+  if (loading || !news.length) {
+    return <div className="text-center py-8 text-gray-600">Loading news...</div>;
+  }
+
+  return (
+    <section className="py-8 bg-gray-50 h-full">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold py-2 text-black">NEWS</h2>
+        </div>
+
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={40}
+          slidesPerView={2}
+          breakpoints={{
+            640: { slidesPerView: 3 },
+            768: { slidesPerView: 5 },
+            1024: { slidesPerView: 5 },
+          }}
+          loop={true}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
+          pagination={{ clickable: true, dynamicBullets: true }}
+          centeredSlides={true}
+          grabCursor={true}
+        >
+          {news.map((item, index) => (
+            <SwiperSlide key={index}>
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 h-full"
+              >
+                <div className="relative w-full h-20 mb-4">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.label || "news-logo"}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </a>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+>>>>>>> completed
       </div>
     </section>
   );

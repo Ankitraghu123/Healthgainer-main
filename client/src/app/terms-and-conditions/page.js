@@ -7,7 +7,11 @@ export default function TermsAndConditions() {
         📜 Terms & Conditions
       </h1>
       <p className="text-lg text-center text-gray-600 mb-8">
+<<<<<<< HEAD
         Welcome to  Pharma Science  The Indian Ayurveda! Please read these terms carefully before using our website or making a purchase. By continuing to browse or buy from our platform, you agree to comply with and be bound by the following terms.
+=======
+        Welcome to HealthGainer! Please read these terms carefully before using our website or making a purchase. By continuing to browse or buy from our platform, you agree to comply with and be bound by the following terms.
+>>>>>>> completed
       </p>
 
       <div className="space-y-6 text-gray-700">

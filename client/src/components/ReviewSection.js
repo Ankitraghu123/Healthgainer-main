@@ -1,4 +1,5 @@
 'use client';
+<<<<<<< HEAD
 import { useState } from 'react';
 import { FaStar,  } from 'react-icons/fa';
 import { addReview } from '@/redux/slices/reviewSlice';
@@ -7,6 +8,12 @@ import { useSelector } from "react-redux";
 
 
 
+=======
+import { useState, useMemo, useCallback } from 'react';
+import { FaStar } from 'react-icons/fa';
+import { addReview } from '@/redux/slices/reviewSlice';
+import { useDispatch, useSelector } from "react-redux";
+>>>>>>> completed
 
 export default function ReviewSection({ productId }) {
     const dispatch = useDispatch();
@@ -17,6 +24,7 @@ export default function ReviewSection({ productId }) {
     const [isWritingReview, setIsWritingReview] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+<<<<<<< HEAD
 // const [review, setReviews] = useState([]);
 
 
@@ -28,6 +36,51 @@ export default function ReviewSection({ productId }) {
     : 0;
 
     const handleSubmit = async () => {
+=======
+    
+    const { reviews = [] } = useSelector((state) => state?.review || {});
+
+    const averageRating = useMemo(() => 
+        reviews.length 
+            ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) 
+            : 0,
+        [reviews]
+    );
+
+    const reviewsCount = useMemo(() => reviews.length, [reviews]);
+    const starsArray = useMemo(() => [...Array(5)], []);
+    const ratingStarsArray = useMemo(() => [...Array(5)], []);
+
+    const toggleReviewForm = useCallback(() => {
+        setIsWritingReview(prev => !prev);
+    }, []);
+
+    const handleCancel = useCallback(() => {
+        setIsWritingReview(false);
+    }, []);
+
+    const handleStarClick = useCallback((starValue) => {
+        setRating(starValue);
+    }, []);
+
+    const handleStarHover = useCallback((starValue) => {
+        setHover(starValue);
+    }, []);
+
+    const handleStarHoverLeave = useCallback(() => {
+        setHover(0);
+    }, []);
+
+    const handleTitleChange = useCallback((e) => {
+        setReviewTitle(e.target.value);
+    }, []);
+
+    const handleTextChange = useCallback((e) => {
+        setReviewText(e.target.value);
+    }, []);
+
+    const handleSubmit = useCallback(async () => {
+>>>>>>> completed
         if (!rating || !reviewTitle || !reviewText) {
             setError("All fields are required");
             return;
@@ -37,7 +90,17 @@ export default function ReviewSection({ productId }) {
         setError(null);
 
         try {
+<<<<<<< HEAD
             await dispatch(addReview({ productId, rating, title: reviewTitle, comment: reviewText })).unwrap();
+=======
+            await dispatch(addReview({ 
+                productId, 
+                rating, 
+                title: reviewTitle, 
+                comment: reviewText 
+            })).unwrap();
+            
+>>>>>>> completed
             setIsWritingReview(false);
             setReviewTitle('');
             setReviewText('');
@@ -47,13 +110,46 @@ export default function ReviewSection({ productId }) {
         } finally {
             setLoading(false);
         }
+<<<<<<< HEAD
     };
+=======
+    }, [rating, reviewTitle, reviewText, productId, dispatch]);
+
+    const ratingDisplay = useMemo(() => (
+        <div className="flex text-primary">
+            {starsArray.map((_, index) => (
+                <FaStar
+                    key={index}
+                    className={`text-lg ${index < averageRating ? "text-yellow-400" : "text-gray-300"}`}
+                />
+            ))}
+        </div>
+    ), [starsArray, averageRating]);
+
+    const starRatingInput = useMemo(() => (
+        <div className="flex justify-center mt-2">
+            {ratingStarsArray.map((_, index) => {
+                const starValue = index + 1;
+                return (
+                    <FaStar
+                        key={index}
+                        className={`text-2xl cursor-pointer transition-all ${starValue <= (hover || rating) ? 'text-primary' : 'text-gray-300'}`}
+                        onMouseEnter={() => handleStarHover(starValue)}
+                        onMouseLeave={handleStarHoverLeave}
+                        onClick={() => handleStarClick(starValue)}
+                    />
+                );
+            })}
+        </div>
+    ), [ratingStarsArray, hover, rating, handleStarHover, handleStarHoverLeave, handleStarClick]);
+>>>>>>> completed
 
     return (
         <div className="mx-auto md:w-1/2 p-6 bg-white">
             <h2 className="text-xl font-semibold text-center">Customer Reviews</h2>
             <div className="flex items-center justify-between mt-4">
                 <div className="flex flex-col items-center">
+<<<<<<< HEAD
                     <div className="flex text-primary">
                         {[...Array(5)].map((_, index) => (
                             <FaStar
@@ -68,6 +164,15 @@ export default function ReviewSection({ productId }) {
                 <button
                     className="mt-4 bg-primary text-white px-2 py-2 rounded-lg hover:bg-secondary"
                     onClick={() => setIsWritingReview(!isWritingReview)}
+=======
+                    {ratingDisplay}
+                    <span className="ml-2 text-gray-700 text-sm">{averageRating} out of 5</span>
+                    <p className="text-center text-gray-500 text-sm">Based on {reviewsCount} reviews</p>
+                </div>
+                <button
+                    className="mt-4 bg-primary text-white px-2 py-2 rounded-lg hover:bg-secondary"
+                    onClick={toggleReviewForm}
+>>>>>>> completed
                 >
                     {isWritingReview ? 'Cancel review' : 'Write review'}
                 </button>
@@ -75,6 +180,7 @@ export default function ReviewSection({ productId }) {
             {isWritingReview && (
                 <div className="mt-6 border-t pt-4 transition-all duration-300">
                     <h3 className="text-lg font-semibold text-center">Write a review</h3>
+<<<<<<< HEAD
                     <div className="flex justify-center mt-2">
                         {[...Array(5)].map((_, index) => {
                             const starValue = index + 1;
@@ -89,6 +195,9 @@ export default function ReviewSection({ productId }) {
                             );
                         })}
                     </div>
+=======
+                    {starRatingInput}
+>>>>>>> completed
                     <div className="mt-4">
                         <label className="block font-medium text-sm mb-1">REVIEW TITLE</label>
                         <input
@@ -96,7 +205,11 @@ export default function ReviewSection({ productId }) {
                             className="w-full border border-primary p-2 rounded-md"
                             placeholder="Give your review a title"
                             value={reviewTitle}
+<<<<<<< HEAD
                             onChange={(e) => setReviewTitle(e.target.value)}
+=======
+                            onChange={handleTitleChange}
+>>>>>>> completed
                         />
                     </div>
                     <div className="mt-4">
@@ -106,14 +219,22 @@ export default function ReviewSection({ productId }) {
                             placeholder="Write your comments here"
                             rows="4"
                             value={reviewText}
+<<<<<<< HEAD
                             onChange={(e) => setReviewText(e.target.value)}
+=======
+                            onChange={handleTextChange}
+>>>>>>> completed
                         ></textarea>
                     </div>
                     {error && <p className="text-red-500 mt-2">{error}</p>}
                     <div className="border-t mt-4 pt-4 flex justify-between">
                         <button
                             className="mt-4 bg-gray-300 text-black p-1 px-2 md:px-2 md:py-2 rounded-lg md:w-1/3 hover:bg-gray-400"
+<<<<<<< HEAD
                             onClick={() => setIsWritingReview(false)}
+=======
+                            onClick={handleCancel}
+>>>>>>> completed
                         >
                             Cancel
                         </button>
@@ -129,4 +250,8 @@ export default function ReviewSection({ productId }) {
             )}
         </div>
     );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> completed

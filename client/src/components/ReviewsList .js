@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { FaChevronDown, FaStar, FaUserCircle, FaImage, FaVideo, FaThumbsUp } from "react-icons/fa";
+=======
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { FaChevronDown, FaStar, FaUserCircle, FaVideo, FaThumbsUp } from "react-icons/fa";
+>>>>>>> completed
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReviews } from "@/redux/slices/reviewSlice";
 import Skeleton from "react-loading-skeleton";
@@ -8,6 +13,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 const ReviewSortDropdown = ({ onSortChange }) => {
   const [selectedOption, setSelectedOption] = useState("Most Recent");
   const [isOpen, setIsOpen] = useState(false);
+<<<<<<< HEAD
 
   const options = [
     { label: "Most Recent", icon: null },
@@ -24,11 +30,33 @@ const ReviewSortDropdown = ({ onSortChange }) => {
     onSortChange(option);
     setIsOpen(false);
   };
+=======
+  
+  const options = useMemo(() => [
+    { label: "Most Recent", icon: null },
+    { label: "Highest Rating", icon: <FaStar className="text-yellow-400 mr-2" /> },
+    { label: "Lowest Rating", icon: <FaStar className="text-gray-300 mr-2" /> },
+  ], []);
+
+  const toggleDropdown = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
+
+  const handleSelect = useCallback((option) => {
+    setSelectedOption(option);
+    onSortChange(option);
+    setIsOpen(false);
+  }, [onSortChange]);
+>>>>>>> completed
 
   return (
     <div className="relative inline-block text-left w-full sm:w-auto">
       <button
+<<<<<<< HEAD
         onClick={() => setIsOpen(!isOpen)}
+=======
+        onClick={toggleDropdown}
+>>>>>>> completed
         className="flex items-center justify-between w-full sm:w-48 px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm sm:text-base text-primary font-medium hover:bg-gray-50 transition-colors duration-200"
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -60,6 +88,7 @@ const ReviewSortDropdown = ({ onSortChange }) => {
 const ReviewCard = ({ review }) => {
   const [expanded, setExpanded] = useState(false);
   const maxPreviewLength = 150;
+<<<<<<< HEAD
   
   const shouldTruncate = review.comment.length > maxPreviewLength;
   const displayText = expanded 
@@ -74,6 +103,35 @@ const ReviewCard = ({ review }) => {
       <div className="flex justify-between items-start">
         <div className="flex">
           {[...Array(5)].map((_, index) => (
+=======
+
+  const { shouldTruncate, displayText } = useMemo(() => {
+    const shouldTruncate = review.comment.length > maxPreviewLength;
+    const displayText = expanded 
+      ? review.comment 
+      : shouldTruncate 
+        ? `${review.comment.substring(0, maxPreviewLength)}...` 
+        : review.comment;
+    
+    return { shouldTruncate, displayText };
+  }, [review.comment, expanded]);
+
+  const toggleExpanded = useCallback(() => {
+    setExpanded(prev => !prev);
+  }, []);
+
+  const starsArray = useMemo(() => [...Array(5)], []);
+  const formattedDate = useMemo(() => 
+    new Date(review.createdAt).toLocaleDateString(),
+    [review.createdAt]
+  );
+
+  return (
+    <div className="border-b border-gray-100 pb-6 mb-6 last:border-0 last:mb-0">
+      <div className="flex justify-between items-start">
+        <div className="flex">
+          {starsArray.map((_, index) => (
+>>>>>>> completed
             <FaStar 
               key={index} 
               className={`text-lg ${index < review.rating ? "text-yellow-400" : "text-gray-300"}`} 
@@ -81,11 +139,18 @@ const ReviewCard = ({ review }) => {
           ))}
         </div>
         <span className="text-xs text-gray-500">
+<<<<<<< HEAD
           {new Date(review.createdAt).toLocaleDateString()}
         </span>
       </div>
 
       {/* User Info */}
+=======
+          {formattedDate}
+        </span>
+      </div>
+
+>>>>>>> completed
       <div className="flex items-center gap-3 mt-3">
         <FaUserCircle className="text-gray-400 text-2xl" />
         <div>
@@ -98,15 +163,23 @@ const ReviewCard = ({ review }) => {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Review Title */}
       <h3 className="font-bold mt-2 text-gray-900">{review.title}</h3>
 
       {/* Review Content */}
+=======
+      <h3 className="font-bold mt-2 text-gray-900">{review.title}</h3>
+>>>>>>> completed
       <p className="text-gray-600 mt-1 text-sm">
         {displayText}
         {shouldTruncate && (
           <button 
+<<<<<<< HEAD
             onClick={() => setExpanded(!expanded)} 
+=======
+            onClick={toggleExpanded} 
+>>>>>>> completed
             className="ml-1 text-primary font-medium hover:underline"
           >
             {expanded ? "Show less" : "Read more"}
@@ -114,7 +187,10 @@ const ReviewCard = ({ review }) => {
         )}
       </p>
 
+<<<<<<< HEAD
       {/* Media Attachments */}
+=======
+>>>>>>> completed
       {review.media?.length > 0 && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-2">
           {review.media.map((item, index) => (
@@ -124,6 +200,10 @@ const ReviewCard = ({ review }) => {
                   src={item.url} 
                   alt="Review media" 
                   className="w-full h-full object-cover"
+<<<<<<< HEAD
+=======
+                  loading="lazy"
+>>>>>>> completed
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-200">
@@ -135,7 +215,10 @@ const ReviewCard = ({ review }) => {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* Helpful Actions */}
+=======
+>>>>>>> completed
       <div className="mt-3 flex items-center gap-4">
         <button className="flex items-center gap-1 text-xs text-gray-500 hover:text-primary">
           <FaThumbsUp className="text-sm" />
@@ -150,9 +233,17 @@ const ReviewCard = ({ review }) => {
 };
 
 const ReviewsSkeleton = () => {
+<<<<<<< HEAD
   return (
     <div className="space-y-6">
       {[...Array(3)].map((_, index) => (
+=======
+  const skeletonItems = useMemo(() => [...Array(3)], []);
+  
+  return (
+    <div className="space-y-6">
+      {skeletonItems.map((_, index) => (
+>>>>>>> completed
         <div key={index} className="border-b border-gray-100 pb-6">
           <div className="flex justify-between">
             <Skeleton width={100} height={20} />
@@ -173,7 +264,11 @@ const ReviewsSkeleton = () => {
 
 export default function ReviewsList({ productId }) {
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const { reviews, loading, error } = useSelector((state) => state?.review || []);
+=======
+  const { reviews = [], loading, error } = useSelector((state) => state?.review || {});
+>>>>>>> completed
   const [sortedReviews, setSortedReviews] = useState([]);
 
   useEffect(() => {
@@ -186,7 +281,11 @@ export default function ReviewsList({ productId }) {
     }
   }, [reviews]);
 
+<<<<<<< HEAD
   const handleSortChange = (option) => {
+=======
+  const handleSortChange = useCallback((option) => {
+>>>>>>> completed
     let sorted = [...reviews];
 
     switch (option) {
@@ -216,21 +315,37 @@ export default function ReviewsList({ productId }) {
       case "Most Helpful":
         sorted.sort((a, b) => (b.helpfulCount || 0) - (a.helpfulCount || 0));
         break;
+<<<<<<< HEAD
       default: // Most Recent
+=======
+      default: 
+>>>>>>> completed
         sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
     setSortedReviews(sorted);
+<<<<<<< HEAD
   };
+=======
+  }, [reviews]);
+
+  const reviewsCount = useMemo(() => sortedReviews.length, [sortedReviews]);
+>>>>>>> completed
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
           Customer Reviews
+<<<<<<< HEAD
           {sortedReviews.length > 0 && (
             <span className="ml-2 text-sm font-normal text-gray-500">
               ({sortedReviews.length})
+=======
+          {reviewsCount > 0 && (
+            <span className="ml-2 text-sm font-normal text-gray-500">
+              ({reviewsCount})
+>>>>>>> completed
             </span>
           )}
         </h2>

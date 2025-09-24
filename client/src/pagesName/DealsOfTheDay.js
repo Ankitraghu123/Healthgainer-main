@@ -8,7 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDeals } from "@/redux/slices/deal-slice";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+<<<<<<< HEAD
 
+=======
+>>>>>>> completed
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -37,6 +40,7 @@ export default function DealsOfTheDay() {
 
   const hotDealIndex = deals.findIndex((deal) => deal.tag === "HOT DEAL");
 
+<<<<<<< HEAD
   // const handleViewPlanClick = (deal) => {
   //   const query = new URLSearchParams({
   //     title: deal.title,
@@ -49,6 +53,8 @@ export default function DealsOfTheDay() {
   //   router.push(`/checkout?${query}`);
   // };
 
+=======
+>>>>>>> completed
   const handleViewPlanClick = (deal) => {
     if (user) {
       const query = new URLSearchParams({
@@ -72,8 +78,11 @@ export default function DealsOfTheDay() {
   if (loading || !deals.length) {
     return <div className='text-center text-white py-10'>Loading deals...</div>;
   }
+<<<<<<< HEAD
 
   // ✅ Sort deals by `sno` so it reflects drag-and-drop backend updates
+=======
+>>>>>>> completed
   const sortedDeals = [...deals].sort((a, b) => a.sno - b.sno);
 
   return (
@@ -84,7 +93,10 @@ export default function DealsOfTheDay() {
         </h2>
       </div>
 
+<<<<<<< HEAD
       {/* Left Arrow - Now visible on all screen sizes */}
+=======
+>>>>>>> completed
       <button
         ref={prevRef}
         className='flex absolute left-2 top-1/2 z-10 -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform'
@@ -92,7 +104,10 @@ export default function DealsOfTheDay() {
         <FaArrowLeft className='text-black w-5 h-5' />
       </button>
 
+<<<<<<< HEAD
       {/* Right Arrow - Now visible on all screen sizes */}
+=======
+>>>>>>> completed
       <button
         ref={nextRef}
         className='flex absolute right-2 top-1/2 z-10 -translate-y-1/2 bg-white p-3 rounded-full shadow-md hover:scale-110 transition-transform'
@@ -112,7 +127,10 @@ export default function DealsOfTheDay() {
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
           setActiveIndex(swiper.activeIndex);
+<<<<<<< HEAD
           // Required to update navigation refs
+=======
+>>>>>>> completed
           setTimeout(() => {
             swiper.params.navigation.prevEl = prevRef.current;
             swiper.params.navigation.nextEl = nextRef.current;

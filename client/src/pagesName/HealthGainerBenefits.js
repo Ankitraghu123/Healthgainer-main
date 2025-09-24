@@ -3,7 +3,11 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
 import {  fetchBenefits } from "@/redux/slices/benefit-slice/index"
+=======
+import { fetchBenefits } from "@/redux/slices/benefit-slice/index";
+>>>>>>> completed
 
 export default function HealthGainerBenefits() {
   const dispatch = useDispatch();
@@ -13,12 +17,54 @@ export default function HealthGainerBenefits() {
     dispatch(fetchBenefits());
   }, [dispatch]);
 
+<<<<<<< HEAD
+=======
+  const renderBenefit = (benefit, index) => {
+    const col = index % 3;
+    const row = Math.floor(index / 3);
+
+    return (
+      <div
+        key={benefit._id}
+        className={`
+          flex flex-col items-center text-center p-4 md:p-5 border border-lime-500
+          ${row === 0 ? "md:border-t-0" : ""}
+          ${row === 1 ? "md:border-b-0" : ""}
+          ${col === 0 ? "md:border-l-0" : ""}
+          ${col === 2 ? "md:border-r-0" : ""}
+        `}
+      >
+        <div className="mb-5">
+          <Image
+            src={benefit.iconUrl}
+            alt={benefit.title}
+            width={80}
+            height={80}
+            className="object-contain"
+            loading="lazy"
+          />
+        </div>
+        <h3 className="text-lime-500 font-semibold text-xl mb-4">
+          {benefit.title}
+        </h3>
+        <p className="text-gray-300 text-sm text-justify leading-relaxed max-w-sm">
+          {benefit.description}
+        </p>
+      </div>
+    );
+  };
+
+>>>>>>> completed
   return (
     <section className="bg-black text-white py-12 px-10 md:px-12">
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-light text-gray-200">
+<<<<<<< HEAD
           Benefits Of{" "}
           <span className="text-lime-500 font-bold">Health Gainer</span>
+=======
+          Benefits Of <span className="text-lime-500 font-bold">Health Gainer</span>
+>>>>>>> completed
         </h2>
       </div>
 
@@ -27,6 +73,7 @@ export default function HealthGainerBenefits() {
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
       ) : (
+<<<<<<< HEAD
         <div className="grid md:grid-cols-3">
           {benefits.map((benefit, index) => {
             const isTopRow = index < 3;
@@ -61,6 +108,10 @@ export default function HealthGainerBenefits() {
               </div>
             );
           })}
+=======
+        <div className="grid md:grid-cols-3 gap-4">
+          {benefits.map(renderBenefit)}
+>>>>>>> completed
         </div>
       )}
     </section>

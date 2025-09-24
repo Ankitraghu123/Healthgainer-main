@@ -1,9 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../lib/api";
 
+<<<<<<< HEAD
 
 
 // ✅ Fetch all Health Gainers
+=======
+>>>>>>> completed
 export const fetchHealthGainers = createAsyncThunk("healthGainer/fetchAll", async (_, { rejectWithValue }) => {
   try {
     const response = await API.get("/healthgainer");
@@ -13,7 +16,10 @@ export const fetchHealthGainers = createAsyncThunk("healthGainer/fetchAll", asyn
   }
 });
 
+<<<<<<< HEAD
 // ✅ Fetch Health Gainer by Product ID
+=======
+>>>>>>> completed
 export const fetchHealthGainerByProduct = createAsyncThunk("healthGainer/fetchByProduct", async (productId, { rejectWithValue }) => {
   try {
     const response = await API.get(`/healthgainer/product/${productId}`);
@@ -23,7 +29,10 @@ export const fetchHealthGainerByProduct = createAsyncThunk("healthGainer/fetchBy
   }
 });
 
+<<<<<<< HEAD
 // ✅ Create a new Health Gainer
+=======
+>>>>>>> completed
 export const createHealthGainer = createAsyncThunk("healthGainer/create", async (data, { rejectWithValue }) => {
   try {
     const response = await API.post("/healthgainer", data);
@@ -33,7 +42,10 @@ export const createHealthGainer = createAsyncThunk("healthGainer/create", async 
   }
 });
 
+<<<<<<< HEAD
 // ✅ Update Health Gainer
+=======
+>>>>>>> completed
 export const updateHealthGainer = createAsyncThunk("healthGainer/update", async ({ id, data }, { rejectWithValue }) => {
   try {
     const response = await API.put(`/healthgainer/${id}`, data);
@@ -43,7 +55,10 @@ export const updateHealthGainer = createAsyncThunk("healthGainer/update", async 
   }
 });
 
+<<<<<<< HEAD
 // ✅ Delete Health Gainer
+=======
+>>>>>>> completed
 export const deleteHealthGainer = createAsyncThunk("healthGainer/delete", async (id, { rejectWithValue }) => {
   try {
     await API.delete(`/healthgainer/${id}`);
@@ -53,7 +68,10 @@ export const deleteHealthGainer = createAsyncThunk("healthGainer/delete", async 
   }
 });
 
+<<<<<<< HEAD
 // 🎯 Initial State
+=======
+>>>>>>> completed
 const initialState = {
   healthGainers: [],
   loading: false,
@@ -66,7 +84,11 @@ const healthGainerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+<<<<<<< HEAD
       // ✅ Fetch All
+=======
+
+>>>>>>> completed
       .addCase(fetchHealthGainers.pending, (state) => {
         state.loading = true;
       })
@@ -79,7 +101,10 @@ const healthGainerSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Fetch by Product
+=======
+>>>>>>> completed
       .addCase(fetchHealthGainerByProduct.pending, (state) => {
         state.loading = true;
       })
@@ -92,7 +117,10 @@ const healthGainerSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Create
+=======
+>>>>>>> completed
       .addCase(createHealthGainer.pending, (state) => {
         state.loading = true;
       })
@@ -105,7 +133,10 @@ const healthGainerSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Update
+=======
+>>>>>>> completed
       .addCase(updateHealthGainer.pending, (state) => {
         state.loading = true;
       })
@@ -120,7 +151,10 @@ const healthGainerSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Delete
+=======
+>>>>>>> completed
       .addCase(deleteHealthGainer.pending, (state) => {
         state.loading = true;
       })

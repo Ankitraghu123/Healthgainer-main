@@ -3,13 +3,19 @@ import API from "@/lib/api";
 
 const BASE_URL = "/why/advantages";
 
+<<<<<<< HEAD
 // ✅ Fetch all advantages
+=======
+>>>>>>> completed
 export const fetchAdvantages = createAsyncThunk("advantage/fetchAll", async () => {
   const res = await API.get(BASE_URL);
   return res.data.advantages;
 });
 
+<<<<<<< HEAD
 // ✅ Create new advantage
+=======
+>>>>>>> completed
 export const createAdvantage = createAsyncThunk("advantage/create", async (formData) => {
   const res = await API.post(BASE_URL, formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -17,7 +23,10 @@ export const createAdvantage = createAsyncThunk("advantage/create", async (formD
   return res.data.advantage;
 });
 
+<<<<<<< HEAD
 // ✅ Update advantage
+=======
+>>>>>>> completed
 export const updateAdvantage = createAsyncThunk("advantage/update", async ({ id, formData }) => {
   const res = await API.put(`${BASE_URL}/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -25,7 +34,10 @@ export const updateAdvantage = createAsyncThunk("advantage/update", async ({ id,
   return res.data.advantage;
 });
 
+<<<<<<< HEAD
 // ✅ Delete advantage
+=======
+>>>>>>> completed
 export const deleteAdvantage = createAsyncThunk("advantage/delete", async (id) => {
   await API.delete(`${BASE_URL}/${id}`);
   return id;

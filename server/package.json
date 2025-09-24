@@ -4,15 +4,22 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev":"nodemon server.js"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1"
+>>>>>>> completed
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.12.2",
+=======
+>>>>>>> completed
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -24,7 +31,10 @@
     "mongoose": "^8.11.0",
     "morgan": "^1.10.0",
     "multer": "^2.0.2",
+<<<<<<< HEAD
     "nodemon": "^3.1.10",
+=======
+>>>>>>> completed
     "razorpay": "^2.9.6",
     "uuid": "^11.1.0"
   }

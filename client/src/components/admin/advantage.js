@@ -142,7 +142,10 @@ export default function AdvantageManager() {
         </Dialog>
       </div>
 
+<<<<<<< HEAD
       {/* Delete Confirmation Dialog */}
+=======
+>>>>>>> completed
       <Dialog
         open={confirmDeleteOpen}
         onOpenChange={(val) => {

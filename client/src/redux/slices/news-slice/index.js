@@ -3,13 +3,19 @@ import API from "../../../lib/api";
 
 const BASE_URL = "/news";
 
+<<<<<<< HEAD
 // Fetch all
+=======
+>>>>>>> completed
 export const fetchNews = createAsyncThunk("news/fetchAll", async () => {
   const res = await API.get(BASE_URL);
   return res.data.news;
 });
 
+<<<<<<< HEAD
 // Create
+=======
+>>>>>>> completed
 export const createNews = createAsyncThunk("news/create", async (data) => {
   const res = await API.post(BASE_URL, data, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -17,7 +23,10 @@ export const createNews = createAsyncThunk("news/create", async (data) => {
   return res.data.news;
 });
 
+<<<<<<< HEAD
 // Update
+=======
+>>>>>>> completed
 export const updateNews = createAsyncThunk("news/update", async ({ id, formData }) => {
   const res = await API.put(`${BASE_URL}/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -25,7 +34,10 @@ export const updateNews = createAsyncThunk("news/update", async ({ id, formData 
   return res.data.news;
 });
 
+<<<<<<< HEAD
 // Delete
+=======
+>>>>>>> completed
 export const deleteNews = createAsyncThunk("news/delete", async (id) => {
   await API.delete(`${BASE_URL}/${id}`);
   return id;

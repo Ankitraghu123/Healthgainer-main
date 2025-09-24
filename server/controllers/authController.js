@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -13,11 +14,32 @@ exports.registerUser = async (req, res) => {
     console.log(req.body, "HEELO");
 
     if (!email || !password) {
+=======
+// const { default: axios } = require("axios");
+const User = require("../models/user");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const express = require("express");
+// const OTP = require("../routes/OTP");
+const axios = require("axios");
+
+const isProd = process.env.NODE_ENV === "production";
+
+const app = express();
+
+// get OTP after User validation
+exports.getOTP = async (req, res) => {
+  try {
+    const { firstName, lastName, mobileNumber, email, password } = req.body;
+
+    if (!email || !mobileNumber) {
+>>>>>>> completed
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
     }
 
+<<<<<<< HEAD
     const userExists = await User.findOne({ email });
     if (userExists)
       return res
@@ -31,12 +53,110 @@ exports.registerUser = async (req, res) => {
 
 
 
+=======
+    // check for existing user with either email or mobileNumber
+    const userExists = await User.findOne({
+      $or: [{ email }, { mobileNumber }],
+    });
+
+    console.log(userExists);
+
+    if (userExists) {
+      if (userExists.email === email) {
+        return res
+          .status(400)
+          .json({ message: "This Email already exists", success: false });
+      }
+      if (userExists.mobileNumber === mobileNumber) {
+        return res.status(400).json({
+          message: "This Mobile Number already exists",
+          success: false,
+        });
+      }
+    }
+
+    // Generate OTP
+    const otpNumber = Math.floor(1000 + Math.random() * 9000);
+
+    const url = "http://redirect.ds3.in/submitsms.jsp";
+
+    const response = await axios.get(url, {
+      params: {
+        user: "FORTUNEINF",
+        key: "ec48a1fc79XX",
+        mobile: `+91${mobileNumber}`,
+        message: `Your OTP is ${otpNumber} for login to healthgainer.in By Pharma science The Indian Ayurveda. Valid for 10 minutes. Do not share this code with anyone.`,
+        senderid: "PSAYUR",
+        accusage: "1",
+        entityid: "1201160222472542813",
+        tempid: "1707175810749668953",
+      },
+    });
+
+    if (response?.status !== 200) {
+      return res
+        .status(401)
+        .json({ success: false, message: "OTP not generated", Data: null });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "OTP generated successfully",
+      Data: otpNumber,
+    });
+  } catch (error) {
+    console.error("Error in getOTP:", error);
+    res.status(500).json({ message: error.message, success: false });
+  }
+};
+
+// register user after Check OTP
+exports.registerUser = async (req, res) => {
+  try {
+    const { firstName, lastName, mobileNumber, email, password } = req.body;
+
+    console.log(req.body, "HEELOREgister");
+
+    if (!email || !mobileNumber) {
+      return res
+        .status(400)
+        .json({ message: "All fields are required", success: false });
+    }
+
+    // check for existing user with either email or mobileNumber
+    const userExists = await User.findOne({
+      $or: [{ email }, { mobileNumber }],
+    });
+
+    console.log(userExists);
+
+    if (userExists) {
+      if (userExists.email === email) {
+        return res
+          .status(400)
+          .json({ message: "This Email already exists", success: false });
+      }
+      if (userExists.mobileNumber === mobileNumber) {
+        return res.status(400).json({
+          message: "This Mobile Number already exists",
+          success: false,
+        });
+      }
+    }
+
+    const profilePhoto = `https://avatar.iran.liara.run/public/boy?email=${email}`;
+
+>>>>>>> completed
     const newUser = await User.create({
       firstName,
       lastName,
       mobileNumber,
       email,
+<<<<<<< HEAD
       password: hashedPassword,
+=======
+      // password: hashedPassword,
+>>>>>>> completed
       profilePhoto,
       lastLogin: new Date(),
     });
@@ -77,16 +197,26 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 // Login User
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
+=======
+exports.getOTPLogin = async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const { phone } = req.body;
+    if (!phone) {
+>>>>>>> completed
       return res
         .status(400)
         .json({ message: "All fields are required", success: false });
     }
 
+<<<<<<< HEAD
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "User not found" });
 
@@ -95,6 +225,58 @@ exports.loginUser = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Invalid credentials", success: false });
+=======
+    const user = await User.findOne({ mobileNumber: phone });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    const otpNumber = Math.floor(1000 + Math.random() * 9000);
+
+    const url = "http://redirect.ds3.in/submitsms.jsp";
+
+    const response = await axios.get(url, {
+      params: {
+        user: "FORTUNEINF",
+        key: "ec48a1fc79XX",
+        mobile: `+91${phone}`,
+        message: `Your OTP is ${otpNumber} for login to healthgainer.in By Pharma science The Indian Ayurveda. Valid for 10 minutes. Do not share this code with anyone.`,
+        senderid: "PSAYUR",
+        accusage: "1",
+        entityid: "1201160222472542813",
+        tempid: "1707175810749668953",
+      },
+    });
+
+    if (response?.status !== 200) {
+      return res
+        .status(401)
+        .json({ success: false, message: "OTP not generated", Data: null });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "OTP generated successfully",
+      Data: otpNumber,
+    });
+  } catch (error) {
+    console.error("Error in loginUser:", error); // Debugging log
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.loginUser = async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const { phone } = req.body.loginForm;
+    if (!phone) {
+      return res
+        .status(400)
+        .json({ message: "All fields are required", success: false });
+    }
+
+    const user = await User.findOne({ mobileNumber: phone });
+    if (!user) return res.status(400).json({ message: "User not found" });
+>>>>>>> completed
 
     user.lastLogin = new Date();
     await user.save();
@@ -165,6 +347,7 @@ exports.updateUser = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
+<<<<<<< HEAD
     // if (email && email !== user.email) {
     //   const emailExists = await User.findOne({ email });
     //   if (emailExists) return res.status(400).json({ message: "Email already in use" });
@@ -179,6 +362,8 @@ exports.updateUser = async (req, res) => {
     // user.firstName = firstName || user.firstName;
     // user.lastName = lastName || user.lastName;
     // user.mobileNumber = mobileNumber || user.mobileNumber;
+=======
+>>>>>>> completed
     user.role = role || user.role;
 
     await user.save();
@@ -219,11 +404,14 @@ exports.getUserProfile = async (req, res) => {
 // Get All Users (Admin Only)
 exports.getAllUsers = async (req, res) => {
   try {
+<<<<<<< HEAD
     // Ensure only admin users can access this
     // if (req.user.role !== "admin") {
     //   return res.status(403).json({ message: "Access denied. Admins only!" });
     // }
 
+=======
+>>>>>>> completed
     const users = await User.find().select("-password"); // Exclude passwords
     res.status(200).json({ users, success: true });
   } catch (error) {
@@ -233,11 +421,14 @@ exports.getAllUsers = async (req, res) => {
 
 exports.todayLogins = async (req, res) => {
   try {
+<<<<<<< HEAD
     // Ensure only admin users can access this
     // if (req.user.role !== "admin") {
     //   return res.status(403).json({ message: "Access denied. Admins only!" });
     // }
 
+=======
+>>>>>>> completed
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

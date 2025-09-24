@@ -20,6 +20,7 @@ export default function AccountDetails() {
   
 
   useEffect(() => {
+<<<<<<< HEAD
     // Fetch user details from localStorage
     const userDetails = localStorage.getItem("user");
     if (userDetails) {
@@ -27,6 +28,12 @@ export default function AccountDetails() {
       const parsedUser = JSON.parse(userDetails);
       setUser(parsedUser);
       // Initialize form data with user details
+=======
+    const userDetails = localStorage.getItem("user");
+    if (userDetails) {
+      const parsedUser = JSON.parse(userDetails);
+      setUser(parsedUser);
+>>>>>>> completed
       setFormData({
         firstName: parsedUser.firstName || "",
         lastName: parsedUser.lastName || "",
@@ -48,8 +55,11 @@ export default function AccountDetails() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
 
     // Prepare the updated user data
+=======
+>>>>>>> completed
     const updatedUserData = {
       ...user,
       firstName: formData.firstName,
@@ -58,6 +68,7 @@ export default function AccountDetails() {
       email: formData.email,
     };
 
+<<<<<<< HEAD
     // Dispatch the updateUser action
     dispatch(updateUserDetails(updatedUserData));
 
@@ -65,6 +76,12 @@ export default function AccountDetails() {
     localStorage.setItem("user", JSON.stringify(updatedUserData));
 
     // Show success message
+=======
+    dispatch(updateUserDetails(updatedUserData));
+
+    localStorage.setItem("user", JSON.stringify(updatedUserData));
+
+>>>>>>> completed
     toast.success("User details updated successfully!");
   };
 
@@ -78,7 +95,10 @@ export default function AccountDetails() {
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Account Details</h2>
 
       <form onSubmit={handleSubmit}>
+<<<<<<< HEAD
         {/* Personal Information */}
+=======
+>>>>>>> completed
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-1 col-span-2">
             <label className="block text-gray-600 text-sm mb-2">First Name</label>

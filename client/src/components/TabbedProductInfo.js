@@ -21,7 +21,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 const tabs = [
   { id: "Description", icon: <FiInfo className="text-blue-500" /> },
+<<<<<<< HEAD
   { id: "Ingredients", icon: <FaLeaf className="text-green-500" /> },
+=======
+  { id: "Ingredientssssssssssssssssssssssssssssssss", icon: <FaLeaf className="text-green-500" /> },
+>>>>>>> completed
   { id: "How To Use", icon: <FiActivity className="text-purple-500" /> },
   { id: "Benefits", icon: <FiCheckCircle className="text-emerald-500" /> },
   { id: "Prohibition", icon: <FiAlertCircle className="text-red-500" /> },
@@ -200,7 +204,10 @@ const HealthGainerTabs = ({ productId }) => {
     ),
     Testimonials: (
       <div>
+<<<<<<< HEAD
         {/* <h3 className="text-lg font-semibold text-gray-800 mb-3">Customer Reviews</h3> */}
+=======
+>>>>>>> completed
         <ReviewSection productId={productId} />
         <ReviewsList productId={productId} />
       </div>

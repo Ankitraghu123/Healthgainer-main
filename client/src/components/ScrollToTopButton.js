@@ -1,11 +1,16 @@
 "use client";
 
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
+=======
+import { useState, useEffect, useCallback } from "react";
+>>>>>>> completed
 import { motion } from "framer-motion";
 import { FaArrowUp } from "react-icons/fa";
 
 export default function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
+<<<<<<< HEAD
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -23,6 +28,35 @@ export default function ScrollToTopButton() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+=======
+  const toggleVisibility = useCallback(() => {
+    setIsVisible(window.scrollY > 200);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    let ticking = false;
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          toggleVisibility();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [toggleVisibility]);
+>>>>>>> completed
 
   return (
     <div className="fixed bottom-6 left-6 z-50">
@@ -39,4 +73,8 @@ export default function ScrollToTopButton() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> completed

@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../lib/api";
 
+<<<<<<< HEAD
 // Async Thunks for API Calls
+=======
+>>>>>>> completed
 export const fetchReq = createAsyncThunk("req/fetchAll", async () => {
   const response = await API.get("/req/all");
   return response.data;
@@ -17,7 +20,10 @@ export const deleteReq = createAsyncThunk("req/delete", async (id) => {
   return id;
 });
 
+<<<<<<< HEAD
 // Redux Slice
+=======
+>>>>>>> completed
 const contactSlice = createSlice({
   name: "reqCall",
   initialState: {

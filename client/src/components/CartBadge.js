@@ -4,8 +4,11 @@ import { fetchCart } from "@/redux/slices/cartSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> completed
 export default function CartBadge() {
     const cartItems = useSelector((state) => state.cart.items);
     const router = useRouter();

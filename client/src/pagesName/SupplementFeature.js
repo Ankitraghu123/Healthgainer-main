@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
+<<<<<<< HEAD
 // Feature data sets
+=======
+>>>>>>> completed
 const featureSets = [
   [
     { title: "High Protein Content" },
@@ -25,7 +28,10 @@ const featureSets = [
 export default function SupplementFeature() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+<<<<<<< HEAD
   // Auto-slide every 5 seconds
+=======
+>>>>>>> completed
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
@@ -45,9 +51,13 @@ export default function SupplementFeature() {
 
   return (
     <section className="relative py-16 bg-gradient-to-b from-blue-100 via-white to-blue-100 overflow-hidden">
+<<<<<<< HEAD
       {/* Background Pattern */}
       <div className="absolute top-0 left-0 w-full h-full bg-pattern opacity-10"></div>
 
+=======
+      <div className="absolute top-0 left-0 w-full h-full bg-pattern opacity-10"></div>
+>>>>>>> completed
       <div className="container mx-auto text-center relative">
         <h2 className="text-primary italic text-lg tracking-wide">Our</h2>
         <h1 className="text-4xl font-extrabold mb-6 text-gray-800">Supplement Features</h1>
@@ -55,14 +65,20 @@ export default function SupplementFeature() {
       </div>
 
       <div className="flex flex-col md:flex-row items-center justify-center gap-10 px-6 md:px-16">
+<<<<<<< HEAD
         {/* Left Feature Cards */}
+=======
+>>>>>>> completed
         <div className="flex flex-col gap-6">
           {featureSets[currentIndex].slice(0, 3).map((feature, idx) => (
             <FeatureCard key={idx} title={feature.title} />
           ))}
         </div>
+<<<<<<< HEAD
 
         {/* Center Image */}
+=======
+>>>>>>> completed
         <div className="relative flex-shrink-0">
           <div className="w-80 h-80 md:w-96 md:h-96 bg-gradient-to-r from-primary to-black rounded-full flex items-center justify-center shadow-2xl">
             <Image
@@ -74,16 +90,22 @@ export default function SupplementFeature() {
             />
           </div>
         </div>
+<<<<<<< HEAD
 
         {/* Right Feature Cards */}
+=======
+>>>>>>> completed
         <div className="flex flex-col gap-6">
           {featureSets[currentIndex].slice(0, 3).map((feature, idx) => (
             <FeatureCard key={idx} title={feature.title} />
           ))}
         </div>
       </div>
+<<<<<<< HEAD
 
       {/* Navigation Buttons */}
+=======
+>>>>>>> completed
       <div className="flex justify-center mt-8 gap-4">
         <button
           onClick={prevSlide}
@@ -102,6 +124,7 @@ export default function SupplementFeature() {
   );
 }
 
+<<<<<<< HEAD
 // Feature Card Component
 const FeatureCard = ({ title }) => {
   return (
@@ -112,6 +135,14 @@ const FeatureCard = ({ title }) => {
       </div>
 
       {/* Feature Text */}
+=======
+const FeatureCard = ({ title }) => {
+  return (
+    <div className="flex items-center bg-white/80 backdrop-blur-lg text-gray-900 shadow-lg border border-gray-200 rounded-lg p-5 max-w-md transition-transform hover:scale-105">
+      <div className="w-14 h-14 flex items-center justify-center bg-blue-100 rounded-full mr-5 shadow-md">
+        <Image src="/2.png" width={40} height={40} alt="Feature Icon" />
+      </div>
+>>>>>>> completed
       <div>
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-sm text-gray-600">

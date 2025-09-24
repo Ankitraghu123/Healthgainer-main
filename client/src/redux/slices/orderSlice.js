@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../lib/api";
 
+<<<<<<< HEAD
 // ✅ User ke orders fetch karne ka function
+=======
+>>>>>>> completed
 export const fetchOrders = createAsyncThunk("orders/fetchOrders", async (userId, { rejectWithValue }) => {
   try {
     const response = await API.get(`/orders`);
@@ -20,7 +23,10 @@ export const fetchOrderByUserId = createAsyncThunk("orders/fetchOrderByUserId", 
   }
 });
 
+<<<<<<< HEAD
 // ✅ New order place karne ka function
+=======
+>>>>>>> completed
 export const placeOrder = createAsyncThunk("orders/placeOrder", async (orderData, { rejectWithValue }) => {
   try {
     const response = await API.post("/orders/place", orderData);
@@ -30,7 +36,10 @@ export const placeOrder = createAsyncThunk("orders/placeOrder", async (orderData
   }
 });
 
+<<<<<<< HEAD
 // ✅ Order status update karne ka function (Admin)
+=======
+>>>>>>> completed
 export const updateOrderStatus = createAsyncThunk("orders/updateOrderStatus", async ({ orderId, status }, { rejectWithValue }) => {
   try {
     const response = await API.put("/orders/update", { orderId, status });
@@ -52,7 +61,11 @@ export const allOrders = createAsyncThunk("orders/allOrders", async (_, { reject
 export const totalRevenu = createAsyncThunk("orders/totalRevenu", async (_, { rejectWithValue }) => {
   try {
     const response = await API.get("/orders/revenu");
+<<<<<<< HEAD
     return response.data.totalRevenue; // ✅ सही किया
+=======
+    return response.data.totalRevenue;
+>>>>>>> completed
   } catch (error) {
     return rejectWithValue(error.response.data.message);
   }
@@ -61,7 +74,11 @@ export const totalRevenu = createAsyncThunk("orders/totalRevenu", async (_, { re
 export const monthlyRevenu = createAsyncThunk("orders/monthly-revenu", async (_, { rejectWithValue }) => {
   try {
     const response = await API.get("/orders/monthly-revenu");
+<<<<<<< HEAD
     return response.data.monthlyRevenue; // ✅ सही किया
+=======
+    return response.data.monthlyRevenue;
+>>>>>>> completed
   } catch (error) {
     return rejectWithValue(error.response.data.message);
   }
@@ -80,7 +97,10 @@ const orderSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+<<<<<<< HEAD
       // ✅ Orders Fetching
+=======
+>>>>>>> completed
       .addCase(fetchOrders.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -94,7 +114,10 @@ const orderSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Order Placing
+=======
+>>>>>>> completed
       .addCase(placeOrder.pending, (state) => {
         state.loading = true;
       })
@@ -107,7 +130,10 @@ const orderSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Order Status Update
+=======
+>>>>>>> completed
       .addCase(updateOrderStatus.pending, (state) => {
         state.loading = true;
       })
@@ -123,7 +149,10 @@ const orderSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ All Orders Fetching
+=======
+>>>>>>> completed
       .addCase(allOrders.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -137,7 +166,10 @@ const orderSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Total Revenu
+=======
+>>>>>>> completed
       .addCase(totalRevenu.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -151,7 +183,10 @@ const orderSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Order By User Id
+=======
+>>>>>>> completed
       .addCase(fetchOrderByUserId.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -165,7 +200,10 @@ const orderSlice = createSlice({
         state.error = action.payload;
       })
 
+<<<<<<< HEAD
       // ✅ Monthly Revenu
+=======
+>>>>>>> completed
       .addCase(monthlyRevenu.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -178,8 +216,11 @@ const orderSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+<<<<<<< HEAD
       
       
+=======
+>>>>>>> completed
   },
 });
 

@@ -6,7 +6,7 @@ const isAuthenticated = async (req, res, next) => {
         let token = req.header('Authorization')?.replace('Bearer ', '') || req.cookies.token;
         console.log('Token received:', token);
 
-        // Remove extra double quotes if present
+        
         if (token && token.startsWith('"') && token.endsWith('"')) {
             token = token.slice(1, -1);
         }

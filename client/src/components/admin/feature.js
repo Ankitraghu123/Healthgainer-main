@@ -133,7 +133,10 @@ const FeatureManager = () => {
         </Dialog>
       </div>
 
+<<<<<<< HEAD
       {/* Confirmation Dialog */}
+=======
+>>>>>>> completed
       <Dialog
         open={confirmDeleteOpen}
         onOpenChange={(val) => {

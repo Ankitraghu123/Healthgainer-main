@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../lib/api";
 
 const getInitialUserState = () => {
+<<<<<<< HEAD
   if (typeof window !== "undefined") {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -10,6 +11,18 @@ const getInitialUserState = () => {
 };
 
 // Login User
+=======
+  const storedUser = localStorage.getItem("user");
+  if (!storedUser) return null; // or {} depending on your state
+  try {
+    return JSON.parse(storedUser);
+  } catch (err) {
+    console.error("Failed to parse user from localStorage:", err);
+    return null; // fallback if corrupted
+  }
+};
+
+>>>>>>> completed
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (userData, thunkAPI) => {
@@ -24,7 +37,40 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // Register User
+=======
+export const getOTPLogin = createAsyncThunk(
+  "auth/getotplogin",
+  async (userData, thunkAPI) => {
+    console.log(userData);
+
+    try {
+      const { data } = await API.post("/auth/getotplogin", userData);
+      // Token is set as httpOnly cookie by backend; only persist user locally
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// Register User
+export const getOTP = createAsyncThunk(
+  "auth/getOTP",
+  async (userData, thunkAPI) => {
+    try {
+      const { data } = await API.post("/auth/getOTP", userData);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+>>>>>>> completed
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, thunkAPI) => {
@@ -175,6 +221,10 @@ const authSlice = createSlice({
     user: getInitialUserState(),
     users: [],
     todayLogins: [],
+<<<<<<< HEAD
+=======
+    getOTPAfterValidation: "",
+>>>>>>> completed
     loading: false,
     error: null,
   },
@@ -264,6 +314,21 @@ const authSlice = createSlice({
       .addCase(todayLogins.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+<<<<<<< HEAD
+=======
+      })
+      .addCase(getOTP.pending, (state, action) => {
+        state.loading = true;
+        // state.error = action.payload;
+      })
+      .addCase(getOTP.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getOTPAfterValidation = action.payload;
+      })
+      .addCase(getOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+>>>>>>> completed
       });
   },
 });

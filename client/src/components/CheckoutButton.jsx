@@ -39,15 +39,22 @@ const CheckoutButton = ({ total, orderData }) => {
   const handlePayment = async () => {
     setIsProcessing(true);
     try {
+<<<<<<< HEAD
       // 1. Load Razorpay
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) throw new Error("Payment system unavailable");
 
       // 2. Verify environment variables
+=======
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) throw new Error("Payment system unavailable");
+
+>>>>>>> completed
       if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {
         throw new Error("Payment configuration missing");
       }
 
+<<<<<<< HEAD
       // 3. Prepare API endpoint
       const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
       const createOrderURL = `${baseURL}/payment/create-order`;
@@ -55,6 +62,13 @@ const CheckoutButton = ({ total, orderData }) => {
       console.log("Creating order at:", createOrderURL); // Verify this in console
 
       // 4. Create order
+=======
+      const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+      const createOrderURL = `${baseURL}/payment/create-order`;
+      
+      console.log("Creating order at:", createOrderURL);
+
+>>>>>>> completed
       const { data } = await axios.post(createOrderURL, {
         amount: total
       }).catch(err => {
@@ -66,7 +80,10 @@ const CheckoutButton = ({ total, orderData }) => {
         throw err;
       });
 
+<<<<<<< HEAD
       // 5. Initialize payment
+=======
+>>>>>>> completed
       const rzp = new window.Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: data.amount,

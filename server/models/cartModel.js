@@ -20,9 +20,16 @@ const cartItemSchema = new mongoose.Schema({
 const cartSchema = new mongoose.Schema(
   {
     userId: {
+<<<<<<< HEAD
       type: String,
       required: true,
     }, // String key: user ObjectId or guest sessionId
+=======
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    }, // Reference to User
+>>>>>>> completed
     items: [cartItemSchema], // Array of products in the cart
     totalAmount: { type: Number, required: false, default: 0 }, // Total cart value
     totalItems: { type: Number, required: false, default: 0 }, // Total number of unique items

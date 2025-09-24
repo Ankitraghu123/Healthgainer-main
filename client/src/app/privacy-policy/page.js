@@ -48,7 +48,11 @@ export default function PrivacyPolicy() {
               target="_blank"
               rel="noopener noreferrer"
             >
+<<<<<<< HEAD
               Razorpay's Privacy Policy
+=======
+              Razorpay&apos;s Privacy Policy
+>>>>>>> completed
             </a>.
           </p>
         </section>

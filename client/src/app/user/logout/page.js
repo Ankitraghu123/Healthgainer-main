@@ -3,7 +3,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/slices/authSlice";
+<<<<<<< HEAD
 // import { loadUserFromStorage } from '@/redux/slices/authSlice';
+=======
+>>>>>>> completed
 import { clearUser } from "@/redux/slices/authSlice";
 
 const Logout = () => {
@@ -16,7 +19,10 @@ const Logout = () => {
         await dispatch(logout()).unwrap();
         dispatch(clearUser());
         window.location.href = "/login";
+<<<<<<< HEAD
         // setTimeout(() => router.push("/login"), 500);
+=======
+>>>>>>> completed
       } catch (error) {
         console.error("Error during logout:", error);
       }

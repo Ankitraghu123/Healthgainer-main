@@ -31,6 +31,7 @@ export default function ProductGallery() {
 
   const handleAddToCart = async (product) => {
     setLoadingProductId(product._id);
+<<<<<<< HEAD
     const userId = user?._id || null; // backend will use sessionId for guests
 
     try {
@@ -43,6 +44,28 @@ export default function ProductGallery() {
         })
       ).unwrap();
       toast.success("Item added to cart successfully!");
+=======
+    const userId = user?._id || "user123";
+
+    try {
+      if (user) {
+        await dispatch(
+          addToCart({
+            userId,
+            productId: product._id,
+            variantId: product.variants?.[0]?._id || null,
+            quantity: 1,
+          })
+        ).unwrap();
+        toast.success("Item added to cart successfully!");
+      } else {
+        toast.warn("Please login to continue!", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        router.push(`/login`);
+      }
+>>>>>>> completed
     } catch (err) {
       toast.error("Failed to add to cart");
     } finally {

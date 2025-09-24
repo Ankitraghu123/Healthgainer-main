@@ -47,6 +47,7 @@ const keywords = [
   "best ayurvedic treatment for weight loss",
 ];
 
+<<<<<<< HEAD
 const KeywordCloud = () => {
   return (
     <section className="bg-gradient-to-br from-[#e0f7fa] to-[#fff3e0] p-2 mt-1 shadow-inner">
@@ -71,5 +72,21 @@ const KeywordCloud = () => {
     </section>
   );
 };
+=======
+const KeywordCloud = () => (
+  <section className="bg-gradient-to-br from-[#e0f7fa] to-[#fff3e0] p-2 mt-1 shadow-inner">
+    <div className="flex flex-wrap gap-[4px] text-[10px] sm:text-xs leading-tight text-justify">
+      {keywords.map((keyword, index) => (
+        <span
+          key={index}
+          className="rounded bg-white border border-gray-200 text-gray-700 hover:bg-[#d1c4e9] hover:text-black transition-all duration-200 shadow-sm cursor-pointer m-[1px]"
+        >
+          {keyword}
+        </span>
+      ))}
+    </div>
+  </section>
+);
+>>>>>>> completed
 
 export default KeywordCloud;

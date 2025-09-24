@@ -81,7 +81,11 @@ const OrdersPage = () => {
                     <div className="bg-white p-8 rounded-lg shadow-sm text-center">
                         <Package className="h-12 w-12 mx-auto text-gray-400" />
                         <h2 className="text-xl font-medium text-gray-900 mt-4">No orders yet</h2>
+<<<<<<< HEAD
                         <p className="text-gray-600 mt-2">You haven't placed any orders with us yet</p>
+=======
+                        <p className="text-gray-600 mt-2">You haven&apos;t placed any orders with us yet</p>
+>>>>>>> completed
                         <Link
                             href="/"
                             className="mt-6 inline-flex items-center px-6 py-3 bg-primary text-white rounded-md hover:bg-secondary transition-colors"

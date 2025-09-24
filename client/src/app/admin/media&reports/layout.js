@@ -1,12 +1,19 @@
 "use client";
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
+=======
+import React, { useEffect, useState, useCallback, memo } from "react";
+>>>>>>> completed
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchMediaReports,
   deleteMediaReport,
 } from "@/redux/slices/mediaReport-slice";
+<<<<<<< HEAD
 
+=======
+>>>>>>> completed
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,7 +26,15 @@ import MediaReportForm from "./page";
 import ConfirmDelete from "@/components/common/ConfirmDelete";
 import { toast } from "react-toastify";
 
+<<<<<<< HEAD
 function Row({ mediaReport, onEdit, onDelete }) {
+=======
+const Row = memo(({ mediaReport, onEdit, onDelete }) => {
+  const truncatedDesc = mediaReport.description?.length > 400 
+    ? mediaReport.description.slice(0, 400) + "..." 
+    : mediaReport.description;
+
+>>>>>>> completed
   return (
     <tr className="border-t bg-white">
       <td className="p-2">
@@ -29,6 +44,7 @@ function Row({ mediaReport, onEdit, onDelete }) {
           width={40}
           height={40}
           className="rounded"
+<<<<<<< HEAD
         />
       </td>
       <td className="p-2 font-medium">{mediaReport.title}</td>
@@ -37,6 +53,13 @@ function Row({ mediaReport, onEdit, onDelete }) {
           ? mediaReport.description.slice(0, 400) + "..."
           : mediaReport.description}
       </td>
+=======
+          loading="lazy"
+        />
+      </td>
+      <td className="p-2 font-medium">{mediaReport.title}</td>
+      <td className="p-2 max-w-60">{truncatedDesc}</td>
+>>>>>>> completed
       <td className="p-2 max-w-60 break-all">
         {mediaReport.url}{" "}
         <a
@@ -62,16 +85,26 @@ function Row({ mediaReport, onEdit, onDelete }) {
       </td>
     </tr>
   );
+<<<<<<< HEAD
 }
+=======
+});
+
+Row.displayName = 'MediaReportRow';
+>>>>>>> completed
 
 export default function MediaReportTable() {
   const dispatch = useDispatch();
   const { mediaReports, loading } = useSelector((state) => state.mediaReports);
+<<<<<<< HEAD
 
+=======
+>>>>>>> completed
   const [editData, setEditData] = useState(null);
   const [open, setOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
+<<<<<<< HEAD
   useEffect(() => {
     dispatch(fetchMediaReports());
   }, [dispatch]);
@@ -82,6 +115,14 @@ export default function MediaReportTable() {
   };
 
   const handleDelete = async () => {
+=======
+  const handleEdit = useCallback((mediaReport) => {
+    setEditData(mediaReport);
+    setOpen(true);
+  }, []);
+
+  const handleDelete = useCallback(async () => {
+>>>>>>> completed
     if (!deleteTarget) return;
     try {
       await dispatch(deleteMediaReport(deleteTarget._id)).unwrap();
@@ -91,9 +132,15 @@ export default function MediaReportTable() {
     } finally {
       setDeleteTarget(null);
     }
+<<<<<<< HEAD
   };
 
   const handleFormSubmit = (success) => {
+=======
+  }, [deleteTarget, dispatch]);
+
+  const handleFormSubmit = useCallback((success) => {
+>>>>>>> completed
     if (success) {
       toast.success(editData ? "Media report updated" : "Media report created");
       setOpen(false);
@@ -101,7 +148,28 @@ export default function MediaReportTable() {
     } else {
       toast.error("Failed to save media report");
     }
+<<<<<<< HEAD
   };
+=======
+  }, [editData]);
+
+  const handleDialogChange = useCallback((val) => {
+    setOpen(val);
+    if (!val) setEditData(null);
+  }, []);
+
+  const handleAddClick = useCallback(() => {
+    setEditData(null);
+  }, []);
+
+  const handleDeleteCancel = useCallback(() => {
+    setDeleteTarget(null);
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchMediaReports());
+  }, [dispatch]);
+>>>>>>> completed
 
   if (loading) {
     return (
@@ -116,6 +184,7 @@ export default function MediaReportTable() {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">Media Reports Section</h2>
 
+<<<<<<< HEAD
         <Dialog
           open={open}
           onOpenChange={(val) => {
@@ -128,12 +197,23 @@ export default function MediaReportTable() {
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>{editData ? "Edit Media Report" : "Add Media Report"}</DialogTitle>
+=======
+        <Dialog open={open} onOpenChange={handleDialogChange}>
+          <DialogTrigger asChild>
+            <Button onClick={handleAddClick}>Add Media Report</Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl">
+            <DialogTitle className="text-lg font-semibold">
+              {editData ? "Edit Media Report" : "Add Media Report"}
+            </DialogTitle>
+>>>>>>> completed
             <MediaReportForm initialData={editData} onSubmit={handleFormSubmit} />
           </DialogContent>
         </Dialog>
       </div>
 
       <div className="border rounded-md overflow-hidden">
+<<<<<<< HEAD
         <table className="w-full table-auto">
           <thead>
             <tr>
@@ -142,6 +222,16 @@ export default function MediaReportTable() {
               <th className="p-2 text-left">Description</th>
               <th className="p-2 text-left">URL</th>
               <th className="p-2 text-left">Actions</th>
+=======
+        <table className="w-full table-auto border-collapse">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="p-2 text-left text-sm font-medium">Logo</th>
+              <th className="p-2 text-left text-sm font-medium">Title</th>
+              <th className="p-2 text-left text-sm font-medium">Description</th>
+              <th className="p-2 text-left text-sm font-medium">URL</th>
+              <th className="p-2 text-left text-sm font-medium">Actions</th>
+>>>>>>> completed
             </tr>
           </thead>
           <tbody>
@@ -150,7 +240,11 @@ export default function MediaReportTable() {
                 key={mediaReport._id}
                 mediaReport={mediaReport}
                 onEdit={handleEdit}
+<<<<<<< HEAD
                 onDelete={(item) => setDeleteTarget(item)}
+=======
+                onDelete={setDeleteTarget}
+>>>>>>> completed
               />
             ))}
           </tbody>
@@ -159,9 +253,17 @@ export default function MediaReportTable() {
 
       <ConfirmDelete
         open={!!deleteTarget}
+<<<<<<< HEAD
         onCancel={() => setDeleteTarget(null)}
+=======
+        onCancel={handleDeleteCancel}
+>>>>>>> completed
         onConfirm={handleDelete}
       />
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> completed

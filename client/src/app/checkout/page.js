@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // "use client";
 
 // import { useState, useEffect } from "react";
@@ -304,14 +305,20 @@
 
 // !--------------------------------------------
 
+=======
+>>>>>>> completed
 "use client";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { fetchAddresses } from "@/redux/slices/addressSlice";
+<<<<<<< HEAD
 import { FaTag } from "react-icons/fa";
 import { Loader2 } from "lucide-react"; // ✅ Lucide loader
+=======
+import { Loader2 } from "lucide-react";
+>>>>>>> completed
 import AddressSection from "@/components/AddressSection";
 import axios from "@/lib/api";
 
@@ -321,7 +328,11 @@ const CheckoutPage = () => {
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [orderNote, setOrderNote] = useState("");
+<<<<<<< HEAD
   const [loadingPayment, setLoadingPayment] = useState(false); // ✅ NEW
+=======
+  const [loadingPayment, setLoadingPayment] = useState(false);
+>>>>>>> completed
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -365,6 +376,7 @@ const CheckoutPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (!user) {
       const returnUrl = encodeURIComponent("/checkout");
       router.push(`/login?returnUrl=${returnUrl}`);
@@ -374,6 +386,12 @@ const CheckoutPage = () => {
       router.push("/cart");
     }
   }, [cartItems, router, isViewPlan, user]);
+=======
+    if (!isViewPlan && cartItems.length === 0) {
+      router.push("/cart");
+    }
+  }, [cartItems, router, isViewPlan]);
+>>>>>>> completed
 
   const subtotal = isViewPlan
     ? PlanAmount
@@ -467,7 +485,11 @@ const CheckoutPage = () => {
     }
 
     try {
+<<<<<<< HEAD
       setLoadingPayment(true); // ✅ Start loading
+=======
+      setLoadingPayment(true);
+>>>>>>> completed
       await handlePayment({
         amount: total * 100,
         user,
@@ -478,7 +500,11 @@ const CheckoutPage = () => {
     } catch (err) {
       console.error(err);
     } finally {
+<<<<<<< HEAD
       setLoadingPayment(false); // ✅ Stop loading
+=======
+      setLoadingPayment(false);
+>>>>>>> completed
     }
   };
 
@@ -543,6 +569,7 @@ const CheckoutPage = () => {
                 ))}
               </div>
 
+<<<<<<< HEAD
               {/* {!isViewPlan && (
                 <div className='mt-6'>
                   <div className='flex items-center gap-2 mb-2'>
@@ -572,6 +599,8 @@ const CheckoutPage = () => {
                 </div>
               )} */}
 
+=======
+>>>>>>> completed
               <div className='mt-6 border-t pt-4'>
                 <h3 className='text-lg font-semibold mb-3'>Price Details</h3>
                 <div className='space-y-2'>
@@ -596,7 +625,11 @@ const CheckoutPage = () => {
 
               <button
                 onClick={handlePlaceOrder}
+<<<<<<< HEAD
                 disabled={!selectedAddress || loadingPayment} // ✅ Disabled when loading
+=======
+                disabled={!selectedAddress || loadingPayment}
+>>>>>>> completed
                 className={`w-full mt-6 py-3 rounded-lg text-lg font-medium flex items-center justify-center transition ${
                   selectedAddress && !loadingPayment
                     ? "bg-primary text-white hover:bg-secondary"

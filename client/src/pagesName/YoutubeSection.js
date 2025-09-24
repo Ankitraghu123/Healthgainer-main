@@ -10,6 +10,7 @@ export default function YoutubeSection() {
         backgroundImage: "url('https://img.freepik.com/free-photo/flat-lay-minimal-medicinal-pills-assortment_23-2148892352.jpg?w=1060')",
       }}
     >
+<<<<<<< HEAD
       {/* Overlay for better readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#0f2027] via-[#203a43] to-[#2c5364] opacity-85"></div>
 
@@ -17,6 +18,11 @@ export default function YoutubeSection() {
       <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16">
 
         {/* Video Section */}
+=======
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0f2027] via-[#203a43] to-[#2c5364] opacity-85"></div>
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16">
+
+>>>>>>> completed
         <motion.div
           className="w-full md:w-1/2 flex justify-center"
           initial={{ opacity: 0, y: 50 }}
@@ -34,7 +40,10 @@ export default function YoutubeSection() {
           </div>
         </motion.div>
 
+<<<<<<< HEAD
         {/* Text Content Section */}
+=======
+>>>>>>> completed
         <motion.div
           className="w-full md:w-1/2 mt-6 md:mt-0 text-center md:text-left"
           initial={{ opacity: 0, x: 50 }}
@@ -52,7 +61,10 @@ export default function YoutubeSection() {
             Packed with essential vitamins, minerals, and proteins, it ensures muscle recovery, strength, and sustained energy throughout the day.
           </p>
 
+<<<<<<< HEAD
           {/* Button with a smooth effect */}
+=======
+>>>>>>> completed
           <motion.button
             className="mt-6 px-6 py-3 rounded-lg text-white font-semibold shadow-lg bg-gradient-to-r from-[#ff8c00] to-[#ff4500] hover:from-[#ff4500] hover:to-[#ff8c00] transform hover:scale-105 transition-all duration-300 ease-in-out"
             whileHover={{ scale: 1.1 }}

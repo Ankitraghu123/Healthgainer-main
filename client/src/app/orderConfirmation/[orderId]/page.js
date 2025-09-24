@@ -1,13 +1,20 @@
 "use client";
 
+<<<<<<< HEAD
 import { useEffect, useState, use } from "react"; // ✅ use() import karo
 
+=======
+import { useEffect, useState, use } from "react";
+>>>>>>> completed
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import API from "@/lib/api";
 import {
+<<<<<<< HEAD
   CheckCircle,
+=======
+>>>>>>> completed
   Download,
   ArrowLeft,
   Loader2,
@@ -95,7 +102,11 @@ export default function OrderConfirmationPage({ params }) {
             Order Not Found
           </h1>
           <p className='text-gray-600 mb-6'>
+<<<<<<< HEAD
             We couldn't find the order you're looking for.
+=======
+            We couldn&apos;t find the order you&apos;re looking for.
+>>>>>>> completed
           </p>
           <button
             onClick={() => router.push("/")}
@@ -121,9 +132,13 @@ export default function OrderConfirmationPage({ params }) {
         </button>
 
         <div className='bg-white shadow-md rounded-lg overflow-hidden border border-gray-200'>
+<<<<<<< HEAD
           {/* ✅ ONLY INVOICE SECTION WILL BE EXPORTED */}
           <div id='invoice-section' className='p-0'>
             {/* Header */}
+=======
+          <div id='invoice-section' className='p-0'>
+>>>>>>> completed
             <div className='bg-black p-6 text-white'>
               <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-6'>
                 <div>
@@ -157,20 +172,29 @@ export default function OrderConfirmationPage({ params }) {
                 </div>
                 <div className='p-4 rounded-md'>
                   <h2 className='text-xl font-bold mb-2'>INVOICE</h2>
+<<<<<<< HEAD
                   {/* <h2 className="text-xl font-bold mb-2">INVOICE</h2> */}
+=======
+>>>>>>> completed
                   <div className='grid grid-cols-2 gap-2 text-sm'>
                     <span className='font-medium'>Invoice #</span>
                     <span>{order._id}</span>
                     <span className='font-medium'>Date</span>
                     <span>{formatDate(order.createdAt)}</span>
                     <span className='font-medium'>Status</span>
+<<<<<<< HEAD
                     {/* <span className="capitalize">{order.status.toLowerCase()}</span> */}
+=======
+>>>>>>> completed
                   </div>
                 </div>
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Customer & Payment Info */}
+=======
+>>>>>>> completed
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border-b'>
               <div>
                 <h3 className='text-lg font-semibold text-gray-800 mb-3'>
@@ -220,16 +244,22 @@ export default function OrderConfirmationPage({ params }) {
                     <span className='font-bold'>
                       ₹{order?.totalAmount?.toLocaleString("en-IN")}
                     </span>
+<<<<<<< HEAD
                     {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
                     {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
                     {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
                     {/* <span className="font-bold">₹{order.totalAmount.toLocaleString('en-IN')}</span> */}
+=======
+>>>>>>> completed
                   </div>
                 </div>
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Order Items */}
+=======
+>>>>>>> completed
             <div className='p-6'>
               <h3 className='text-lg font-semibold text-gray-800 mb-4'>
                 Order Details
@@ -273,9 +303,12 @@ export default function OrderConfirmationPage({ params }) {
                               {item.variantId && (
                                 <div className='mt-1'>
                                   <span className='px-2.5 py-0.5 bg-primary text-white text-xs rounded-full'>
+<<<<<<< HEAD
                                     {/* {item.productId.variants.find(
                                       (v) => v._id === item.variantId
                                     )?.weight || "Standard"} */}
+=======
+>>>>>>> completed
                                   </span>
                                 </div>
                               )}
@@ -297,7 +330,10 @@ export default function OrderConfirmationPage({ params }) {
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Summary */}
+=======
+>>>>>>> completed
             <div className='bg-gray-50 p-6 border-t'>
               <div className='max-w-md ml-auto'>
                 <h3 className='text-lg font-semibold text-gray-800 mb-4'>
@@ -314,12 +350,15 @@ export default function OrderConfirmationPage({ params }) {
                     <span className='text-gray-600'>Shipping</span>
                     <span className='font-medium'>Free</span>
                   </div>
+<<<<<<< HEAD
                   {/* <div className='flex justify-between'>
                     <span className='text-gray-600'>Tax (GST 12%)</span>
                     <span className='font-medium'>
                       ₹{(order.totalAmount * 0.12).toLocaleString("en-IN")}
                     </span>
                   </div> */}
+=======
+>>>>>>> completed
                   <div className='border-t pt-3 flex justify-between font-bold text-lg'>
                     <span>Total Amount</span>
                     <span>
@@ -331,7 +370,10 @@ export default function OrderConfirmationPage({ params }) {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Thank You Footer */}
+=======
+>>>>>>> completed
           <div className='bg-gradient-to-r from-primary to-secondary p-6 text-white'>
             <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
               <div className='text-center md:text-left'>
@@ -356,7 +398,10 @@ export default function OrderConfirmationPage({ params }) {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Footer */}
+=======
+>>>>>>> completed
           <div className='bg-gray-800 text-gray-300 p-4 text-center text-sm'>
             <p>
               © {new Date().getFullYear()} Health Gainer. All rights reserved.

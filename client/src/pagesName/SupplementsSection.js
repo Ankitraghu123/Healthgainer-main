@@ -5,15 +5,21 @@ import { motion } from 'framer-motion';
 export default function SupplementsSection() {
     return (
         <section className="relative bg-white py-16 px-6 lg:px-20 text-center">
+<<<<<<< HEAD
             {/* 🔥 Parallax Background */}
+=======
+>>>>>>> completed
             <div
                 className="absolute inset-0 bg-cover bg-top opacity-90 blur-lg"
                 style={{
                     backgroundImage: "url('https://themebuz.com/html/vigo/demo/vigo-green/img/features-bg.png')",
                 }}
             ></div>
+<<<<<<< HEAD
 
             {/* ✨ Title Section */}
+=======
+>>>>>>> completed
             <motion.div
                 className="relative z-10"
                 initial={{ opacity: 0, y: -20 }}
@@ -27,7 +33,10 @@ export default function SupplementsSection() {
                 <div className="w-16 h-1 bg-primary mx-auto mt-2"></div>
             </motion.div>
 
+<<<<<<< HEAD
             {/* 🟢 Features Grid */}
+=======
+>>>>>>> completed
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-12 relative z-10">
                 {supplements.map((supplement, index) => (
                     <motion.div
@@ -36,10 +45,15 @@ export default function SupplementsSection() {
                         whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0, 128, 0, 0.3)" }}
                         transition={{ duration: 0.3 }}
                     >
+<<<<<<< HEAD
                         {/* 🌟 Animated Neon Border */}
                         <div className="absolute inset-0 rounded-2xl border-2 border-transparent transition-all duration-300"></div>
 
                         {/* 🌀 Icon with Pulse Effect */}
+=======
+                        <div className="absolute inset-0 rounded-2xl border-2 border-transparent transition-all duration-300"></div>
+
+>>>>>>> completed
                         <motion.div
                             className="relative w-20 h-20 flex items-center justify-center bg-white/40 rounded-full border-2 border-green-500 p-4 shadow-md"
                             animate={{ scale: [1, 1.1, 1] }}
@@ -52,14 +66,20 @@ export default function SupplementsSection() {
                             />
                         </motion.div>
 
+<<<<<<< HEAD
                         {/* 📝 Supplement Details */}
+=======
+>>>>>>> completed
                         <h3 className="text-lg font-bold text-gray-900 mt-4">{supplement.title}</h3>
                         <p className="text-gray-600 text-sm">{supplement.description}</p>
                     </motion.div>
                 ))}
             </div>
 
+<<<<<<< HEAD
             {/* 🎯 Call to Action */}
+=======
+>>>>>>> completed
             <motion.div
                 className="mt-12"
                 initial={{ opacity: 0, scale: 0.8 }}

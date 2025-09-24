@@ -8,6 +8,10 @@ import Providers from "@/components/Providers";
 import { ToastContainer } from "react-toastify";
 import { usePathname } from "next/navigation";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+<<<<<<< HEAD
+=======
+import { useState, useEffect } from "react";
+>>>>>>> completed
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,18 +25,32 @@ const geistMono = Geist_Mono({
 
 export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
+<<<<<<< HEAD
   const isAdminRoute = pathname.startsWith("/admin");
+=======
+  const [isAdminRoute, setIsAdminRoute] = useState(false);
+
+  useEffect(() => {
+    setIsAdminRoute(pathname.startsWith("/admin"));
+  }, [pathname]);
+>>>>>>> completed
 
   return (
     <html lang='en' className='scroll-smooth'>
       <body
+<<<<<<< HEAD
         cz-shortcut-listen='true'
+=======
+>>>>>>> completed
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900`}
       >
         <Providers>
           {!isAdminRoute && <Navbar />}
           <main>
+<<<<<<< HEAD
             {!isAdminRoute && <div className=''></div>}
+=======
+>>>>>>> completed
             <ToastContainer />
             <ScrollToTopButton />
             {children}
@@ -42,4 +60,8 @@ export default function RootLayoutClient({ children }) {
       </body>
     </html>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> completed

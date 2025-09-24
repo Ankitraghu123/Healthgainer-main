@@ -25,6 +25,7 @@ export default function CartPage() {
     dispatch(fetchCart());
   }, [dispatch]);
 
+<<<<<<< HEAD
   const updateQuantity = (itemId, quantity) => {
     // console.log("Removing productId:", itemId, "New quantity:", quantity);
 
@@ -35,6 +36,16 @@ export default function CartPage() {
 
   const removeItem = (productId, itemId) => {
     dispatch(removeFromCart({ productId, itemId }));
+=======
+  const updateQuantity = (variantId, quantity) => {
+    if (quantity > 0) {
+      dispatch(updateCartQuantity({ variantId, quantity }));
+    }
+  };
+
+  const removeItem = (variantId) => {
+    dispatch(removeFromCart({ variantId }));
+>>>>>>> completed
   };
 
   const calculateTotal = () => {
@@ -57,7 +68,10 @@ export default function CartPage() {
 
   return (
     <div className='min-h-screen bg-gray-50 text-gray-900'>
+<<<<<<< HEAD
       {/* Header */}
+=======
+>>>>>>> completed
       <header className='bg-white shadow-sm'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6'>
           <div className='flex items-center justify-between'>
@@ -91,7 +105,10 @@ export default function CartPage() {
         </div>
       </header>
 
+<<<<<<< HEAD
       {/* Main Content */}
+=======
+>>>>>>> completed
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
         {cartItems.length === 0 ? (
           <div className='text-center py-12'>
@@ -114,7 +131,10 @@ export default function CartPage() {
           </div>
         ) : (
           <div className='lg:grid lg:grid-cols-12 lg:gap-x-12'>
+<<<<<<< HEAD
             {/* Cart Items */}
+=======
+>>>>>>> completed
             <div className='lg:col-span-8'>
               <div className='bg-white shadow rounded-lg overflow-hidden'>
                 <div className='p-4 border-b border-gray-200 flex justify-between items-center'>
@@ -165,7 +185,14 @@ export default function CartPage() {
                             <div className='flex items-center'>
                               <button
                                 onClick={() =>
+<<<<<<< HEAD
                                   updateQuantity(item._id, item.quantity - 1)
+=======
+                                  updateQuantity(
+                                    item.variantId,
+                                    item.quantity - 1
+                                  )
+>>>>>>> completed
                                 }
                                 className='p-2 border border-gray-300 rounded-l-md hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500'
                               >
@@ -176,7 +203,14 @@ export default function CartPage() {
                               </span>
                               <button
                                 onClick={() =>
+<<<<<<< HEAD
                                   updateQuantity(item._id, item.quantity + 1)
+=======
+                                  updateQuantity(
+                                    item.variantId,
+                                    item.quantity + 1
+                                  )
+>>>>>>> completed
                                 }
                                 className='p-2 border border-gray-300 rounded-r-md hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500'
                               >
@@ -185,9 +219,13 @@ export default function CartPage() {
                             </div>
 
                             <button
+<<<<<<< HEAD
                               onClick={() =>
                                 removeItem(item.variantId, item._id)
                               }
+=======
+                              onClick={() => removeItem(item.variantId)}
+>>>>>>> completed
                               className='ml-4 text-red-600 hover:text-red-800 flex items-center'
                             >
                               <FaTrash className='mr-1' />
@@ -204,7 +242,10 @@ export default function CartPage() {
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Order Summary */}
+=======
+>>>>>>> completed
             <div className='mt-8 lg:mt-0 lg:col-span-4'>
               <div className='bg-white shadow rounded-lg'>
                 <div className='p-6 border-b border-gray-200'>
@@ -253,7 +294,10 @@ export default function CartPage() {
                 </div>
               </div>
 
+<<<<<<< HEAD
               {/* Shipping Info */}
+=======
+>>>>>>> completed
               <div className='mt-4 space-y-4'>
                 <div className='bg-white rounded-lg shadow-sm p-5'>
                   <div className='flex items-start'>

@@ -1,12 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../../lib/api";
 
+<<<<<<< HEAD
 // BASE URL for image API (adjust if needed)
 const BASE_URL = "/images";
 
 // ---------------------- Async Thunks ----------------------
 
 // 1. Create (Upload)
+=======
+const BASE_URL = "/images";
+
+>>>>>>> completed
 export const createImage = createAsyncThunk(
   "images/createImage",
   async (formData, thunkAPI) => {
@@ -25,7 +30,10 @@ export const createImage = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // 2. Get All
+=======
+>>>>>>> completed
 export const fetchAllImages = createAsyncThunk(
   "images/fetchAllImages",
   async (_, thunkAPI) => {
@@ -38,7 +46,10 @@ export const fetchAllImages = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // 3. Get By ID
+=======
+>>>>>>> completed
 export const fetchImageById = createAsyncThunk(
   "images/fetchImageById",
   async (id, thunkAPI) => {
@@ -51,7 +62,10 @@ export const fetchImageById = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // 4. Update (URL)
+=======
+>>>>>>> completed
 export const updateImage = createAsyncThunk(
   "images/updateImage",
   async ({ id, sourceUrl,sno }, thunkAPI) => {
@@ -64,7 +78,10 @@ export const updateImage = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // 5. Delete
+=======
+>>>>>>> completed
 export const deleteImage = createAsyncThunk(
   "images/deleteImage",
   async (id, thunkAPI) => {
@@ -77,8 +94,11 @@ export const deleteImage = createAsyncThunk(
   }
 );
 
+<<<<<<< HEAD
 // ---------------------- Slice ----------------------
 
+=======
+>>>>>>> completed
 const imageSlice = createSlice({
   name: "images",
   initialState: {
@@ -98,7 +118,10 @@ const imageSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+<<<<<<< HEAD
       // Create
+=======
+>>>>>>> completed
       .addCase(createImage.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -112,8 +135,11 @@ const imageSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || action.payload;
       })
+<<<<<<< HEAD
 
       // Fetch All
+=======
+>>>>>>> completed
       .addCase(fetchAllImages.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -126,8 +152,11 @@ const imageSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || action.payload;
       })
+<<<<<<< HEAD
 
       // Fetch One
+=======
+>>>>>>> completed
       .addCase(fetchImageById.pending, (state) => {
         state.loading = true;
       })
@@ -140,7 +169,10 @@ const imageSlice = createSlice({
         state.error = action.payload?.message || action.payload;
       })
 
+<<<<<<< HEAD
       // Update
+=======
+>>>>>>> completed
       .addCase(updateImage.pending, (state) => {
         state.loading = true;
       })
@@ -156,7 +188,10 @@ const imageSlice = createSlice({
         state.error = action.payload?.message || action.payload;
       })
 
+<<<<<<< HEAD
       // Delete
+=======
+>>>>>>> completed
       .addCase(deleteImage.pending, (state) => {
         state.loading = true;
       })

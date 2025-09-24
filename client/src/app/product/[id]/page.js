@@ -9,11 +9,16 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaShoppingCart,
+<<<<<<< HEAD
   FaHeart,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import ReviewSection from "@/components/ReviewSection";
 import ReviewsList from "@/components/ReviewsList ";
+=======
+} from "react-icons/fa";
+import { toast } from "react-toastify";
+>>>>>>> completed
 import TabbedProductInfo from "@/components/TabbedProductInfo";
 import { motion } from "framer-motion";
 import Skeleton from "react-loading-skeleton";
@@ -32,7 +37,11 @@ export default function ProductDetailPage() {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+<<<<<<< HEAD
   // console.log(product);
+=======
+  console.log(product);
+>>>>>>> completed
 
   useEffect(() => {
     if (id) {
@@ -60,6 +69,7 @@ export default function ProductDetailPage() {
     setSelectedImage(product.images[prevIndex]);
   };
 
+<<<<<<< HEAD
   const handleAddToCart = (productId) => {
     // if (!selectedVariant) {
     //   toast.error("Please select a variant before adding to cart.");
@@ -73,6 +83,20 @@ export default function ProductDetailPage() {
         // userId,
         productId: productId,
         // variantId: selectedVariant._id || null, // optional
+=======
+  const handleAddToCart = () => {
+    if (!selectedVariant) {
+      toast.error("Please select a variant before adding to cart.");
+      return;
+    }
+
+    const userId = "user123";
+    dispatch(
+      addToCart({
+        userId,
+        productId: product._id,
+        variantId: selectedVariant._id,
+>>>>>>> completed
         quantity,
       })
     )
@@ -84,7 +108,11 @@ export default function ProductDetailPage() {
         toast.error(err || "Failed to add item to cart");
       });
 
+<<<<<<< HEAD
     // Stay on product page after adding to cart
+=======
+    router.push("/checkout");
+>>>>>>> completed
   };
 
   const toggleWishlist = () => {
@@ -165,7 +193,10 @@ export default function ProductDetailPage() {
       className='bg-gray-50 min-h-screen py-8'
     >
       <div className='container mx-auto px-4'>
+<<<<<<< HEAD
         {/* Back Button */}
+=======
+>>>>>>> completed
         <button
           onClick={() => router.back()}
           className='flex items-center text-gray-600 hover:text-gray-900 mb-6 transition'
@@ -174,10 +205,15 @@ export default function ProductDetailPage() {
           Back
         </button>
 
+<<<<<<< HEAD
         {/* Product Content */}
         <div className='bg-white rounded-xl shadow-sm overflow-hidden'>
           <div className='flex flex-col lg:flex-row gap-8 p-6'>
             {/* Image Gallery */}
+=======
+        <div className='bg-white rounded-xl shadow-sm overflow-hidden'>
+          <div className='flex flex-col lg:flex-row gap-8 p-6'>
+>>>>>>> completed
             <div className='w-full lg:w-1/2'>
               <div className='relative aspect-square bg-gray-100 rounded-lg overflow-hidden'>
                 {selectedImage && (
@@ -203,12 +239,15 @@ export default function ProductDetailPage() {
                 >
                   <FaChevronRight />
                 </button>
+<<<<<<< HEAD
                 {/* <button
                                     onClick={toggleWishlist}
                                     className={`absolute top-4 right-4 p-3 rounded-full shadow-md transition ${isWishlisted ? 'bg-red-100 text-red-500' : 'bg-white text-gray-400 hover:text-red-500'}`}
                                 >
                                     <FaHeart className={isWishlisted ? 'fill-current' : ''} />
                                 </button> */}
+=======
+>>>>>>> completed
               </div>
 
               <div className='flex gap-3 mt-4 overflow-x-auto py-2 scrollbar-hide'>
@@ -237,7 +276,10 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Product Info */}
+=======
+>>>>>>> completed
             <div className='w-full lg:w-1/2'>
               <div className='mb-6'>
                 <h1 className='text-3xl font-bold text-gray-900 mb-2'>
@@ -257,7 +299,10 @@ export default function ProductDetailPage() {
 
                 <p className='text-gray-700 mb-6'>{product.description}</p>
 
+<<<<<<< HEAD
                 {/* Variants */}
+=======
+>>>>>>> completed
                 {product.variants?.length > 0 && (
                   <div className='mb-6'>
                     <h3 className='text-lg font-medium text-gray-900 mb-3'>
@@ -288,7 +333,10 @@ export default function ProductDetailPage() {
                   </div>
                 )}
 
+<<<<<<< HEAD
                 {/* Price */}
+=======
+>>>>>>> completed
                 <div className='mb-6'>
                   <div className='flex items-baseline gap-3'>
                     <span className='text-3xl font-bold text-gray-900'>
@@ -306,7 +354,10 @@ export default function ProductDetailPage() {
                   </p>
                 </div>
 
+<<<<<<< HEAD
                 {/* Quantity & Add to Cart */}
+=======
+>>>>>>> completed
                 <div className='mb-8'>
                   <div className='flex items-center gap-4 mb-4'>
                     <div className='flex items-center border rounded-lg overflow-hidden'>
@@ -337,19 +388,28 @@ export default function ProductDetailPage() {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
+<<<<<<< HEAD
                       onClick={() => handleAddToCart(product._id)}
+=======
+                      onClick={handleAddToCart}
+>>>>>>> completed
                       className='flex-1 bg-primary hover:bg-secondary hover:text-black text-white py-2 md:py-3 md:px-6 rounded-lg font-sm md:font-medium flex items-center justify-center gap-2 transition'
                     >
                       <FaShoppingCart />
                       Add to Cart
                     </motion.button>
                   </div>
+<<<<<<< HEAD
                   {/* <button className="w-full border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-lg font-medium transition">
                                         Buy Now
                                     </button> */}
                 </div>
 
                 {/* Highlights */}
+=======
+                </div>
+
+>>>>>>> completed
                 <div className='border-t border-gray-200 pt-4'>
                   <h3 className='text-lg font-medium text-gray-900 mb-3'>
                     Highlights
@@ -378,18 +438,24 @@ export default function ProductDetailPage() {
               </div>
             </div>
           </div>
+<<<<<<< HEAD
 
           {/* Product Tabs */}
+=======
+>>>>>>> completed
           <div className='border-t border-gray-200 px-6 py-4'>
             <TabbedProductInfo productId={product._id} />
           </div>
         </div>
+<<<<<<< HEAD
 
         {/* Reviews Section */}
         {/* <div className="mt-12 bg-white rounded-xl shadow-sm overflow-hidden">
                     <ReviewSection productId={product._id} />
                     <ReviewsList productId={product._id} />
                 </div> */}
+=======
+>>>>>>> completed
       </div>
     </motion.div>
   );

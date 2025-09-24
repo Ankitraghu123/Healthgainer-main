@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 "use client"; // If using Next.js App Router
+=======
+"use client";
+>>>>>>> completed
 
 import { useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
@@ -42,6 +46,7 @@ const TestimonialSlider = () => {
       className="relative bg-cover bg-center py-20 px-6 text-center text-white"
       style={{ backgroundImage: "url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')", backgroundSize: "cover", backgroundPosition: "top" }} // Replace with actual background
     >
+<<<<<<< HEAD
       {/* Overlay */}
       <div className="absolute inset-0 bg-black opacity-70"></div>
 
@@ -51,6 +56,12 @@ const TestimonialSlider = () => {
         <FaQuoteLeft className="text-5xl text-green-400 mx-auto" />
 
         {/* Testimonial Text Animation */}
+=======
+      <div className="absolute inset-0 bg-black opacity-70"></div>
+      <div className="relative z-10 max-w-3xl mx-auto">
+        <FaQuoteLeft className="text-5xl text-green-400 mx-auto" />
+
+>>>>>>> completed
         <motion.p
           key={index}
           initial={{ opacity: 0, y: 20 }}
@@ -61,7 +72,10 @@ const TestimonialSlider = () => {
           {testimonials[index].text}
         </motion.p>
 
+<<<<<<< HEAD
         {/* Profile */}
+=======
+>>>>>>> completed
         <motion.div
           key={index + "-profile"}
           initial={{ opacity: 0, scale: 0.9 }}
@@ -78,7 +92,10 @@ const TestimonialSlider = () => {
           <p className="text-green-400 text-sm">{testimonials[index].role}</p>
         </motion.div>
 
+<<<<<<< HEAD
         {/* Navigation Dots */}
+=======
+>>>>>>> completed
         <div className="flex justify-center mt-6 space-x-2">
           {testimonials.map((_, i) => (
             <button
@@ -91,7 +108,10 @@ const TestimonialSlider = () => {
           ))}
         </div>
 
+<<<<<<< HEAD
         {/* Navigation Arrows */}
+=======
+>>>>>>> completed
         <button
           onClick={prevSlide}
           className="absolute top-1/2 left-6 transform -translate-y-1/2 bg-gray-800 p-2 rounded-full text-white hover:bg-green-500 transition"

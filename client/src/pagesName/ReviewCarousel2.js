@@ -64,7 +64,10 @@ export default function Testimonials() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
+<<<<<<< HEAD
                   {/* Image with overlay */}
+=======
+>>>>>>> completed
                   <div className="absolute inset-0">
                     <img 
                       src={testimonial.image} 
@@ -74,13 +77,19 @@ export default function Testimonials() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   </div>
 
+<<<<<<< HEAD
                   {/* Front Content */}
+=======
+>>>>>>> completed
                   <div className="relative h-full flex flex-col justify-end p-6 text-white">
                     <h3 className="text-xl font-bold">{testimonial.name}</h3>
                     <p className="text-sm">{testimonial.role}</p>
                   </div>
 
+<<<<<<< HEAD
                   {/* Hover Content */}
+=======
+>>>>>>> completed
                   <div className="absolute inset-0 bg-black/90 flex items-center justify-center p-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <p className="text-lg font-medium">{testimonial.review}</p>
                   </div>
