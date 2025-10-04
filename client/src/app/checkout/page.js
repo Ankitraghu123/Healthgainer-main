@@ -27,11 +27,15 @@ const CheckoutPage = () => {
     (state) => state.address || []
   );
 
-  useEffect(() => {
-    if (addresses.length > 0 && !selectedAddress) {
-      setSelectedAddress(addresses[0]);
-    }
-  }, [addresses, selectedAddress]);
+useEffect(() => {
+  if (addresses.length === 1) {
+    setSelectedAddress(addresses[0]);
+    setAddressSelected(true); // ✅ Set address as selected
+  } else if (addresses.length > 1 && !selectedAddress) {
+    setSelectedAddress(null);
+    setAddressSelected(false);
+  }
+}, [addresses, selectedAddress]);
 
   const searchParams = useSearchParams();
   const checkoutType = searchParams.get("type");
@@ -116,7 +120,7 @@ const CheckoutPage = () => {
       console.log(data);
 
       const options = {
-        key: "rzp_test_RNVfuvBSKZ0E85",
+        key: "rzp_live_Bqnw2amAFLgsHI",
         amount: data.order.amount,
         order_id: data.order.id,
         handler: async function (response) {

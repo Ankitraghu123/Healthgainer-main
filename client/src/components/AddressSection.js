@@ -53,6 +53,35 @@ const AddressSection = ({
     setCurrentAddress((prev) => ({ ...prev, [field]: value }));
   };
 
+  // ✅ Auto-fetch City & State from Pincode
+  useEffect(() => {
+    const fetchCityState = async () => {
+      const pin = currentAddress.zipCode;
+
+      if (pin.length === 6 && /^\d+$/.test(pin)) {
+        try {
+          const res = await fetch(
+            `https://api.postalpincode.in/pincode/${pin}`
+          );
+          const data = await res.json();
+
+          if (data[0].Status === "Success" && data[0].PostOffice?.length > 0) {
+            const postOffice = data[0].PostOffice[0];
+            setCurrentAddress((prev) => ({
+              ...prev,
+              city: postOffice.District,
+              state: postOffice.State,
+            }));
+          }
+        } catch (error) {
+          console.error("Failed to fetch city/state:", error);
+        }
+      }
+    };
+
+    fetchCityState();
+  }, [currentAddress.zipCode]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -139,11 +168,19 @@ const AddressSection = ({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
             <InputField
+              label="Pin Code*"
+              type="text"
+              value={currentAddress.zipCode}
+              onChange={(e) => handleChange("zipCode", e.target.value)}
+              required
+            />
+            <InputField
               label="City*"
               type="text"
               value={currentAddress.city}
               onChange={(e) => handleChange("city", e.target.value)}
               required
+              readOnly // Optional: prevent manual typing
             />
             <InputField
               label="State*"
@@ -151,13 +188,7 @@ const AddressSection = ({
               value={currentAddress.state}
               onChange={(e) => handleChange("state", e.target.value)}
               required
-            />
-            <InputField
-              label="ZIP Code*"
-              type="text"
-              value={currentAddress.zipCode}
-              onChange={(e) => handleChange("zipCode", e.target.value)}
-              required
+              readOnly // Optional: prevent manual typing
             />
           </div>
 
@@ -210,7 +241,6 @@ const AddressSection = ({
                   setAddressSelected(!addressSelected);
                 }}
                 className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                  // selectedAddress?._id === address._id
                   addressSelected
                     ? "border-2 border-primary bg-primary/5"
                     : "hover:border-gray-400"
@@ -227,7 +257,6 @@ const AddressSection = ({
                     <p className="text-sm text-gray-600">{address.phone}</p>
                   </div>
                   <div className="flex gap-2">
-                    {/* {selectedAddress?._id === address._id && ( */}
                     {addAddress && <FaCheck className="text-primary mt-1" />}
                     <IconBtn
                       onClick={(e) => {

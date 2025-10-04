@@ -1,3 +1,6 @@
+
+
+
 import LoadingOverlay from "@/components/LoadingOverlay";
 import RootLayoutClient from "./RootLayoutClient";
 import { RouteProvider } from "@/context/RouteContext";
@@ -13,9 +16,30 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <RootLayoutClient>
-      <LoadingOverlay />
-      <RouteProvider>{children}</RouteProvider>
-    </RootLayoutClient>
+    <html lang="en">
+      <head>
+        {/* ✅ Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-WVVJ6FLT2H"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-WVVJ6FLT2H');
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <RootLayoutClient>
+          <LoadingOverlay />
+          <RouteProvider>{children}</RouteProvider>
+        </RootLayoutClient>
+      </body>
+    </html>
   );
 }
