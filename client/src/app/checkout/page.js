@@ -116,7 +116,7 @@ const CheckoutPage = () => {
       console.log(data);
 
       const options = {
-        key: "rzp_test_RNVfuvBSKZ0E85",
+        key: "rzp_live_Bqnw2amAFLgsHI",
         amount: data.order.amount,
         order_id: data.order.id,
         handler: async function (response) {
