@@ -34,7 +34,7 @@ const page = () => {
           if (element) {
             element.scrollIntoView({ behavior: "smooth" });
           }
-        }, 100); // 100ms delay
+        }, 1100); // 100ms delay
       }
     }
   }, []);
