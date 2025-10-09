@@ -34,7 +34,7 @@ const page = () => {
           if (element) {
             element.scrollIntoView({ behavior: "smooth" });
           }
-        }, 1100); // 100ms delay
+        }, 1400); // 100ms delay
       }
     }
   }, []);
@@ -54,7 +54,7 @@ const page = () => {
       <WhyChooseUs />
       <KeywordCloud />
       {/* <BlogSection/> */}
-      <CallbackForm />
+      {/* <CallbackForm /> */}
       {/* <Update /> */}
       <InfiniteScrollText />
       <WhatsAppButton />

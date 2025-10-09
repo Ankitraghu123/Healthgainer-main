@@ -87,12 +87,13 @@ export default function DealsOfTheDay() {
 
   return (
     <div
-      id="deals-of-the-day"
+      // id="deals-of-the-day"
       className="bg-[#060606] py-10 px-4 md:px-20 overflow-hidden font-sans relative"
     >
       {showPlaceOrder && <PlaceOrderForm />}
       <div className="mb-6 text-center">
-        <h2 className="text-4xl px-4 md:text-5xl font-light py-2 text-white">
+        <h2 className="text-4xl px-4 md:text-5xl font-light py-2 text-white" 
+      id="deals-of-the-day">
           Deal of the <span className="text-lime-500 font-bold">Day</span>
         </h2>
       </div>
@@ -198,6 +199,9 @@ export default function DealsOfTheDay() {
           );
         })}
       </Swiper>
+      
+      <div
+      ></div>
     </div>
   );
 }

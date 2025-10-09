@@ -10,7 +10,7 @@ export default function LoadingOverlay() {
 
   const triggerLoading = useCallback(() => {
     setLoading(true);
-    const timeout = setTimeout(() => setLoading(false), 1000);
+    const timeout = setTimeout(() => setLoading(false), 500);
     return () => clearTimeout(timeout);
   }, []);
 
