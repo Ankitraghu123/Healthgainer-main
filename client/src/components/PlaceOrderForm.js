@@ -13,7 +13,7 @@ import {
 import { addAddress } from "@/redux/slices/addressSlice";
 import axios from "@/lib/api";
 import { useRouter } from "next/navigation";
-
+import { xImg } from "../../public/no-icon-silver.png";
 const PlaceOrderForm = () => {
   const user = useSelector((state) => state.auth.user);
   const router = useRouter();
@@ -291,7 +291,7 @@ const PlaceOrderForm = () => {
           onClick={() => setShowPlaceOrder(false)}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl text-gray"
         >
-          <big>X</big>
+         <img src="/no-icon-silver.png" alt="Close" width={40} height={40} />
         </button>
 
         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
