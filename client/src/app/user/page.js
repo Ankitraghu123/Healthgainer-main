@@ -10,6 +10,7 @@ import {
   FiPhone,
   FiCalendar,
   FiMapPin,
+  FiLogOut,
 } from "react-icons/fi";
 
 export default function ProfilePage() {
@@ -144,17 +145,6 @@ export default function ProfilePage() {
           {/* Profile Details */}
           <div className="p-6 sm:p-8">
             <div className="space-y-5">
-              {/* Email */}
-              <div className="flex items-start">
-                <div className="bg-indigo-100 p-2 rounded-lg text-indigo-600">
-                  <FiMail size={20} />
-                </div>
-                <div className="ml-4 flex-1">
-                  <h3 className="text-sm font-medium text-gray-500">Email</h3>
-
-                  <p className="text-gray-900">{email}</p>
-                </div>
-              </div>
 
               {/* Phone */}
               <div className="flex items-start">
@@ -197,6 +187,20 @@ export default function ProfilePage() {
                   ) : (
                     <p className="text-gray-500 italic">No addresses saved</p>
                   )}
+                </div>
+              </div>
+              {/* Logout */}
+              <div className="flex items-start">
+                <div className="bg-indigo-100 p-2 rounded-lg text-indigo-600">
+                  <FiLogOut size={20} />
+                </div>
+                <div className="ml-4 flex-1">
+                  <h3 className="text-sm font-medium text-gray-500"><a
+                href="/user/logout"
+                className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors text-sm"
+              >
+                Logout
+              </a></h3>
                 </div>
               </div>
             </div>

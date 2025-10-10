@@ -289,9 +289,9 @@ const PlaceOrderForm = () => {
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative overflow-y-auto max-h-[90vh]">
         <button
           onClick={() => setShowPlaceOrder(false)}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl text-gray"
         >
-          ❌
+          <big>X</big>
         </button>
 
         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
@@ -381,7 +381,7 @@ const PlaceOrderForm = () => {
           {/* Address Fields */}
           <input
             type="text"
-            placeholder="Street"
+            placeholder="Address"
             className="w-full border px-3 py-2 rounded-lg"
             value={loginForm.street}
             onChange={(e) =>
